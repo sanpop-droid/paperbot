@@ -2,14 +2,15 @@ name: PaperBot
 on:
   schedule:
     - cron: "45 14 * * 1-5"   # จ–ศ 21:45 เวลาไทย (หลังตลาด US เปิดทั้งช่วงหน้าร้อนและหน้าหนาว)
-    - cron: "0 3 * * 6"       # เสาร์ 10:00 เวลาไทย: evolve
+    - cron: "0 3 * * 6"       # เสาร์ 10:00 เวลาไทย: evolve (swing + day)
+    - cron: "*/15 13-20 * * 1-5"  # ทุก 15 นาที 20:00–03:45 เวลาไทย: day trade (นอกเวลาตลาดจะจบเร็ว)
   workflow_dispatch:
     inputs:
       job:
-        description: "run = เทรดรอบประจำวัน, evolve = หากฎใหม่, check = ทดสอบการเชื่อมต่อ"
+        description: "run = swing รอบประจำวัน, dt = day trade 1 รอบ, evolve = หากฎใหม่ทั้งสองบอท, check = ทดสอบการเชื่อมต่อ"
         default: run
         type: choice
-        options: [run, evolve, check]
+        options: [run, dt, evolve, check]
 permissions:
   contents: write
 concurrency:
@@ -37,12 +38,14 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then echo "job=${{ inputs.job }}" >> $GITHUB_OUTPUT
           elif [ "${{ github.event.schedule }}" = "0 3 * * 6" ]; then echo "job=evolve" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.schedule }}" = "*/15 13-20 * * 1-5" ]; then echo "job=dt" >> $GITHUB_OUTPUT
           else echo "job=run" >> $GITHUB_OUTPUT; fi
       - name: Run
         run: |
           case "${{ steps.j.outputs.job }}" in
             run) python bot.py run ;;
-            evolve) python evolve.py ;;
+            dt) python dt.py ;;
+            evolve) python evolve.py; python evolve_dt.py ;;
             check) python bot.py check ;;
           esac
       - name: Summary (ดูบนมือถือได้ในหน้า Actions)

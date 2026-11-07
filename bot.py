@@ -60,10 +60,11 @@ class AlpacaBroker:
         r = self.d.get_stock_latest_trade(StockLatestTradeRequest(symbol_or_symbols=sym, feed=DataFeed.IEX))
         return float(r[sym].price)
 
-    def submit_bracket(self, sym, qty, stop, target, cid):
+    def submit_bracket(self, sym, qty, stop, target, cid, tif="gtc"):
         from alpaca.trading.requests import MarketOrderRequest, TakeProfitRequest, StopLossRequest
         from alpaca.trading.enums import OrderSide, TimeInForce, OrderClass
-        o = self.t.submit_order(MarketOrderRequest(symbol=sym, qty=qty, side=OrderSide.BUY, time_in_force=TimeInForce.GTC,
+        o = self.t.submit_order(MarketOrderRequest(symbol=sym, qty=qty, side=OrderSide.BUY,
+                                                   time_in_force=TimeInForce.DAY if tif == "day" else TimeInForce.GTC,
                                                    order_class=OrderClass.BRACKET, client_order_id=cid,
                                                    take_profit=TakeProfitRequest(limit_price=round(target, 2)),
                                                    stop_loss=StopLossRequest(stop_price=round(stop, 2))))
@@ -133,7 +134,8 @@ def run(broker, bars_loader, force=False):
     if not clk["is_open"] and not force:
         log("ตลาดปิด: ไม่ส่งคำสั่งใหม่"); save_json("state.json", st); return
     g = champ["g"]; risk_pct = cfg["risk_per_trade_pct"] / 100 * (0.5 if champ.get("probation") else 1)
-    n_open = len(pos)
+    cap = acct["equity"] * cfg.get("capital_share", 1.0)          # เงินส่วนของบอท swing
+    n_open = len([s for s in pos if s in cfg["symbols"]])
     for sym, ind in inds.items():
         i = len(ind.c) - 1
         if sym in pos or sym in st["open"] or n_open >= cfg["max_open_positions"]:
@@ -145,8 +147,8 @@ def run(broker, bars_loader, force=False):
         except Exception:
             px = ind.c[i]
         atr = ind.atr[i]; risk = g["k_stop"] * atr
-        qty = math.floor(acct["equity"] * risk_pct / risk)
-        qty = min(qty, math.floor(acct["equity"] * cfg["max_position_pct"] / 100 / px))
+        qty = math.floor(cap * risk_pct / risk)
+        qty = min(qty, math.floor(cap * cfg["max_position_pct"] / 100 / px))
         if qty < 1:
             log(f"{sym}: มีสัญญาณแต่ขนาดไม่ถึง 1 หุ้น · ข้าม"); continue
         stop, target = px - risk, px + g["R"] * risk

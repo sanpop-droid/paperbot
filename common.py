@@ -97,3 +97,30 @@ def load_bars_csv(folder, symbols):
             rows.append((r["date"], float(r["open"]), float(r["high"]), float(r["low"]), float(r["close"])))
         out[s] = rows
     return out
+
+# ---------------- Day trade: แท่ง 5 นาที ----------------
+def to_days(rows):
+    """rows = [(datetime_utc, o,h,l,c,v)] → {date: [(m,o,h,l,c,v)]} เฉพาะช่วงตลาดปกติ 9:30–16:00 NY"""
+    from zoneinfo import ZoneInfo
+    ny = ZoneInfo("America/New_York"); out = {}
+    for ts, o, h, l, c, v in rows:
+        t = ts.astimezone(ny); m = (t.hour * 60 + t.minute) - (9 * 60 + 30)
+        if 0 <= m < 390:
+            out.setdefault(t.date().isoformat(), []).append((m, o, h, l, c, v))
+    return out
+
+def load_5min_alpaca(symbols, days_back=180, feed="sip", start=None):
+    """แท่ง 5 นาที · feed sip = ย้อนหลัง (ต้องเก่ากว่า 15 นาที) · iex = real-time ของวันนี้"""
+    from alpaca.data.historical import StockHistoricalDataClient
+    from alpaca.data.requests import StockBarsRequest
+    from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
+    from alpaca.data.enums import Adjustment, DataFeed
+    k, s = keys(); cli = StockHistoricalDataClient(k, s)
+    now = dt.datetime.now(dt.timezone.utc)
+    end = now - dt.timedelta(minutes=16) if feed == "sip" else now
+    st = start or (now - dt.timedelta(days=days_back))
+    req = StockBarsRequest(symbol_or_symbols=symbols, timeframe=TimeFrame(5, TimeFrameUnit.Minute), start=st, end=end,
+                           adjustment=Adjustment.ALL, feed=DataFeed.SIP if feed == "sip" else DataFeed.IEX)
+    res = cli.get_stock_bars(req).data
+    return {sym: to_days([(b.timestamp, float(b.open), float(b.high), float(b.low), float(b.close), float(b.volume or 0))
+                          for b in res.get(sym, [])]) for sym in symbols}

@@ -41,6 +41,24 @@ FLOW = '''<svg viewBox="0 0 640 150" style="width:100%;height:auto" role="img" a
 <path d="M567,70 V120 H75 V72" fill="none" stroke="var(--mut)" marker-end="url(#a)"/><text x="320" y="112" fill="var(--mut)" font-size="11">ผู้ท้าชิงทุกตัวเทรดแบบเงาไปพร้อมกัน → ใครชนะ forward test จริงได้ขึ้นเป็นแชมป์</text>
 </g></svg>'''
 
+def day_md():
+    """ส่วน Day trade ของสรุป (บอท dt.py)"""
+    P = load_json("population_dt.json", {}); tr = load_json("dt_trades.json", []); st = load_json("dt_state.json", {"open": {}})
+    if not P and not tr: return []
+    c = P.get("champion"); m = S.metrics([{**t, "open": False, "ret": 0} for t in tr]) if tr else None
+    pnl = sum(t["pnl"] for t in tr)
+    out = ["", "---", "## ⚡ Day trade (ซื้อ-ขายจบในวัน)",
+           f"**trade ที่ปิดแล้ว** {len(tr)} · **avg R** {('%+.3f' % m['avgR']) if m else '-'} · **win** {('%.0f%%' % (m['win']*100)) if m else '-'} · **P&L รวม** ${pnl:+,.2f} · **ถืออยู่** {len(st.get('open', {}))}", ""]
+    if c: out += [f"**👑 แชมป์:** `{c['id']}`{' (ทดลองงาน)' if c.get('probation') else ''}  \n{c.get('desc','')}", ""]
+    r = (P.get("runs") or [None])[-1]
+    if r: out += [f"> evolve_dt ล่าสุด {r['date']}: {r['decision']}", ""]
+    if st.get("open"):
+        out += ["| ถืออยู่ | จำนวน | stop | target |", "|---|---|---|---|"] + [f"| {s} | {o['qty']} | {o['stop']:.2f} | {o['target']:.2f} |" for s, o in st["open"].items()] + [""]
+    if tr:
+        out += ["| หุ้น | วัน | เข้า→ออก | แบบ | R | P&L |", "|---|---|---|---|---|---|"]
+        out += [f"| {t['sym']} | {t['entry_d']} | {t.get('t_in','')}→{t.get('t_out','')} | {t['how']} | {t['R']:+.2f} | {t['pnl']:+,.2f} |" for t in reversed(tr[-15:])]
+    return out
+
 def build():
     P = load_json("population.json", {}); eq = load_json("equity.json", []); tr = load_json("trades.json", [])
     st = load_json("state.json", {"open": {}}); B = load_json("bars.json", {}); bars = B.get("bars", {})
@@ -142,6 +160,7 @@ if(window.LightweightCharts){{
     except FileNotFoundError:
         pass
     if log_tail: md += ["", "### log ล่าสุด", "```", log_tail.rstrip(), "```"]
+    md += day_md()
     md += ["", "_เงินจำลองเท่านั้น · dashboard แบบกราฟ: ไฟล์ data/dashboard.html_"]
     with open(path("summary.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(md))
