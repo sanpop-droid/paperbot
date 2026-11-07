@@ -57,6 +57,11 @@ def run(days, today, seed=None, pop_n=16, gens=10, log=print):
         if not champ or (best["id"] != champ["id"] and best["forward"]["avgR"] > champ.get("forward", {}).get("avgR", -9)):
             champ = dict(best); champ["since"] = today; champ["probation"] = False
             reason = f"เลื่อนขั้น {best['id']}: forward {best['forward']['n']} trade, avg R {best['forward']['avgR']:+.3f}"
+    elif champ and champ.get("probation") and not champ.get("passed_holdout") and any(c.get("passed_holdout") for c in P["candidates"]):
+        # แชมป์ทดลองงานที่ไม่ผ่าน holdout ถูกแทนด้วยผู้สมัครที่ผ่าน (ยังทดลองงานจนกว่าจะชนะ forward test)
+        best = max([c for c in P["candidates"] if c.get("passed_holdout")], key=lambda c: c["holdout"]["tstat"])
+        champ = dict(best); champ["since"] = today; champ["probation"] = True
+        reason = f"เปลี่ยนแชมป์ทดลองงานเป็น {best['id']} (ผ่าน holdout: avg R {best['holdout']['avgR']:+.3f} จาก {best['holdout']['n']} trade)"
     elif not champ and P["candidates"]:
         best = max(P["candidates"], key=lambda c: (c.get("passed_holdout", False), c["holdout"]["tstat"]))
         champ = dict(best); champ["since"] = today; champ["probation"] = True
