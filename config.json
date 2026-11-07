@@ -1,0 +1,9 @@
+{
+  "symbols": ["TSLA", "NVDA", "AAPL", "MSFT", "GOOG", "META", "TSM", "NFLX"],
+  "risk_per_trade_pct": 0.5,
+  "max_position_pct": 20,
+  "max_open_positions": 4,
+  "promote_min_forward_trades": 15,
+  "slippage": 0.0005,
+  "note": "risk_per_trade_pct = % ของ equity ที่ยอมเสียต่อ 1 trade ถ้าโดน stop"
+}
