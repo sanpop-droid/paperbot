@@ -43,15 +43,19 @@ FLOW = '''<svg viewBox="0 0 640 150" style="width:100%;height:auto" role="img" a
 
 def day_md():
     """ส่วน Day trade ของสรุป (บอท dt.py)"""
-    P = load_json("population_dt.json", {}); tr = load_json("dt_trades.json", []); st = load_json("dt_state.json", {"open": {}})
+    P = load_json("population_scan.json", {}); tr = load_json("dt_trades.json", []); st = load_json("dt_state.json", {"open": {}})
+    U = load_json("universe.json", {})
     if not P and not tr: return []
     c = P.get("champion"); m = S.metrics([{**t, "open": False, "ret": 0} for t in tr]) if tr else None
     pnl = sum(t["pnl"] for t in tr)
-    out = ["", "---", "## ⚡ Day trade (ซื้อ-ขายจบในวัน)",
+    out = ["", "---", f"## ⚡ Day trade scanner (universe {len(U.get('symbols', []))} ตัว · อัปเดต {U.get('date', '-')})",
            f"**trade ที่ปิดแล้ว** {len(tr)} · **avg R** {('%+.3f' % m['avgR']) if m else '-'} · **win** {('%.0f%%' % (m['win']*100)) if m else '-'} · **P&L รวม** ${pnl:+,.2f} · **ถืออยู่** {len(st.get('open', {}))}", ""]
     if c: out += [f"**👑 แชมป์:** `{c['id']}`{' (ทดลองงาน)' if c.get('probation') else ''}  \n{c.get('desc','')}", ""]
     r = (P.get("runs") or [None])[-1]
-    if r: out += [f"> evolve_dt ล่าสุด {r['date']}: {r['decision']}", ""]
+    if r: out += [f"> evolve ล่าสุด {r['date']}: {r['decision']} · เทียบ: ซื้อทุกตัวเช้า-ขายเย็น เฉลี่ย {r.get('bh_holdout', 0)*100:+.2f}%/วัน (holdout)", ""]
+    sc = st.get("scanned", {})
+    if sc:
+        d0 = max(sc); out += [f"**สแกนล่าสุด {d0}:** " + (", ".join(f"{p['sym']} {p['score']*100:+.1f}%" for p in sc[d0]) or "ไม่มีตัวผ่านเกณฑ์"), ""]
     if st.get("open"):
         out += ["| ถืออยู่ | จำนวน | stop | target |", "|---|---|---|---|"] + [f"| {s} | {o['qty']} | {o['stop']:.2f} | {o['target']:.2f} |" for s, o in st["open"].items()] + [""]
     if tr:

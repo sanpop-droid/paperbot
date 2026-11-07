@@ -3,11 +3,11 @@ on:
   schedule:
     - cron: "45 14 * * 1-5"   # จ–ศ 21:45 เวลาไทย (หลังตลาด US เปิดทั้งช่วงหน้าร้อนและหน้าหนาว)
     - cron: "0 3 * * 6"       # เสาร์ 10:00 เวลาไทย: evolve (swing + day)
-    - cron: "*/15 13-20 * * 1-5"  # ทุก 15 นาที 20:00–03:45 เวลาไทย: day trade (นอกเวลาตลาดจะจบเร็ว)
+    - cron: "*/15 13-20 * * 1-5"  # ทุก 15 นาที 20:00–03:45 เวลาไทย: day trade scanner (นอกเวลาตลาดจะจบเร็ว)
   workflow_dispatch:
     inputs:
       job:
-        description: "run = swing รอบประจำวัน, dt = day trade 1 รอบ, evolve = หากฎใหม่ทั้งสองบอท, check = ทดสอบการเชื่อมต่อ"
+        description: "run = swing รอบประจำวัน, dt = scanner 1 รอบ, evolve = หากฎใหม่ทั้งสองบอท, check = ทดสอบการเชื่อมต่อ"
         default: run
         type: choice
         options: [run, dt, evolve, check]
@@ -19,7 +19,7 @@ concurrency:
 jobs:
   bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 50
     env:
       APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID }}
       APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
@@ -45,7 +45,7 @@ jobs:
           case "${{ steps.j.outputs.job }}" in
             run) python bot.py run ;;
             dt) python dt.py ;;
-            evolve) python evolve.py; python evolve_dt.py ;;
+            evolve) python evolve.py; python evolve_scan.py ;;
             check) python bot.py check ;;
           esac
       - name: Summary (ดูบนมือถือได้ในหน้า Actions)
