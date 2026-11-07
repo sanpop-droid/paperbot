@@ -20,6 +20,6 @@
     "max_position_pct": 25,
     "max_open_positions": 5,
     "promote_min_forward_trades": 20,
-    "history_days": 120
+    "history_days": 365
   }
 }

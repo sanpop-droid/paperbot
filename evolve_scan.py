@@ -1,13 +1,19 @@
 """evolve_scan.py — รันทุกเสาร์ (หรือ Run workflow → evolve)
- 1) สร้าง universe: หุ้น US ที่ซื้อขายได้ทั้งหมด → คัด 300 ตัวที่มูลค่าซื้อขายต่อวัน (median 20 วัน) สูงสุด ราคา ≥ $5
+ 1) สร้าง universe: หุ้น US ที่ซื้อขายได้ทั้งหมด (ตัด ETF leverage/inverse/VIX) → คัด 300 ตัวที่มูลค่าซื้อขายต่อวัน (median 20 วัน) สูงสุด ราคา ≥ $5
     ไม่รวมหุ้นของบอท swing (กันตำแหน่งชนกันในบัญชีเดียว)
  2) โหลดแท่ง 5 นาทีย้อนหลังของ 300 ตัว (SIP)
  3) GA 2 เกาะ (วัดความแรงจากราคาเปิด / จากราคาปิดเมื่อวาน) · robust fitness · holdout 30% · stability test
  4) ผู้สมัครเทรดแบบเงา → เลื่อนแชมป์เมื่อชนะ forward test
 """
-import random, datetime as dt, statistics
+import random, datetime as dt, statistics, re
 import strategy as S, scanstrat as SC
 from common import config, keys, load_json, save_json, load_5min_alpaca
+
+LEV = re.compile(r"\b(\d(\.\d)?X|-\dX|ULTRA\w*|INVERSE|LEVERAGED|BULL|BEAR|VIX|VOLATILITY|DAILY TARGET)\b|SHORT (QQQ|S&P|DOW|RUSSELL|\w+ ETF)")
+
+def is_leveraged(name):
+    """ETF แบบ leverage / inverse / VIX (เช่น SOXL, TQQQ, SQQQ, UVXY, TSLL) — เหวี่ยงหลายเท่าของตลาดจึงติดอันดับบ่อยเกินจริง"""
+    return bool(LEV.search((name or "").upper()))
 
 def build_universe(cfg_scan, swing_syms, log=print):
     from alpaca.trading.client import TradingClient
@@ -20,9 +26,11 @@ def build_universe(cfg_scan, swing_syms, log=print):
     k, s = keys()
     assets = TradingClient(k, s, paper=True).get_all_assets(GetAssetsRequest(status=AssetStatus.ACTIVE, asset_class=AssetClass.US_EQUITY))
     ok_ex = {"NYSE", "NASDAQ", "AMEX", "ARCA", "BATS"}
-    syms = sorted(a.symbol for a in assets if a.tradable and str(getattr(a.exchange, "value", a.exchange)) in ok_ex
-                  and a.symbol.isalpha() and a.symbol not in swing_syms)
-    log(f"หุ้นที่ซื้อขายได้ทั้งหมด {len(syms)} ตัว → วัดสภาพคล่อง")
+    base = [a for a in assets if a.tradable and str(getattr(a.exchange, "value", a.exchange)) in ok_ex
+            and a.symbol.isalpha() and a.symbol not in swing_syms]
+    lev = sorted(a.symbol for a in base if is_leveraged(a.name))
+    syms = sorted(a.symbol for a in base if not is_leveraged(a.name))
+    log(f"หุ้นที่ซื้อขายได้ {len(syms)} ตัว (ตัด ETF leverage/inverse/VIX ออก {len(lev)} ตัว เช่น {', '.join(lev[:8])}) → วัดสภาพคล่อง")
     cli = StockHistoricalDataClient(k, s)
     end = dt.datetime.now(dt.timezone.utc) - dt.timedelta(minutes=20); start = end - dt.timedelta(days=35)
     stats = []
@@ -42,8 +50,8 @@ def build_universe(cfg_scan, swing_syms, log=print):
     stats.sort(reverse=True)
     top = stats[:cfg_scan["universe_size"]]
     log(f"universe: {len(top)} ตัว · มูลค่าซื้อขายต่อวันต่ำสุดในกลุ่ม ${top[-1][0]/1e6:,.0f}M" if top else "universe ว่าง")
-    U = {"date": dt.date.today().isoformat(), "symbols": [t[1] for t in top],
-         "dollar_volume_m": {t[1]: round(t[0] / 1e6, 1) for t in top}, "rule": "median 20 วันของ ราคา×ปริมาณ · ราคา ≥ min_price · ไม่รวมหุ้น swing"}
+    U = {"date": dt.date.today().isoformat(), "symbols": [t[1] for t in top], "excluded_leveraged": len(lev),
+         "dollar_volume_m": {t[1]: round(t[0] / 1e6, 1) for t in top}, "rule": "median 20 วันของ ราคา×ปริมาณ · ราคา ≥ min_price · ไม่รวมหุ้น swing · ไม่รวม ETF leverage/inverse/VIX"}
     save_json("universe.json", U)
     return U
 
