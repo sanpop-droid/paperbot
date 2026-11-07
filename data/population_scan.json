@@ -1,0 +1,1614 @@
+{
+ "champion": {
+  "id": "scan-prevclose-short-M30-K3-th4.7-k1.28-R0.8-G-6..+1",
+  "g": {
+   "M": 30,
+   "K": 3,
+   "pc": 1,
+   "side": 1,
+   "th": 0.047,
+   "gap_lo": -0.06,
+   "gap_hi": 0.013,
+   "k_stop": 1.28,
+   "R": 0.832,
+   "type": "prevclose-short"
+  },
+  "born": "2026-11-08",
+  "train": {
+   "n": 149,
+   "avgR": 0.058481947511892715,
+   "sd": 0.47074499832418554,
+   "win": 0.5033557046979866,
+   "tstat": 1.4277262896406753,
+   "sumR": 8.713810179272015,
+   "avgRet": 0.0048525209186208685,
+   "consistency": 1.0
+  },
+  "holdout": {
+   "n": 140,
+   "avgR": 0.06803302232941211,
+   "sd": 0.4229308459953039,
+   "win": 0.5357142857142857,
+   "tstat": 1.609955151944799,
+   "sumR": 9.524623126117696,
+   "avgRet": 0.005269211248206131,
+   "stability": 1.0
+  },
+  "desc": "นาทีที่ 30 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาปิดเมื่อวาน (รวม gap) → short 3 ตัวที่ลงแรงสุด ≥ 4.7% · ตัวกรอง gap เปิด -6.0% ถึง +1.3% (ฝั่ง short กลับด้าน) · stop 1.28 × 3 ATR(5 นาที) · target 0.8R · ปิดทุกตัวก่อนตลาดปิด",
+  "passed_holdout": true,
+  "forward": {
+   "n": 0,
+   "avgR": 0.0,
+   "win": 0.0,
+   "tstat": 0.0,
+   "sumR": 0.0,
+   "avgRet": 0.0
+  },
+  "since": "2026-11-08",
+  "probation": true
+ },
+ "candidates": [
+  {
+   "id": "scan-prevclose-short-M30-K3-th4.7-k1.28-R0.8-G-6..+1",
+   "g": {
+    "M": 30,
+    "K": 3,
+    "pc": 1,
+    "side": 1,
+    "th": 0.047,
+    "gap_lo": -0.06,
+    "gap_hi": 0.013,
+    "k_stop": 1.28,
+    "R": 0.832,
+    "type": "prevclose-short"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 149,
+    "avgR": 0.058481947511892715,
+    "sd": 0.47074499832418554,
+    "win": 0.5033557046979866,
+    "tstat": 1.4277262896406753,
+    "sumR": 8.713810179272015,
+    "avgRet": 0.0048525209186208685,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 140,
+    "avgR": 0.06803302232941211,
+    "sd": 0.4229308459953039,
+    "win": 0.5357142857142857,
+    "tstat": 1.609955151944799,
+    "sumR": 9.524623126117696,
+    "avgRet": 0.005269211248206131,
+    "stability": 1.0
+   },
+   "desc": "นาทีที่ 30 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาปิดเมื่อวาน (รวม gap) → short 3 ตัวที่ลงแรงสุด ≥ 4.7% · ตัวกรอง gap เปิด -6.0% ถึง +1.3% (ฝั่ง short กลับด้าน) · stop 1.28 × 3 ATR(5 นาที) · target 0.8R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-prevclose-both-M30-K4-th4.0-k1.65-R3.1-G-1..+1",
+   "g": {
+    "M": 30,
+    "K": 4,
+    "pc": 1,
+    "side": 2,
+    "th": 0.04,
+    "gap_lo": -0.007,
+    "gap_hi": 0.006,
+    "k_stop": 1.653,
+    "R": 3.054,
+    "type": "prevclose-both"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 262,
+    "avgR": 0.0461992886903984,
+    "sd": 0.41896499098037177,
+    "win": 0.5076335877862596,
+    "tstat": 1.4956016316929837,
+    "sumR": 12.104213636884381,
+    "avgRet": 0.0036463679034718327,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 272,
+    "avgR": 0.03464718404259818,
+    "sd": 0.372139050172398,
+    "win": 0.5514705882352942,
+    "tstat": 1.142831995502776,
+    "sumR": 9.424034059586704,
+    "avgRet": 0.003420945052010153,
+    "stability": 1.0
+   },
+   "desc": "นาทีที่ 30 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาปิดเมื่อวาน (รวม gap) → ซื้อ 4 ตัวที่ขึ้นแรงสุด และ short 4 ตัวที่ลงแรงสุด (≥ 4.0%) · ตัวกรอง gap เปิด -0.7% ถึง +0.6% (ฝั่ง short กลับด้าน) · stop 1.65 × 3 ATR(5 นาที) · target 3.1R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-prevclose-both-M45-K4-th4.7-k1.65-R2.2-G-0..+1",
+   "g": {
+    "M": 45,
+    "K": 4,
+    "pc": 1,
+    "side": 2,
+    "th": 0.047,
+    "gap_lo": -0.002,
+    "gap_hi": 0.014,
+    "k_stop": 1.653,
+    "R": 2.158,
+    "type": "prevclose-both"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 371,
+    "avgR": 0.055789251026114144,
+    "sd": 0.44757320851433396,
+    "win": 0.5525606469002695,
+    "tstat": 2.149153728005815,
+    "sumR": 20.697812130688348,
+    "avgRet": 0.0035112363187232635,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 357,
+    "avgR": 0.02996389489459158,
+    "sd": 0.37762172528031007,
+    "win": 0.5546218487394958,
+    "tstat": 1.1323022459038485,
+    "sumR": 10.697110477369193,
+    "avgRet": 0.0020850777988338973,
+    "stability": 1.0
+   },
+   "desc": "นาทีที่ 45 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาปิดเมื่อวาน (รวม gap) → ซื้อ 4 ตัวที่ขึ้นแรงสุด และ short 4 ตัวที่ลงแรงสุด (≥ 4.7%) · ตัวกรอง gap เปิด -0.2% ถึง +1.4% (ฝั่ง short กลับด้าน) · stop 1.65 × 3 ATR(5 นาที) · target 2.2R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-prevclose-both-M30-K5-th4.0-k1.83-R3.1-G-1..+1",
+   "g": {
+    "M": 30,
+    "K": 5,
+    "pc": 1,
+    "side": 2,
+    "th": 0.04,
+    "gap_lo": -0.007,
+    "gap_hi": 0.006,
+    "k_stop": 1.826,
+    "R": 3.054,
+    "type": "prevclose-both"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 270,
+    "avgR": 0.0407927483582163,
+    "sd": 0.3800837055581768,
+    "win": 0.5037037037037037,
+    "tstat": 1.3405865075056138,
+    "sumR": 11.0140420567184,
+    "avgRet": 0.0035379635296830625,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 287,
+    "avgR": 0.03335116564522559,
+    "sd": 0.33902683273072903,
+    "win": 0.5574912891986062,
+    "tstat": 1.1300091534495535,
+    "sumR": 9.571784540179744,
+    "avgRet": 0.003467410953448622,
+    "stability": 0.8333333333333334
+   },
+   "desc": "นาทีที่ 30 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาปิดเมื่อวาน (รวม gap) → ซื้อ 5 ตัวที่ขึ้นแรงสุด และ short 5 ตัวที่ลงแรงสุด (≥ 4.0%) · ตัวกรอง gap เปิด -0.7% ถึง +0.6% (ฝั่ง short กลับด้าน) · stop 1.83 × 3 ATR(5 นาที) · target 3.1R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-prevclose-short-M45-K3-th4.7-k1.56-R0.5-G-6..+1",
+   "g": {
+    "M": 45,
+    "K": 3,
+    "pc": 1,
+    "side": 1,
+    "th": 0.047,
+    "gap_lo": -0.06,
+    "gap_hi": 0.013,
+    "k_stop": 1.557,
+    "R": 0.5,
+    "type": "prevclose-short"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 197,
+    "avgR": 0.04771197601093217,
+    "sd": 0.3920998516849312,
+    "win": 0.5482233502538071,
+    "tstat": 1.339338990709895,
+    "sumR": 9.399259274153637,
+    "avgRet": 0.0036163055190162724,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 186,
+    "avgR": 0.02850790547430359,
+    "sd": 0.3813276791834505,
+    "win": 0.521505376344086,
+    "tstat": 0.7775919893181001,
+    "sumR": 5.302470418220468,
+    "avgRet": 0.0031679700505636253,
+    "stability": 0.8333333333333334
+   },
+   "desc": "นาทีที่ 45 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาปิดเมื่อวาน (รวม gap) → short 3 ตัวที่ลงแรงสุด ≥ 4.7% · ตัวกรอง gap เปิด -6.0% ถึง +1.3% (ฝั่ง short กลับด้าน) · stop 1.56 × 3 ATR(5 นาที) · target 0.5R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-prevclose-short-M30-K3-th4.7-k2.00-R0.8-G-6..-1",
+   "g": {
+    "M": 30,
+    "K": 3,
+    "pc": 1,
+    "side": 1,
+    "th": 0.047,
+    "gap_lo": -0.06,
+    "gap_hi": -0.008,
+    "k_stop": 2.0,
+    "R": 0.832,
+    "type": "prevclose-short"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 32,
+    "avgR": 0.14181768987438678,
+    "sd": 0.30495488756517686,
+    "win": 0.625,
+    "tstat": 1.6044840032382348,
+    "sumR": 4.538166075980377,
+    "avgRet": 0.0237332017920435,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 45,
+    "avgR": 0.027276807350122844,
+    "sd": 0.23209190959861456,
+    "win": 0.4666666666666667,
+    "tstat": 0.36595677266424353,
+    "sumR": 1.227456330755528,
+    "avgRet": 0.005071908298138607,
+    "stability": 1.0
+   },
+   "desc": "นาทีที่ 30 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาปิดเมื่อวาน (รวม gap) → short 3 ตัวที่ลงแรงสุด ≥ 4.7% · ตัวกรอง gap เปิด -6.0% ถึง -0.8% (ฝั่ง short กลับด้าน) · stop 2.00 × 3 ATR(5 นาที) · target 0.8R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-open-both-M90-K3-th2.8-k1.15-R4.0-G-5..-3",
+   "g": {
+    "M": 90,
+    "K": 3,
+    "pc": 0,
+    "side": 2,
+    "th": 0.028,
+    "gap_lo": -0.048,
+    "gap_hi": -0.032,
+    "k_stop": 1.149,
+    "R": 4.0,
+    "type": "open-both"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 261,
+    "avgR": 0.06961310286650348,
+    "sd": 0.8080966495666064,
+    "win": 0.4789272030651341,
+    "tstat": 1.3917074097752324,
+    "sumR": 18.169019848157408,
+    "avgRet": 0.002165211763740065,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 212,
+    "avgR": -0.019772691528667865,
+    "sd": 0.6544885394807083,
+    "win": 0.4669811320754717,
+    "tstat": -0.4398774262716973,
+    "sumR": -4.191810604077587,
+    "avgRet": -0.0010904671293389904,
+    "stability": 0.3333333333333333
+   },
+   "desc": "นาทีที่ 90 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาเปิดวันนี้ → ซื้อ 3 ตัวที่ขึ้นแรงสุด และ short 3 ตัวที่ลงแรงสุด (≥ 2.8%) · ตัวกรอง gap เปิด -4.8% ถึง -3.2% (ฝั่ง short กลับด้าน) · stop 1.15 × 3 ATR(5 นาที) · target 4.0R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": false,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-prevclose-long-M60-K1-th3.4-k1.51-R1.8-G-3..-1",
+   "g": {
+    "M": 60,
+    "K": 1,
+    "pc": 1,
+    "side": 0,
+    "th": 0.034,
+    "gap_lo": -0.033,
+    "gap_hi": -0.012,
+    "k_stop": 1.507,
+    "R": 1.848,
+    "type": "prevclose-long"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 36,
+    "avgR": 0.20997410499829294,
+    "sd": 0.5645181049472416,
+    "win": 0.5833333333333334,
+    "tstat": 2.2317169616862853,
+    "sumR": 7.559067779938546,
+    "avgRet": 0.019996805993673403,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 39,
+    "avgR": -0.04164778194293897,
+    "sd": 0.3999906107565006,
+    "win": 0.48717948717948717,
+    "tstat": -0.5201806297427737,
+    "sumR": -1.6242634957746198,
+    "avgRet": -0.004105180017930736,
+    "stability": 0.3333333333333333
+   },
+   "desc": "นาทีที่ 60 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาปิดเมื่อวาน (รวม gap) → ซื้อ (long) 1 ตัวที่ขึ้นแรงสุด ≥ 3.4% · ตัวกรอง gap เปิด -3.3% ถึง -1.2% (ฝั่ง short กลับด้าน) · stop 1.51 × 3 ATR(5 นาที) · target 1.8R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": false,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-prevclose-long-M60-K1-th3.4-k1.51-R2.5-G-3..-1",
+   "g": {
+    "M": 60,
+    "K": 1,
+    "pc": 1,
+    "side": 0,
+    "th": 0.034,
+    "gap_lo": -0.033,
+    "gap_hi": -0.012,
+    "k_stop": 1.507,
+    "R": 2.491,
+    "type": "prevclose-long"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 36,
+    "avgR": 0.2151366555893337,
+    "sd": 0.5804906567433639,
+    "win": 0.5833333333333334,
+    "tstat": 2.2236704734882173,
+    "sumR": 7.744919601216013,
+    "avgRet": 0.02047816377745713,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 39,
+    "avgR": -0.04164778194293897,
+    "sd": 0.3999906107565006,
+    "win": 0.48717948717948717,
+    "tstat": -0.5201806297427737,
+    "sumR": -1.6242634957746198,
+    "avgRet": -0.004105180017930736,
+    "stability": 0.3333333333333333
+   },
+   "desc": "นาทีที่ 60 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาปิดเมื่อวาน (รวม gap) → ซื้อ (long) 1 ตัวที่ขึ้นแรงสุด ≥ 3.4% · ตัวกรอง gap เปิด -3.3% ถึง -1.2% (ฝั่ง short กลับด้าน) · stop 1.51 × 3 ATR(5 นาที) · target 2.5R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": false,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-open-both-M90-K3-th1.9-k1.85-R3.5-G-5..-5",
+   "g": {
+    "M": 90,
+    "K": 3,
+    "pc": 0,
+    "side": 2,
+    "th": 0.019,
+    "gap_lo": -0.052,
+    "gap_hi": -0.048,
+    "k_stop": 1.849,
+    "R": 3.545,
+    "type": "open-both"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 67,
+    "avgR": 0.1294050841703774,
+    "sd": 0.5789299625824252,
+    "win": 0.5223880597014925,
+    "tstat": 1.8296276456024316,
+    "sumR": 8.670140639415287,
+    "avgRet": 0.007054564339589108,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 66,
+    "avgR": -0.04098320802965638,
+    "sd": 0.3566521099879087,
+    "win": 0.4393939393939394,
+    "tstat": -0.6658983119562266,
+    "sumR": -2.704891729957321,
+    "avgRet": 2.660635553025311e-05,
+    "stability": 0.16666666666666666
+   },
+   "desc": "นาทีที่ 90 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาเปิดวันนี้ → ซื้อ 3 ตัวที่ขึ้นแรงสุด และ short 3 ตัวที่ลงแรงสุด (≥ 1.9%) · ตัวกรอง gap เปิด -5.2% ถึง -4.8% (ฝั่ง short กลับด้าน) · stop 1.85 × 3 ATR(5 นาที) · target 3.5R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": false,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-open-short-M120-K3-th3.6-k1.83-R2.3-G+6..+8",
+   "g": {
+    "M": 120,
+    "K": 3,
+    "pc": 0,
+    "side": 1,
+    "th": 0.036,
+    "gap_lo": 0.058,
+    "gap_hi": 0.079,
+    "k_stop": 1.83,
+    "R": 2.263,
+    "type": "open-short"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 36,
+    "avgR": 0.24043525238350835,
+    "sd": 0.43459413263920255,
+    "win": 0.7777777777777778,
+    "tstat": 2.8852230286021,
+    "sumR": 8.6556690858063,
+    "avgRet": 0.012940664661291016,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 33,
+    "avgR": -0.08014608179177175,
+    "sd": 0.530983263218257,
+    "win": 0.48484848484848486,
+    "tstat": -0.8670785307561525,
+    "sumR": -2.6448206991284677,
+    "avgRet": -0.002030541910098828,
+    "stability": 0.3333333333333333
+   },
+   "desc": "นาทีที่ 120 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาเปิดวันนี้ → short 3 ตัวที่ลงแรงสุด ≥ 3.6% · ตัวกรอง gap เปิด +5.8% ถึง +7.9% (ฝั่ง short กลับด้าน) · stop 1.83 × 3 ATR(5 นาที) · target 2.3R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": false,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-open-short-M120-K3-th3.6-k1.85-R2.3-G+6..+8",
+   "g": {
+    "M": 120,
+    "K": 3,
+    "pc": 0,
+    "side": 1,
+    "th": 0.036,
+    "gap_lo": 0.058,
+    "gap_hi": 0.079,
+    "k_stop": 1.847,
+    "R": 2.263,
+    "type": "open-short"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 36,
+    "avgR": 0.23796646103329014,
+    "sd": 0.4313511341532764,
+    "win": 0.7777777777777778,
+    "tstat": 2.8555975323994818,
+    "sumR": 8.566792597198445,
+    "avgRet": 0.01291963140852099,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 33,
+    "avgR": -0.08052461615732452,
+    "sd": 0.5281231292105665,
+    "win": 0.48484848484848486,
+    "tstat": -0.8758917693978626,
+    "sumR": -2.657312333191709,
+    "avgRet": -0.0020832643225270646,
+    "stability": 0.16666666666666666
+   },
+   "desc": "นาทีที่ 120 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาเปิดวันนี้ → short 3 ตัวที่ลงแรงสุด ≥ 3.6% · ตัวกรอง gap เปิด +5.8% ถึง +7.9% (ฝั่ง short กลับด้าน) · stop 1.85 × 3 ATR(5 นาที) · target 2.3R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": false,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-open-short-M120-K3-th3.6-k1.89-R2.1-G+6..+8",
+   "g": {
+    "M": 120,
+    "K": 3,
+    "pc": 0,
+    "side": 1,
+    "th": 0.036,
+    "gap_lo": 0.058,
+    "gap_hi": 0.079,
+    "k_stop": 1.885,
+    "R": 2.064,
+    "type": "open-short"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 36,
+    "avgR": 0.23260900275604962,
+    "sd": 0.42432817268122053,
+    "win": 0.7777777777777778,
+    "tstat": 2.7913080330725952,
+    "sumR": 8.373924099217787,
+    "avgRet": 0.012872615902329179,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 33,
+    "avgR": -0.08134606349015477,
+    "sd": 0.5219510564808398,
+    "win": 0.48484848484848486,
+    "tstat": -0.8952899931252613,
+    "sumR": -2.6844200951751076,
+    "avgRet": -0.002201114420896066,
+    "stability": 0.5
+   },
+   "desc": "นาทีที่ 120 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาเปิดวันนี้ → short 3 ตัวที่ลงแรงสุด ≥ 3.6% · ตัวกรอง gap เปิด +5.8% ถึง +7.9% (ฝั่ง short กลับด้าน) · stop 1.89 × 3 ATR(5 นาที) · target 2.1R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": false,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-open-long-M45-K2-th2.9-k1.42-R2.0-G-10..-2",
+   "g": {
+    "M": 45,
+    "K": 2,
+    "pc": 0,
+    "side": 0,
+    "th": 0.029,
+    "gap_lo": -0.097,
+    "gap_hi": -0.02,
+    "k_stop": 1.415,
+    "R": 2.022,
+    "type": "open-long"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 176,
+    "avgR": 0.0771183137775547,
+    "sd": 0.4654255788335052,
+    "win": 0.5511363636363636,
+    "tstat": 2.0461800901203544,
+    "sumR": 13.572823224849627,
+    "avgRet": 0.006036430147151361,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 163,
+    "avgR": -0.04501646561163192,
+    "sd": 0.45811443634513527,
+    "win": 0.4723926380368098,
+    "tstat": -1.1494635178457957,
+    "sumR": -7.337683894696003,
+    "avgRet": -0.00335406940136719,
+    "stability": 0.16666666666666666
+   },
+   "desc": "นาทีที่ 45 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาเปิดวันนี้ → ซื้อ (long) 2 ตัวที่ขึ้นแรงสุด ≥ 2.9% · ตัวกรอง gap เปิด -9.7% ถึง -2.0% (ฝั่ง short กลับด้าน) · stop 1.42 × 3 ATR(5 นาที) · target 2.0R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": false,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-open-both-M120-K3-th1.9-k1.69-R3.5-G-5..-5",
+   "g": {
+    "M": 120,
+    "K": 3,
+    "pc": 0,
+    "side": 2,
+    "th": 0.019,
+    "gap_lo": -0.052,
+    "gap_hi": -0.048,
+    "k_stop": 1.69,
+    "R": 3.545,
+    "type": "open-both"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 75,
+    "avgR": 0.12216999877262683,
+    "sd": 0.6949607523810145,
+    "win": 0.49333333333333335,
+    "tstat": 1.5224215490575224,
+    "sumR": 9.162749907947012,
+    "avgRet": 0.0059751974855641495,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 65,
+    "avgR": -0.07833935167451873,
+    "sd": 0.42904434219652415,
+    "win": 0.4461538461538462,
+    "tstat": -1.2631840900691471,
+    "sumR": -5.0920578588437175,
+    "avgRet": -0.0020903039760503893,
+    "stability": 0.0
+   },
+   "desc": "นาทีที่ 120 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาเปิดวันนี้ → ซื้อ 3 ตัวที่ขึ้นแรงสุด และ short 3 ตัวที่ลงแรงสุด (≥ 1.9%) · ตัวกรอง gap เปิด -5.2% ถึง -4.8% (ฝั่ง short กลับด้าน) · stop 1.69 × 3 ATR(5 นาที) · target 3.5R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": false,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-open-long-M45-K3-th3.2-k1.15-R0.6-G-10..-6",
+   "g": {
+    "M": 45,
+    "K": 3,
+    "pc": 0,
+    "side": 0,
+    "th": 0.032,
+    "gap_lo": -0.097,
+    "gap_hi": -0.056,
+    "k_stop": 1.146,
+    "R": 0.646,
+    "type": "open-long"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 40,
+    "avgR": 0.18213375790310127,
+    "sd": 0.47480531383119107,
+    "win": 0.65,
+    "tstat": 2.303830055117973,
+    "sumR": 7.285350316124051,
+    "avgRet": 0.009359261927148005,
+    "consistency": 0.6666666666666666
+   },
+   "holdout": {
+    "n": 42,
+    "avgR": -0.12949027577580502,
+    "sd": 0.5167344532520235,
+    "win": 0.38095238095238093,
+    "tstat": -1.6240312504554888,
+    "sumR": -5.43859158258381,
+    "avgRet": -0.007413615804537229,
+    "stability": 0.0
+   },
+   "desc": "นาทีที่ 45 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาเปิดวันนี้ → ซื้อ (long) 3 ตัวที่ขึ้นแรงสุด ≥ 3.2% · ตัวกรอง gap เปิด -9.7% ถึง -5.6% (ฝั่ง short กลับด้าน) · stop 1.15 × 3 ATR(5 นาที) · target 0.6R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": false,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-open-long-M45-K3-th3.2-k1.42-R2.0-G-10..-2",
+   "g": {
+    "M": 45,
+    "K": 3,
+    "pc": 0,
+    "side": 0,
+    "th": 0.032,
+    "gap_lo": -0.1,
+    "gap_hi": -0.02,
+    "k_stop": 1.415,
+    "R": 2.022,
+    "type": "open-long"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 168,
+    "avgR": 0.06345536388286072,
+    "sd": 0.46805485194679447,
+    "win": 0.5416666666666666,
+    "tstat": 1.6449510369917426,
+    "sumR": 10.6605011323206,
+    "avgRet": 0.004731951494641933,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 183,
+    "avgR": -0.06866893225738194,
+    "sd": 0.47068033637658513,
+    "win": 0.4644808743169399,
+    "tstat": -1.8578721948492694,
+    "sumR": -12.566414603100894,
+    "avgRet": -0.005659520634187039,
+    "stability": 0.0
+   },
+   "desc": "นาทีที่ 45 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาเปิดวันนี้ → ซื้อ (long) 3 ตัวที่ขึ้นแรงสุด ≥ 3.2% · ตัวกรอง gap เปิด -10.0% ถึง -2.0% (ฝั่ง short กลับด้าน) · stop 1.42 × 3 ATR(5 นาที) · target 2.0R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": false,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "scan-prevclose-long-M90-K1-th3.4-k1.51-R1.8-G-3..-1",
+   "g": {
+    "M": 90,
+    "K": 1,
+    "pc": 1,
+    "side": 0,
+    "th": 0.034,
+    "gap_lo": -0.033,
+    "gap_hi": -0.012,
+    "k_stop": 1.507,
+    "R": 1.848,
+    "type": "prevclose-long"
+   },
+   "born": "2026-11-08",
+   "train": {
+    "n": 40,
+    "avgR": 0.2528257341280359,
+    "sd": 0.6522192684484787,
+    "win": 0.575,
+    "tstat": 2.4516453580117257,
+    "sumR": 10.113029365121436,
+    "avgRet": 0.016470324912268994,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 53,
+    "avgR": -0.13616252298814868,
+    "sd": 0.49979780884341174,
+    "win": 0.37735849056603776,
+    "tstat": -1.9825562603108142,
+    "sumR": -7.216613718371881,
+    "avgRet": -0.007811541850689265,
+    "stability": 0.0
+   },
+   "desc": "นาทีที่ 90 หลังตลาดเปิด สแกน universe วัดการเปลี่ยนแปลงจากราคาปิดเมื่อวาน (รวม gap) → ซื้อ (long) 1 ตัวที่ขึ้นแรงสุด ≥ 3.4% · ตัวกรอง gap เปิด -3.3% ถึง -1.2% (ฝั่ง short กลับด้าน) · stop 1.51 × 3 ATR(5 นาที) · target 1.8R · ปิดทุกตัวก่อนตลาดปิด",
+   "passed_holdout": false,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  }
+ ],
+ "runs": [
+  {
+   "date": "2026-11-08",
+   "split": "2025-12-15",
+   "universe": 200,
+   "days": 752,
+   "tested": 4716,
+   "wf": {
+    "folds": [
+     {
+      "test": "2025-05-08..2025-08-07",
+      "id": "scan-open-both-M105-K5-th3.6-k1.23-R1.3-G+5..+8",
+      "train_t": 2.99,
+      "n": 11,
+      "avgR": 0.056
+     },
+     {
+      "test": "2025-08-08..2025-11-05",
+      "id": "scan-open-both-M45-K2-th2.4-k0.84-R0.7-G-9..-7",
+      "train_t": 2.72,
+      "n": 6,
+      "avgR": -0.133
+     },
+     {
+      "test": "2025-11-06..2026-02-06",
+      "id": "scan-open-both-M120-K4-th3.2-k1.04-R1.7-G+4..+9",
+      "train_t": 2.51,
+      "n": 46,
+      "avgR": 0.462
+     },
+     {
+      "test": "2026-02-09..2026-05-08",
+      "id": "scan-open-long-M30-K5-th4.5-k1.23-R3.4-G-1..+4",
+      "train_t": 2.56,
+      "n": 73,
+      "avgR": 0.012
+     },
+     {
+      "test": "2026-05-11..2026-08-10",
+      "id": "scan-open-short-M60-K5-th3.7-k1.00-R1.4-G-10..-7",
+      "train_t": 3.19,
+      "n": 11,
+      "avgR": -0.131
+     },
+     {
+      "test": "2026-08-11..2026-11-06",
+      "id": "scan-open-both-M30-K3-th4.1-k0.65-R1.3-G-0..+2",
+      "train_t": 3.12,
+      "n": 64,
+      "avgR": 0.082
+     }
+    ],
+    "n": 211,
+    "avgR": 0.1219,
+    "t": 2.76,
+    "win": 0.583
+   },
+   "tested_total": 4716,
+   "luck_t": 4.11,
+   "bh_holdout": 1e-05,
+   "gens": [
+    {
+     "island": "open-long",
+     "gen": 1,
+     "is_t": 0.92,
+     "is_avgR": 0.066,
+     "ho_t": -2.19,
+     "ho_avgR": -0.162,
+     "id": "scan-open-long-M45-K3-th2.7-k1.52-R0.7-G-10..-6"
+    },
+    {
+     "island": "open-long",
+     "gen": 2,
+     "is_t": 1.3,
+     "is_avgR": 0.096,
+     "ho_t": -2.06,
+     "ho_avgR": -0.155,
+     "id": "scan-open-long-M45-K3-th2.7-k1.47-R3.1-G-9..-6"
+    },
+    {
+     "island": "open-long",
+     "gen": 3,
+     "is_t": 1.3,
+     "is_avgR": 0.096,
+     "ho_t": -2.06,
+     "ho_avgR": -0.155,
+     "id": "scan-open-long-M45-K3-th2.7-k1.47-R3.1-G-9..-6"
+    },
+    {
+     "island": "open-long",
+     "gen": 4,
+     "is_t": 1.87,
+     "is_avgR": 0.148,
+     "ho_t": -1.63,
+     "ho_avgR": -0.126,
+     "id": "scan-open-long-M45-K3-th3.2-k1.42-R0.5-G-10..-6"
+    },
+    {
+     "island": "open-long",
+     "gen": 5,
+     "is_t": 1.87,
+     "is_avgR": 0.148,
+     "ho_t": -1.63,
+     "ho_avgR": -0.126,
+     "id": "scan-open-long-M45-K3-th3.2-k1.42-R0.5-G-10..-6"
+    },
+    {
+     "island": "open-long",
+     "gen": 6,
+     "is_t": 1.87,
+     "is_avgR": 0.148,
+     "ho_t": -1.63,
+     "ho_avgR": -0.126,
+     "id": "scan-open-long-M45-K3-th3.2-k1.42-R0.5-G-10..-6"
+    },
+    {
+     "island": "open-long",
+     "gen": 7,
+     "is_t": 2.3,
+     "is_avgR": 0.182,
+     "ho_t": -1.62,
+     "ho_avgR": -0.129,
+     "id": "scan-open-long-M45-K3-th3.2-k1.15-R0.6-G-10..-6"
+    },
+    {
+     "island": "open-long",
+     "gen": 8,
+     "is_t": 2.3,
+     "is_avgR": 0.182,
+     "ho_t": -1.62,
+     "ho_avgR": -0.129,
+     "id": "scan-open-long-M45-K3-th3.2-k1.15-R0.6-G-10..-6"
+    },
+    {
+     "island": "open-long",
+     "gen": 9,
+     "is_t": 2.05,
+     "is_avgR": 0.077,
+     "ho_t": -1.15,
+     "ho_avgR": -0.045,
+     "id": "scan-open-long-M45-K2-th2.9-k1.42-R2.0-G-10..-2"
+    },
+    {
+     "island": "open-long",
+     "gen": 10,
+     "is_t": 2.05,
+     "is_avgR": 0.077,
+     "ho_t": -1.15,
+     "ho_avgR": -0.045,
+     "id": "scan-open-long-M45-K2-th2.9-k1.42-R2.0-G-10..-2"
+    },
+    {
+     "island": "open-long",
+     "gen": 11,
+     "is_t": 2.05,
+     "is_avgR": 0.077,
+     "ho_t": -1.15,
+     "ho_avgR": -0.045,
+     "id": "scan-open-long-M45-K2-th2.9-k1.42-R2.0-G-10..-2"
+    },
+    {
+     "island": "open-long",
+     "gen": 12,
+     "is_t": 2.05,
+     "is_avgR": 0.077,
+     "ho_t": -1.15,
+     "ho_avgR": -0.045,
+     "id": "scan-open-long-M45-K2-th2.9-k1.42-R2.0-G-10..-2"
+    },
+    {
+     "island": "open-short",
+     "gen": 1,
+     "is_t": 0.36,
+     "is_avgR": 0.093,
+     "ho_t": -1.7,
+     "ho_avgR": -0.352,
+     "id": "scan-open-short-M90-K4-th4.1-k0.50-R2.3-G+6..+8"
+    },
+    {
+     "island": "open-short",
+     "gen": 2,
+     "is_t": 2.73,
+     "is_avgR": 0.213,
+     "ho_t": -0.33,
+     "ho_avgR": -0.026,
+     "id": "scan-open-short-M120-K3-th3.3-k1.90-R2.3-G+6..+8"
+    },
+    {
+     "island": "open-short",
+     "gen": 3,
+     "is_t": 2.73,
+     "is_avgR": 0.213,
+     "ho_t": -0.33,
+     "ho_avgR": -0.026,
+     "id": "scan-open-short-M120-K3-th3.3-k1.90-R2.3-G+6..+8"
+    },
+    {
+     "island": "open-short",
+     "gen": 4,
+     "is_t": 2.73,
+     "is_avgR": 0.213,
+     "ho_t": -0.33,
+     "ho_avgR": -0.026,
+     "id": "scan-open-short-M120-K3-th3.3-k1.90-R2.3-G+6..+8"
+    },
+    {
+     "island": "open-short",
+     "gen": 5,
+     "is_t": 2.73,
+     "is_avgR": 0.213,
+     "ho_t": -0.33,
+     "ho_avgR": -0.026,
+     "id": "scan-open-short-M120-K3-th3.3-k1.90-R2.3-G+6..+8"
+    },
+    {
+     "island": "open-short",
+     "gen": 6,
+     "is_t": 2.75,
+     "is_avgR": 0.233,
+     "ho_t": -0.62,
+     "ho_avgR": -0.055,
+     "id": "scan-open-short-M120-K3-th3.7-k1.90-R2.3-G+6..+8"
+    },
+    {
+     "island": "open-short",
+     "gen": 7,
+     "is_t": 2.75,
+     "is_avgR": 0.233,
+     "ho_t": -0.62,
+     "ho_avgR": -0.055,
+     "id": "scan-open-short-M120-K3-th3.7-k1.90-R2.3-G+6..+8"
+    },
+    {
+     "island": "open-short",
+     "gen": 8,
+     "is_t": 2.77,
+     "is_avgR": 0.23,
+     "ho_t": -0.66,
+     "ho_avgR": -0.057,
+     "id": "scan-open-short-M120-K3-th3.6-k1.90-R2.3-G+6..+8"
+    },
+    {
+     "island": "open-short",
+     "gen": 9,
+     "is_t": 2.77,
+     "is_avgR": 0.23,
+     "ho_t": -0.66,
+     "ho_avgR": -0.057,
+     "id": "scan-open-short-M120-K3-th3.6-k1.90-R2.3-G+6..+8"
+    },
+    {
+     "island": "open-short",
+     "gen": 10,
+     "is_t": 2.89,
+     "is_avgR": 0.24,
+     "ho_t": -0.87,
+     "ho_avgR": -0.08,
+     "id": "scan-open-short-M120-K3-th3.6-k1.83-R2.3-G+6..+8"
+    },
+    {
+     "island": "open-short",
+     "gen": 11,
+     "is_t": 2.89,
+     "is_avgR": 0.24,
+     "ho_t": -0.87,
+     "ho_avgR": -0.08,
+     "id": "scan-open-short-M120-K3-th3.6-k1.83-R2.3-G+6..+8"
+    },
+    {
+     "island": "open-short",
+     "gen": 12,
+     "is_t": 2.89,
+     "is_avgR": 0.24,
+     "ho_t": -0.87,
+     "ho_avgR": -0.08,
+     "id": "scan-open-short-M120-K3-th3.6-k1.83-R2.3-G+6..+8"
+    },
+    {
+     "island": "open-both",
+     "gen": 1,
+     "is_t": 0.89,
+     "is_avgR": 0.039,
+     "ho_t": -0.34,
+     "ho_avgR": -0.015,
+     "id": "scan-open-both-M90-K3-th2.8-k1.15-R1.2-G-5..-3"
+    },
+    {
+     "island": "open-both",
+     "gen": 2,
+     "is_t": 1.2,
+     "is_avgR": 0.053,
+     "ho_t": -0.45,
+     "ho_avgR": -0.018,
+     "id": "scan-open-both-M90-K3-th2.8-k1.27-R1.8-G-5..-3"
+    },
+    {
+     "island": "open-both",
+     "gen": 3,
+     "is_t": 1.2,
+     "is_avgR": 0.053,
+     "ho_t": -0.45,
+     "ho_avgR": -0.018,
+     "id": "scan-open-both-M90-K3-th2.8-k1.27-R1.8-G-5..-3"
+    },
+    {
+     "island": "open-both",
+     "gen": 4,
+     "is_t": 1.2,
+     "is_avgR": 0.053,
+     "ho_t": -0.45,
+     "ho_avgR": -0.018,
+     "id": "scan-open-both-M90-K3-th2.8-k1.27-R1.8-G-5..-3"
+    },
+    {
+     "island": "open-both",
+     "gen": 5,
+     "is_t": 1.29,
+     "is_avgR": 0.041,
+     "ho_t": -0.25,
+     "ho_avgR": -0.008,
+     "id": "scan-open-both-M90-K3-th2.8-k1.85-R4.0-G-5..-3"
+    },
+    {
+     "island": "open-both",
+     "gen": 6,
+     "is_t": 1.29,
+     "is_avgR": 0.041,
+     "ho_t": -0.25,
+     "ho_avgR": -0.008,
+     "id": "scan-open-both-M90-K3-th2.8-k1.85-R4.0-G-5..-3"
+    },
+    {
+     "island": "open-both",
+     "gen": 7,
+     "is_t": 1.29,
+     "is_avgR": 0.041,
+     "ho_t": -0.25,
+     "ho_avgR": -0.008,
+     "id": "scan-open-both-M90-K3-th2.8-k1.85-R4.0-G-5..-3"
+    },
+    {
+     "island": "open-both",
+     "gen": 8,
+     "is_t": 1.39,
+     "is_avgR": 0.07,
+     "ho_t": -0.44,
+     "ho_avgR": -0.02,
+     "id": "scan-open-both-M90-K3-th2.8-k1.15-R4.0-G-5..-3"
+    },
+    {
+     "island": "open-both",
+     "gen": 9,
+     "is_t": 1.39,
+     "is_avgR": 0.07,
+     "ho_t": -0.44,
+     "ho_avgR": -0.02,
+     "id": "scan-open-both-M90-K3-th2.8-k1.15-R4.0-G-5..-3"
+    },
+    {
+     "island": "open-both",
+     "gen": 10,
+     "is_t": 1.39,
+     "is_avgR": 0.07,
+     "ho_t": -0.44,
+     "ho_avgR": -0.02,
+     "id": "scan-open-both-M90-K3-th2.8-k1.15-R4.0-G-5..-3"
+    },
+    {
+     "island": "open-both",
+     "gen": 11,
+     "is_t": 1.83,
+     "is_avgR": 0.129,
+     "ho_t": -0.67,
+     "ho_avgR": -0.041,
+     "id": "scan-open-both-M90-K3-th1.9-k1.85-R3.5-G-5..-5"
+    },
+    {
+     "island": "open-both",
+     "gen": 12,
+     "is_t": 1.83,
+     "is_avgR": 0.129,
+     "ho_t": -0.67,
+     "ho_avgR": -0.041,
+     "id": "scan-open-both-M90-K3-th1.9-k1.85-R3.5-G-5..-5"
+    },
+    {
+     "island": "prevclose-long",
+     "gen": 1,
+     "is_t": 1.18,
+     "is_avgR": 0.028,
+     "ho_t": -0.72,
+     "ho_avgR": -0.025,
+     "id": "scan-prevclose-long-M60-K1-th2.5-k1.75-R1.8-G-3..+1"
+    },
+    {
+     "island": "prevclose-long",
+     "gen": 2,
+     "is_t": 1.18,
+     "is_avgR": 0.028,
+     "ho_t": -0.72,
+     "ho_avgR": -0.025,
+     "id": "scan-prevclose-long-M60-K1-th2.5-k1.75-R1.8-G-3..+1"
+    },
+    {
+     "island": "prevclose-long",
+     "gen": 3,
+     "is_t": 1.39,
+     "is_avgR": 0.031,
+     "ho_t": -0.46,
+     "ho_avgR": -0.015,
+     "id": "scan-prevclose-long-M60-K1-th1.6-k1.75-R1.8-G-3..+1"
+    },
+    {
+     "island": "prevclose-long",
+     "gen": 4,
+     "is_t": 2.15,
+     "is_avgR": 0.166,
+     "ho_t": -0.18,
+     "ho_avgR": -0.012,
+     "id": "scan-prevclose-long-M60-K1-th2.9-k1.75-R1.8-G-3..-1"
+    },
+    {
+     "island": "prevclose-long",
+     "gen": 5,
+     "is_t": 2.15,
+     "is_avgR": 0.166,
+     "ho_t": -0.18,
+     "ho_avgR": -0.012,
+     "id": "scan-prevclose-long-M60-K1-th2.9-k1.75-R1.8-G-3..-1"
+    },
+    {
+     "island": "prevclose-long",
+     "gen": 6,
+     "is_t": 2.15,
+     "is_avgR": 0.166,
+     "ho_t": -0.18,
+     "ho_avgR": -0.012,
+     "id": "scan-prevclose-long-M60-K1-th2.9-k1.75-R1.8-G-3..-1"
+    },
+    {
+     "island": "prevclose-long",
+     "gen": 7,
+     "is_t": 2.15,
+     "is_avgR": 0.166,
+     "ho_t": -0.18,
+     "ho_avgR": -0.012,
+     "id": "scan-prevclose-long-M60-K1-th2.9-k1.75-R1.8-G-3..-1"
+    },
+    {
+     "island": "prevclose-long",
+     "gen": 8,
+     "is_t": 2.15,
+     "is_avgR": 0.166,
+     "ho_t": -0.18,
+     "ho_avgR": -0.012,
+     "id": "scan-prevclose-long-M60-K1-th2.9-k1.75-R1.8-G-3..-1"
+    },
+    {
+     "island": "prevclose-long",
+     "gen": 9,
+     "is_t": 2.22,
+     "is_avgR": 0.12,
+     "ho_t": 1.21,
+     "ho_avgR": 0.06,
+     "id": "scan-prevclose-long-M15-K4-th4.4-k0.55-R3.2-G-2..+3"
+    },
+    {
+     "island": "prevclose-long",
+     "gen": 10,
+     "is_t": 2.22,
+     "is_avgR": 0.12,
+     "ho_t": 1.21,
+     "ho_avgR": 0.06,
+     "id": "scan-prevclose-long-M15-K4-th4.4-k0.55-R3.2-G-2..+3"
+    },
+    {
+     "island": "prevclose-long",
+     "gen": 11,
+     "is_t": 2.23,
+     "is_avgR": 0.21,
+     "ho_t": -0.52,
+     "ho_avgR": -0.042,
+     "id": "scan-prevclose-long-M60-K1-th3.4-k1.51-R1.8-G-3..-1"
+    },
+    {
+     "island": "prevclose-long",
+     "gen": 12,
+     "is_t": 2.45,
+     "is_avgR": 0.253,
+     "ho_t": -1.98,
+     "ho_avgR": -0.136,
+     "id": "scan-prevclose-long-M90-K1-th3.4-k1.51-R1.8-G-3..-1"
+    },
+    {
+     "island": "prevclose-short",
+     "gen": 1,
+     "is_t": -0.23,
+     "is_avgR": -0.003,
+     "ho_t": -0.83,
+     "ho_avgR": -0.017,
+     "id": "scan-prevclose-short-M45-K3-th2.9-k1.80-R3.2-G-5..+7"
+    },
+    {
+     "island": "prevclose-short",
+     "gen": 2,
+     "is_t": -0.23,
+     "is_avgR": -0.003,
+     "ho_t": -0.83,
+     "ho_avgR": -0.017,
+     "id": "scan-prevclose-short-M45-K3-th2.9-k1.80-R3.2-G-5..+7"
+    },
+    {
+     "island": "prevclose-short",
+     "gen": 3,
+     "is_t": 0.44,
+     "is_avgR": 0.009,
+     "ho_t": -0.34,
+     "ho_avgR": -0.008,
+     "id": "scan-prevclose-short-M45-K3-th2.9-k1.80-R3.2-G-5..+1"
+    },
+    {
+     "island": "prevclose-short",
+     "gen": 4,
+     "is_t": 0.44,
+     "is_avgR": 0.009,
+     "ho_t": -0.34,
+     "ho_avgR": -0.008,
+     "id": "scan-prevclose-short-M45-K3-th2.9-k1.80-R3.2-G-5..+1"
+    },
+    {
+     "island": "prevclose-short",
+     "gen": 5,
+     "is_t": 0.88,
+     "is_avgR": 0.023,
+     "ho_t": -0.65,
+     "ho_avgR": -0.018,
+     "id": "scan-prevclose-short-M45-K3-th2.9-k1.02-R3.2-G-5..+1"
+    },
+    {
+     "island": "prevclose-short",
+     "gen": 6,
+     "is_t": 0.99,
+     "is_avgR": 0.036,
+     "ho_t": 0.55,
+     "ho_avgR": 0.021,
+     "id": "scan-prevclose-short-M45-K3-th4.7-k1.76-R0.7-G-5..+1"
+    },
+    {
+     "island": "prevclose-short",
+     "gen": 7,
+     "is_t": 1.14,
+     "is_avgR": 0.042,
+     "ho_t": 0.7,
+     "ho_avgR": 0.026,
+     "id": "scan-prevclose-short-M45-K3-th4.7-k1.57-R0.5-G-4..+1"
+    },
+    {
+     "island": "prevclose-short",
+     "gen": 8,
+     "is_t": 1.14,
+     "is_avgR": 0.042,
+     "ho_t": 0.7,
+     "ho_avgR": 0.026,
+     "id": "scan-prevclose-short-M45-K3-th4.7-k1.57-R0.5-G-4..+1"
+    },
+    {
+     "island": "prevclose-short",
+     "gen": 9,
+     "is_t": 1.21,
+     "is_avgR": 0.044,
+     "ho_t": 0.7,
+     "ho_avgR": 0.026,
+     "id": "scan-prevclose-short-M45-K3-th4.7-k1.57-R0.5-G-5..+1"
+    },
+    {
+     "island": "prevclose-short",
+     "gen": 10,
+     "is_t": 1.34,
+     "is_avgR": 0.048,
+     "ho_t": 0.78,
+     "ho_avgR": 0.029,
+     "id": "scan-prevclose-short-M45-K3-th4.7-k1.56-R0.5-G-6..+1"
+    },
+    {
+     "island": "prevclose-short",
+     "gen": 11,
+     "is_t": 1.6,
+     "is_avgR": 0.142,
+     "ho_t": 0.37,
+     "ho_avgR": 0.027,
+     "id": "scan-prevclose-short-M30-K3-th4.7-k2.00-R0.8-G-6..-1"
+    },
+    {
+     "island": "prevclose-short",
+     "gen": 12,
+     "is_t": 1.6,
+     "is_avgR": 0.142,
+     "ho_t": 0.37,
+     "ho_avgR": 0.027,
+     "id": "scan-prevclose-short-M30-K3-th4.7-k2.00-R0.8-G-6..-1"
+    },
+    {
+     "island": "prevclose-both",
+     "gen": 1,
+     "is_t": 0.64,
+     "is_avgR": 0.032,
+     "ho_t": -1.01,
+     "ho_avgR": -0.039,
+     "id": "scan-prevclose-both-M45-K5-th4.0-k1.65-R2.2-G-9..-1"
+    },
+    {
+     "island": "prevclose-both",
+     "gen": 2,
+     "is_t": 0.64,
+     "is_avgR": 0.032,
+     "ho_t": -1.01,
+     "ho_avgR": -0.039,
+     "id": "scan-prevclose-both-M45-K5-th4.0-k1.65-R2.2-G-9..-1"
+    },
+    {
+     "island": "prevclose-both",
+     "gen": 3,
+     "is_t": 0.64,
+     "is_avgR": 0.032,
+     "ho_t": -1.01,
+     "ho_avgR": -0.039,
+     "id": "scan-prevclose-both-M45-K5-th4.0-k1.65-R2.2-G-9..-1"
+    },
+    {
+     "island": "prevclose-both",
+     "gen": 4,
+     "is_t": 0.64,
+     "is_avgR": 0.032,
+     "ho_t": -1.01,
+     "ho_avgR": -0.039,
+     "id": "scan-prevclose-both-M45-K5-th4.0-k1.65-R2.2-G-9..-1"
+    },
+    {
+     "island": "prevclose-both",
+     "gen": 5,
+     "is_t": 0.7,
+     "is_avgR": 0.048,
+     "ho_t": -0.49,
+     "ho_avgR": -0.026,
+     "id": "scan-prevclose-both-M45-K2-th4.9-k1.54-R2.2-G-9..-1"
+    },
+    {
+     "island": "prevclose-both",
+     "gen": 6,
+     "is_t": 1.14,
+     "is_avgR": 0.071,
+     "ho_t": -1.21,
+     "ho_avgR": -0.054,
+     "id": "scan-prevclose-both-M45-K5-th4.0-k1.65-R2.2-G-3..-1"
+    },
+    {
+     "island": "prevclose-both",
+     "gen": 7,
+     "is_t": 1.14,
+     "is_avgR": 0.071,
+     "ho_t": -1.21,
+     "ho_avgR": -0.054,
+     "id": "scan-prevclose-both-M45-K5-th4.0-k1.65-R2.2-G-3..-1"
+    },
+    {
+     "island": "prevclose-both",
+     "gen": 8,
+     "is_t": 1.14,
+     "is_avgR": 0.071,
+     "ho_t": -1.21,
+     "ho_avgR": -0.054,
+     "id": "scan-prevclose-both-M45-K5-th4.0-k1.65-R2.2-G-3..-1"
+    },
+    {
+     "island": "prevclose-both",
+     "gen": 9,
+     "is_t": 1.14,
+     "is_avgR": 0.071,
+     "ho_t": -1.21,
+     "ho_avgR": -0.054,
+     "id": "scan-prevclose-both-M45-K5-th4.0-k1.65-R2.2-G-3..-1"
+    },
+    {
+     "island": "prevclose-both",
+     "gen": 10,
+     "is_t": 1.42,
+     "is_avgR": 0.044,
+     "ho_t": 0.54,
+     "ho_avgR": 0.016,
+     "id": "scan-prevclose-both-M30-K3-th5.0-k1.65-R2.2-G-2..+1"
+    },
+    {
+     "island": "prevclose-both",
+     "gen": 11,
+     "is_t": 1.34,
+     "is_avgR": 0.041,
+     "ho_t": 1.13,
+     "ho_avgR": 0.033,
+     "id": "scan-prevclose-both-M30-K5-th4.0-k1.83-R3.1-G-1..+1"
+    },
+    {
+     "island": "prevclose-both",
+     "gen": 12,
+     "is_t": 2.15,
+     "is_avgR": 0.056,
+     "ho_t": 1.13,
+     "ho_avgR": 0.03,
+     "id": "scan-prevclose-both-M45-K4-th4.7-k1.65-R2.2-G-0..+1"
+    }
+   ],
+   "added": [
+    "scan-open-long-M45-K2-th2.9-k1.42-R2.0-G-10..-2",
+    "scan-open-long-M45-K3-th3.2-k1.15-R0.6-G-10..-6",
+    "scan-open-long-M45-K3-th3.2-k1.42-R2.0-G-10..-2",
+    "scan-open-short-M120-K3-th3.6-k1.83-R2.3-G+6..+8",
+    "scan-open-short-M120-K3-th3.6-k1.85-R2.3-G+6..+8",
+    "scan-open-short-M120-K3-th3.6-k1.89-R2.1-G+6..+8",
+    "scan-open-both-M90-K3-th1.9-k1.85-R3.5-G-5..-5",
+    "scan-open-both-M120-K3-th1.9-k1.69-R3.5-G-5..-5",
+    "scan-open-both-M90-K3-th2.8-k1.15-R4.0-G-5..-3",
+    "scan-prevclose-long-M90-K1-th3.4-k1.51-R1.8-G-3..-1",
+    "scan-prevclose-long-M60-K1-th3.4-k1.51-R1.8-G-3..-1",
+    "scan-prevclose-long-M60-K1-th3.4-k1.51-R2.5-G-3..-1",
+    "scan-prevclose-short-M30-K3-th4.7-k2.00-R0.8-G-6..-1",
+    "scan-prevclose-short-M30-K3-th4.7-k1.28-R0.8-G-6..+1",
+    "scan-prevclose-short-M45-K3-th4.7-k1.56-R0.5-G-6..+1",
+    "scan-prevclose-both-M45-K4-th4.7-k1.65-R2.2-G-0..+1",
+    "scan-prevclose-both-M30-K4-th4.0-k1.65-R3.1-G-1..+1",
+    "scan-prevclose-both-M30-K5-th4.0-k1.83-R3.1-G-1..+1"
+   ],
+   "decision": "แชมป์ทดลองงาน scan-prevclose-short-M30-K3-th4.7-k1.28-R0.8-G-6..+1 (ความเสี่ยงครึ่งเดียว)"
+  }
+ ],
+ "n_tested_total": 4716
+}
