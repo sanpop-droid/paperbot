@@ -24,6 +24,7 @@ jobs:
       APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
       APCA_API_BASE_URL: https://paper-api.alpaca.markets/v2
       PYTHONUTF8: "1"
+      TZ: Asia/Bangkok   # เวลาใน log เป็นเวลาไทย
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
