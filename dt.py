@@ -2,7 +2,7 @@
 GitHub Actions เรียกทุก 15 นาทีระหว่างตลาดเปิด
   1) บันทึก trade ที่ปิดไปแล้ว
   2) เหลือ ≤ 35 นาทีก่อนปิด → ขายทุกตัวของบอทนี้ · ตำแหน่งค้างข้ามวัน → ขายทันที
-  3) ถึงนาทีที่ M ของแชมป์ (และวันนี้ยังไม่สแกน) → สแกน universe 300 ตัว จัดอันดับ ซื้อ K อันดับแรก (bracket DAY)
+  3) ถึงนาทีที่ M ของแชมป์ (และวันนี้ยังไม่สแกน) → สแกน universe จัดอันดับ → long ตัวที่ขึ้นแรงสุด และ/หรือ short ตัวที่ลงแรงสุด (bracket DAY)
 """
 import math, datetime as dt, traceback
 import strategy as S, scanstrat as SC
@@ -21,22 +21,23 @@ def session_minute(now_ny):
 def reconcile(broker, st, trades, pos):
     for sym, info in list(st["open"].items()):
         if sym in pos: continue
-        fills = broker.fills(sym, info["submitted"])
-        buys = [f for f in fills if f[0] == "buy"]; sells = [f for f in fills if f[0] == "sell"]
-        if buys and sells:
-            entry = buys[0][1]; ex = sells[-1]; risk = entry - info["stop"]
+        fills = broker.fills(sym, info["submitted"]); d = info.get("dir", 1)
+        ins = [f for f in fills if f[0] == ("buy" if d > 0 else "sell")]; outs = [f for f in fills if f[0] == ("sell" if d > 0 else "buy")]
+        if ins and outs:
+            entry = ins[0][1]; ex = outs[-1]; risk = d * (entry - info["stop"])
             how = {"limit": "target", "stop": "stop"}.get(ex[3], "time")
-            trades.append({"sym": sym, "gid": info["gid"], "entry_d": buys[0][4][:10], "exit_d": ex[4][:10], "entry": entry, "exit": ex[1],
-                           "qty": buys[0][2], "how": how, "R": (ex[1] - entry) / risk if risk > 0 else 0, "pnl": (ex[1] - entry) * buys[0][2],
-                           "t_in": buys[0][4][11:16], "t_out": ex[4][11:16], "rank": info.get("rank"), "score": info.get("score")})
-            log(f"{sym}: ปิดแล้ว ({how}) R={trades[-1]['R']:+.2f} P&L ${trades[-1]['pnl']:+,.2f}")
-        elif not buys:
+            trades.append({"sym": sym, "gid": info["gid"], "dir": d, "entry_d": ins[0][4][:10], "exit_d": ex[4][:10], "entry": entry, "exit": ex[1],
+                           "qty": ins[0][2], "how": how, "R": d * (ex[1] - entry) / risk if risk > 0 else 0, "pnl": d * (ex[1] - entry) * ins[0][2],
+                           "t_in": ins[0][4][11:16], "t_out": ex[4][11:16], "rank": info.get("rank"), "score": info.get("score")})
+            log(f"{sym}: ปิดแล้ว ({'long' if d > 0 else 'short'} · {how}) R={trades[-1]['R']:+.2f} P&L ${trades[-1]['pnl']:+,.2f}")
+        elif not ins:
             log(f"{sym}: คำสั่งซื้อไม่ได้ fill · ลบออก")
         del st["open"][sym]
 
 def run(broker, loader, force_minute=None):
     cfg_all = config(); cfg = cfg_all["scan"]; swing = set(cfg_all["symbols"])
-    U = [s for s in load_json("universe.json", {}).get("symbols", []) if s not in swing]
+    UJ = load_json("universe.json", {}); no_short = set(UJ.get("no_short", []))
+    U = [s for s in UJ.get("symbols", []) if s not in swing]
     st = load_json("dt_state.json", {"open": {}, "scanned": {}})
     st.setdefault("scanned", {}); st.pop("traded", None)
     trades = load_json("dt_trades.json", [])
@@ -71,12 +72,12 @@ def run(broker, loader, force_minute=None):
             pc = dd[prev[-1]][-1][4] if prev and dd[prev[-1]] else None
             if len(bars) >= 2 and bars[0][1] >= cfg["min_price"]:
                 infos.append(SC.Info(sym, bars, pc))
-        picks = SC.rank(g, infos, exclude=set(pos) | swing)
-        st["scanned"][today] = [{"sym": x.sym, "score": round(s, 4)} for s, x in picks]
-        log(f"สแกน {len(infos)} ตัว ณ นาทีที่ {g['M']} → อันดับ: " + (", ".join(f"{x.sym} {s*100:+.1f}%" for s, x in picks) or "ไม่มีตัวผ่านเกณฑ์"))
+        picks = SC.rank(g, infos, exclude=set(pos) | swing, no_short=no_short)
+        st["scanned"][today] = [{"sym": x.sym, "score": round(s, 4), "dir": di} for s, x, di in picks]
+        log(f"สแกน {len(infos)} ตัว ณ นาทีที่ {g['M']} → " + (", ".join(f"{'L' if di > 0 else 'S'} {x.sym} {s*100:+.1f}%" for s, x, di in picks) or "ไม่มีตัวผ่านเกณฑ์"))
         cap = acct["equity"] * cfg["capital_share"]
         risk_pct = cfg["risk_per_trade_pct"] / 100 * (0.5 if champ.get("probation") else 1)
-        for r, (s, x) in enumerate(picks, 1):
+        for r, (s, x, di) in enumerate(picks, 1):
             if len(st["open"]) >= cfg["max_open_positions"]:
                 break
             risk = g["k_stop"] * 3 * x.atr_at[g["M"]]
@@ -86,15 +87,15 @@ def run(broker, loader, force_minute=None):
             qty = min(math.floor(cap * risk_pct / risk), math.floor(cap * cfg["max_position_pct"] / 100 / px))
             if qty < 1:
                 log(f"{x.sym}: ขนาดไม่ถึง 1 หุ้น · ข้าม"); continue
-            stop, target = px - risk, px + g["R"] * risk
+            stop, target = px - di * risk, px + di * g["R"] * risk
             try:
-                oid = broker.submit_bracket(x.sym, qty, stop, target, f"pbs-{x.sym}-{today}", tif="day")
+                oid = broker.submit_bracket(x.sym, qty, stop, target, f"pbs-{x.sym}-{today}", tif="day", short=di < 0)
             except Exception as e:
                 log(f"{x.sym}: ส่งคำสั่งไม่สำเร็จ: {e}"); continue
             now = clk["now_ny"]
-            st["open"][x.sym] = {"gid": champ["id"], "qty": qty, "ref": px, "stop": stop, "target": target, "entry_day": today, "rank": r,
+            st["open"][x.sym] = {"gid": champ["id"], "dir": di, "qty": qty, "ref": px, "stop": stop, "target": target, "entry_day": today, "rank": r,
                                  "score": round(s, 4), "submitted": now.isoformat() if hasattr(now, "isoformat") else str(now), "order": oid}
-            log(f"{x.sym}: อันดับ {r} (+{s*100:.1f}%) ซื้อ {qty} หุ้น ~${px:.2f} · stop ${stop:.2f} · target ${target:.2f}")
+            log(f"{x.sym}: {'ซื้อ (long)' if di > 0 else 'short'} {qty} หุ้น ~${px:.2f} ({s*100:+.1f}%) · stop ${stop:.2f} · target ${target:.2f}")
     finally:
         save_json("dt_state.json", st); save_json("dt_trades.json", trades)
 

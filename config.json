@@ -13,13 +13,13 @@
   "slippage": 0.0005,
   "note": "บอท swing ใช้ symbols ชุดบน · บอท scanner (day trade) ใช้ universe 300 ตัวที่สภาพคล่องสูงสุด (สร้างใหม่ทุกเสาร์ ไม่รวมหุ้น swing) · แต่ละบอทใช้เงิน capital_share ของ equity · risk_per_trade_pct = % ของเงินส่วนนั้นที่ยอมเสียต่อ trade · max_position_pct = % ของเงินส่วนนั้นต่อ 1 ตัว",
   "scan": {
-    "universe_size": 300,
+    "universe_size": 200,
     "min_price": 5,
     "capital_share": 0.5,
     "risk_per_trade_pct": 0.5,
-    "max_position_pct": 25,
-    "max_open_positions": 5,
+    "max_position_pct": 20,
+    "max_open_positions": 10,
     "promote_min_forward_trades": 20,
-    "history_days": 365
+    "history_days": 1095
   }
 }

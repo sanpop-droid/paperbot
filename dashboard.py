@@ -55,12 +55,14 @@ def day_md():
     if r: out += [f"> evolve ล่าสุด {r['date']}: {r['decision']} · เทียบ: ซื้อทุกตัวเช้า-ขายเย็น เฉลี่ย {r.get('bh_holdout', 0)*100:+.2f}%/วัน (holdout)", ""]
     sc = st.get("scanned", {})
     if sc:
-        d0 = max(sc); out += [f"**สแกนล่าสุด {d0}:** " + (", ".join(f"{p['sym']} {p['score']*100:+.1f}%" for p in sc[d0]) or "ไม่มีตัวผ่านเกณฑ์"), ""]
+        d0 = max(sc); out += [f"**สแกนล่าสุด {d0}:** " + (", ".join(f"{'L' if p.get('dir', 1) > 0 else 'S'} {p['sym']} {p['score']*100:+.1f}%" for p in sc[d0]) or "ไม่มีตัวผ่านเกณฑ์"), ""]
+    if r and r.get("wf"):
+        w = r["wf"]; out += [f"**Walk-forward (นอกตัวอย่างทั้งหมด):** {w['n']} trade · avg R {w['avgR']:+.3f} · ชนะ {w['win']*100:.0f}% · **t = {w['t']}** (เกณฑ์ ≈ 2)", ""]
     if st.get("open"):
         out += ["| ถืออยู่ | จำนวน | stop | target |", "|---|---|---|---|"] + [f"| {s} | {o['qty']} | {o['stop']:.2f} | {o['target']:.2f} |" for s, o in st["open"].items()] + [""]
     if tr:
         out += ["| หุ้น | วัน | เข้า→ออก | แบบ | R | P&L |", "|---|---|---|---|---|---|"]
-        out += [f"| {t['sym']} | {t['entry_d']} | {t.get('t_in','')}→{t.get('t_out','')} | {t['how']} | {t['R']:+.2f} | {t['pnl']:+,.2f} |" for t in reversed(tr[-15:])]
+        out += [f"| {'🔻' if t.get('dir', 1) < 0 else ''}{t['sym']} | {t['entry_d']} | {t.get('t_in','')}→{t.get('t_out','')} | {t['how']} | {t['R']:+.2f} | {t['pnl']:+,.2f} |" for t in reversed(tr[-15:])]
     return out
 
 def build():

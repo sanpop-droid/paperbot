@@ -60,10 +60,10 @@ class AlpacaBroker:
         r = self.d.get_stock_latest_trade(StockLatestTradeRequest(symbol_or_symbols=sym, feed=DataFeed.IEX))
         return float(r[sym].price)
 
-    def submit_bracket(self, sym, qty, stop, target, cid, tif="gtc"):
+    def submit_bracket(self, sym, qty, stop, target, cid, tif="gtc", short=False):
         from alpaca.trading.requests import MarketOrderRequest, TakeProfitRequest, StopLossRequest
         from alpaca.trading.enums import OrderSide, TimeInForce, OrderClass
-        o = self.t.submit_order(MarketOrderRequest(symbol=sym, qty=qty, side=OrderSide.BUY,
+        o = self.t.submit_order(MarketOrderRequest(symbol=sym, qty=qty, side=OrderSide.SELL if short else OrderSide.BUY,
                                                    time_in_force=TimeInForce.DAY if tif == "day" else TimeInForce.GTC,
                                                    order_class=OrderClass.BRACKET, client_order_id=cid,
                                                    take_profit=TakeProfitRequest(limit_price=round(target, 2)),
