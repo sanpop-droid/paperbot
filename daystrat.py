@@ -5,23 +5,31 @@
 ประเภทกฎ
   orb  = Opening Range Breakout: ราคาปิดทะลุจุดสูงสุดของช่วงแรก (15–60 นาที) → ซื้อ
   vwap = ราคาตัดขึ้นเหนือ VWAP (ราคาเฉลี่ยถ่วงปริมาณของวันนี้) → ซื้อ
+  momo = Intraday momentum: ช่วงแรกของวันขึ้นแรงเกิน th → ซื้อตาม (แรงซื้อเช้ามักต่อเนื่อง)
+  dip  = Mean reversion: ราคาร่วงต่ำกว่า VWAP เกิน dev × ATR แล้วแท่งล่าสุดเป็นแท่งเขียว → ซื้อรับการเด้ง
+ตัวกรองทุกประเภท: gap = (ราคาเปิด ÷ ราคาปิดเมื่อวาน − 1) ต้องอยู่ในช่วงที่ GA เลือก
 ออก: bracket stop/target ตั้งที่ Alpaca + ปิดทั้งหมดก่อนตลาดปิด (FLAT_BEFORE นาที)
 """
-import math
+import math, bisect
 import strategy as S
 
 SESSION = 390          # 9:30–16:00 = 390 นาที
 DECIDE_EVERY = 15      # บอทรันทุก 15 นาที
 FLAT_BEFORE = 35       # ปิดทุกตำแหน่งเมื่อเหลือเวลา ≤ 35 นาที (มีโอกาสรันได้ 2 รอบ)
 
-TYPES = ["orb", "vwap"]
+TYPES = ["orb", "vwap", "momo", "dip"]
 RANGES = {
     "or_min": (15, 60, True),      # orb: ความยาว opening range (นาที, ปัดเป็น 5)
     "k_stop": (0.3, 1.5, False),   # orb: stop = k × ความกว้าง OR · vwap: stop = k × ATR5 × 3
     "R": (0.5, 3.0, False),        # target กี่ R
     "last_entry": (60, 300, True), # ไม่เปิด trade ใหม่หลังนาทีที่เท่านี้ของวัน
     "min_gap": (0, 3, False),      # vwap: ต้องเคยอยู่ใต้ VWAP อย่างน้อยกี่จุดตัดสินใจ (0–3)
+    "th": (0.002, 0.03, False),    # momo: ช่วง or_min นาทีแรกต้องขึ้นอย่างน้อย th (0.2%–3%)
+    "dev": (0.5, 3.0, False),      # dip: ต่ำกว่า VWAP กี่เท่าของ 3×ATR(5 นาที)
+    "gap_lo": (-0.05, 0.05, False),  # ตัวกรอง gap: ต้อง ≥ gap_lo (−5% = แทบไม่กรอง)
+    "gap_hi": (-0.05, 0.05, False),  # ตัวกรอง gap: ต้อง ≤ gap_hi (+5% = แทบไม่กรอง)
 }
+DEFAULTS = {"th": 0.005, "dev": 1.0, "gap_lo": -0.05, "gap_hi": 0.05}
 
 def random_genome(rng):
     g = {"type": rng.choice(TYPES)}
@@ -30,36 +38,53 @@ def random_genome(rng):
     return fix(g)
 
 def fix(g):
+    for k, v in DEFAULTS.items():
+        g.setdefault(k, v)
     for k, (lo, hi, isint) in RANGES.items():
         v = min(hi, max(lo, g[k])); g[k] = int(round(v)) if isint else round(v, 2)
     g["or_min"] = max(15, 5 * round(g["or_min"] / 5))
     g["last_entry"] = max(g["or_min"] + 15, g["last_entry"])
+    if g["gap_lo"] > g["gap_hi"]:
+        g["gap_lo"], g["gap_hi"] = g["gap_hi"], g["gap_lo"]
     return g
 
-def mutate(g, rng, rate=0.3):
-    c = dict(g)
+def mutate(g, rng, rate=0.3, scale=0.15):
+    c = fix(dict(g))
     for k, (lo, hi, isint) in RANGES.items():
         if rng.random() < rate:
-            c[k] = c[k] + rng.gauss(0, (hi - lo) * 0.15)
+            c[k] = c[k] + rng.gauss(0, (hi - lo) * scale)
     return fix(c)
 
 def crossover(a, b, rng):
+    a, b = fix(dict(a)), fix(dict(b))
     return fix({k: (a[k] if rng.random() < 0.5 else b[k]) for k in a})
 
+def gap_on(g):
+    return g["gap_lo"] > -0.045 or g["gap_hi"] < 0.045
+
 def gid(g):
-    core = f"or{g['or_min']}" if g["type"] == "orb" else f"gap{g['min_gap']:.0f}"
-    return f"{g['type']}-{core}-k{g['k_stop']:.2f}-R{g['R']:.1f}-L{g['last_entry']}"
+    g = fix(dict(g))
+    core = {"orb": f"or{g['or_min']}", "vwap": f"gap{g['min_gap']:.0f}", "momo": f"or{g['or_min']}-th{g['th']*100:.1f}",
+            "dip": f"dev{g['dev']:.1f}"}[g["type"]]
+    gf = f"-G{g['gap_lo']*100:+.0f}..{g['gap_hi']*100:+.0f}" if gap_on(g) else ""
+    return f"{g['type']}-{core}-k{g['k_stop']:.2f}-R{g['R']:.1f}-L{g['last_entry']}{gf}"
 
 def describe_th(g):
-    t = (f"ซื้อเมื่อราคาปิดทะลุจุดสูงสุดของ {g['or_min']} นาทีแรก · stop {g['k_stop']:.2f} × ความกว้างช่วงนั้น"
-         if g["type"] == "orb" else
-         f"ซื้อเมื่อราคาตัดขึ้นเหนือ VWAP (หลังอยู่ใต้ ≥ {g['min_gap']:.0f} รอบ) · stop {g['k_stop']:.2f} × 3 ATR(5 นาที)")
+    g = fix(dict(g))
+    t = {"orb": f"ซื้อเมื่อราคาปิดทะลุจุดสูงสุดของ {g['or_min']} นาทีแรก · stop {g['k_stop']:.2f} × ความกว้างช่วงนั้น",
+         "vwap": f"ซื้อเมื่อราคาตัดขึ้นเหนือ VWAP (หลังอยู่ใต้ ≥ {g['min_gap']:.0f} รอบ) · stop {g['k_stop']:.2f} × 3 ATR(5 นาที)",
+         "momo": f"ซื้อเมื่อ {g['or_min']} นาทีแรกขึ้นแล้ว ≥ {g['th']*100:.1f}% (ตามแรงซื้อเช้า) · stop {g['k_stop']:.2f} × 3 ATR(5 นาที)",
+         "dip": f"ซื้อเมื่อราคาต่ำกว่า VWAP เกิน {g['dev']:.1f} × 3 ATR แล้วแท่งล่าสุดปิดเขียว (รับการเด้ง) · stop {g['k_stop']:.2f} × 3 ATR(5 นาที)"}[g["type"]]
+    if gap_on(g):
+        t += f" · เฉพาะวันที่ gap เปิด {g['gap_lo']*100:+.1f}% ถึง {g['gap_hi']*100:+.1f}%"
     return f"{t} · target {g['R']:.1f}R · เปิด trade ได้ถึงนาทีที่ {g['last_entry']} · ปิดทุกตัวก่อนตลาดปิด {FLAT_BEFORE} นาที"
 
 # ---------------- ตัวช่วยต่อวัน ----------------
 class Day:
-    def __init__(self, bars):
+    def __init__(self, bars, prev_close=None):
         self.b = bars  # [(m,o,h,l,c,v)]
+        self.prev_close = prev_close
+        self.gap = (bars[0][1] / prev_close - 1) if prev_close else 0.0
         self.m = [x[0] for x in bars]
         pv = v = 0.0; self.vwap = []
         for (_, o, h, l, c, vol) in bars:
@@ -70,19 +95,28 @@ class Day:
 
     def idx_done_by(self, minute):
         """index ของแท่งสุดท้ายที่ "ปิดแล้ว" ณ เวลา minute (แท่ง m จบที่ m+5)"""
-        k = -1
-        for i, m in enumerate(self.m):
-            if m + 5 <= minute: k = i
-            else: break
-        return k
+        return bisect.bisect_right(self.m, minute - 5) - 1
 
 def decide(g, day, minute, prev_minute=None):
     """สัญญาณซื้อ ณ จุดตัดสินใจ minute → (True, ref_price, risk) หรือ (False, None, None)"""
     if minute > g["last_entry"] or minute > SESSION - FLAT_BEFORE:
         return False, None, None
+    g = fix(dict(g)) if "gap_lo" not in g else g
+    if day.prev_close and not (g["gap_lo"] <= day.gap <= g["gap_hi"]):
+        return False, None, None
     i = day.idx_done_by(minute)
     if i < 0: return False, None, None
     c = day.b[i][4]
+    if g["type"] == "momo":
+        n = g["or_min"] // 5
+        if i < n - 1 or minute < g["or_min"]: return False, None, None
+        r = day.b[n - 1][4] / day.b[0][1] - 1
+        return (True, c, g["k_stop"] * 3 * day.atr[i]) if r >= g["th"] and c > day.vwap[i] else (False, None, None)
+    if g["type"] == "dip":
+        a = day.atr[i]; b = day.b[i]
+        if c < day.vwap[i] - g["dev"] * 3 * a and b[4] > b[1]:
+            return True, c, g["k_stop"] * 3 * a
+        return False, None, None
     if g["type"] == "orb":
         n = g["or_min"] // 5
         if i < n: return False, None, None
@@ -99,20 +133,29 @@ def decide(g, day, minute, prev_minute=None):
             return False, None, None
     return True, c, g["k_stop"] * 3 * day.atr[i]
 
+_CACHE = {}
+
 def backtest(g, days, start=None, end=None, slip=0.0005, decide_offset=0):
     """1 trade ต่อหุ้นต่อวันสูงสุด · เข้าที่ราคาเปิดของแท่งถัดไป · stop ก่อนถ้าชนทั้งคู่ · ปิดตามเวลาเมื่อเหลือ ≤ FLAT_BEFORE นาที"""
     trades = []
     for sym, dd in days.items():
-        for d, bars in dd.items():
+        prev = None
+        for d in sorted(dd):
+            bars = dd[d]
+            pc, prev = prev, (bars[-1][4] if bars else prev)
             if (start and d < start) or (end and d > end) or len(bars) < 20:
                 continue
-            day = Day(bars)
+            key = (sym, d, len(bars))
+            day = _CACHE.get(key)
+            if day is None:
+                day = _CACHE[key] = Day(bars, pc)
+            gg = fix(dict(g))
             for minute in range(DECIDE_EVERY + decide_offset, SESSION, DECIDE_EVERY):
-                ok, ref, risk = decide(g, day, minute)
+                ok, ref, risk = decide(gg, day, minute)
                 if not ok or risk <= 0: continue
                 e = day.idx_done_by(minute) + 1
                 if e >= len(bars): break
-                entry = bars[e][1] * (1 + slip); stop, target = entry - risk, entry + g["R"] * risk
+                entry = bars[e][1] * (1 + slip); stop, target = entry - risk, entry + gg["R"] * risk
                 flat_m = next((mm for mm in range(minute, SESSION + 1, DECIDE_EVERY) if mm >= SESSION - FLAT_BEFORE), SESSION)
                 exit_px, how = None, "time"
                 for j in range(e, len(bars)):

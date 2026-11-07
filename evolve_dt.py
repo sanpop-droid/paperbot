@@ -1,5 +1,6 @@
 """evolve_dt.py — GA สำหรับกฎ Day trade (แท่ง 5 นาที ย้อนหลัง ~6 เดือน)
-2 เกาะ (orb / vwap) × 16 × 10 รุ่น · train 70% / holdout 30% ตามวันที่ · ผู้สมัครเทรดแบบเงา · เลื่อนแชมป์จาก forward test"""
+4 เกาะ (orb / vwap / momo / dip) × 16 × 10 รุ่น · ทุกกฎมียีนตัวกรอง gap
+คะแนน = robust fitness (train แบ่ง 3 ช่วง ต้องกำไรสม่ำเสมอ) · holdout 30% + stability test · ผู้สมัครเทรดแบบเงา · เลื่อนแชมป์จาก forward test"""
 import random, datetime as dt, sys
 import strategy as S, daystrat as D
 from common import config, load_json, save_json, load_5min_alpaca
@@ -12,6 +13,8 @@ def run(days, today, seed=None, pop_n=16, gens=10, log=print):
     split = dates[int(len(dates) * 0.7)]
     P = load_json("population_dt.json", {"champion": None, "candidates": [], "runs": [], "n_tested_total": 0})
     gen_log, tested, final = [], 0, []
+    tr_dates = [d for d in dates if d < split]
+    edges = [tr_dates[len(tr_dates) // 3], tr_dates[2 * len(tr_dates) // 3]]
     for typ in D.TYPES:
         def rnd():
             g = D.random_genome(rng); g["type"] = typ; return g
@@ -20,8 +23,9 @@ def run(days, today, seed=None, pop_n=16, gens=10, log=print):
         for gnum in range(gens):
             scored = []
             for g in pop:
-                m = S.metrics(D.backtest(g, days, end=split)); tested += 1
-                scored.append((S.fitness(m, min_n=30), g, m))
+                trs = D.backtest(g, days, end=split); m = S.metrics(trs); tested += 1
+                fit, pos = S.robust_fitness(trs, edges, min_n=30); m["consistency"] = pos
+                scored.append((fit, g, m))
             scored.sort(key=lambda x: -x[0])
             best = scored[0]; ho = S.metrics(D.backtest(best[1], days, start=split))
             gen_log.append({"island": typ, "gen": gnum + 1, "is_t": round(best[2]["tstat"], 2), "is_avgR": round(best[2]["avgR"], 3),
@@ -37,14 +41,16 @@ def run(days, today, seed=None, pop_n=16, gens=10, log=print):
         seen, k = set(), 0
         for fit, g, mi in scored:
             if D.gid(g) in seen: continue
-            seen.add(D.gid(g)); final.append((fit, g, mi, S.metrics(D.backtest(g, days, start=split)))); k += 1
+            seen.add(D.gid(g)); mh = S.metrics(D.backtest(g, days, start=split))
+            mh["stability"] = S.stability(g, lambda x: S.metrics(D.backtest(x, days, start=split)), D.mutate, rng); tested += 6
+            final.append((fit, g, mi, mh)); k += 1
             if k == 3: break
     P["n_tested_total"] = P.get("n_tested_total", 0) + tested
     known = {c["id"] for c in P["candidates"]}; added = []
     for fit, g, mi, mh in final:
         if mh["n"] >= 10 and D.gid(g) not in known:
             P["candidates"].append({"id": D.gid(g), "g": g, "born": today, "train": mi, "holdout": mh, "desc": D.describe_th(g),
-                                    "passed_holdout": mh["n"] >= 20 and mh["avgR"] > 0}); added.append(D.gid(g)); known.add(D.gid(g))
+                                    "passed_holdout": mh["n"] >= 20 and mh["avgR"] > 0 and mh.get("stability", 1) >= 0.5}); added.append(D.gid(g)); known.add(D.gid(g))
     for c in P["candidates"]:
         c["forward"] = S.metrics(D.backtest(c["g"], days, start=c["born"]))
     P["candidates"].sort(key=lambda c: (-(c["forward"]["avgR"] if c["forward"]["n"] >= 10 else 0), -c["holdout"]["tstat"]))

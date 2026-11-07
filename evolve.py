@@ -3,8 +3,11 @@
 
 ขั้นตอน
  1. แบ่งข้อมูล 3 ปี: 70% แรก = train (ให้ GA หา) · 30% หลัง = holdout (GA ไม่เคยเห็น)
- 2. GA แบบ 3 เกาะ (breakout / pullback / trend) เกาะละ 16 ชุด → คะแนนบน train → คัดตัวเก่ง → ผสม/กลายพันธุ์ × 12 รุ่น
- 3. 3 อันดับแรกของแต่ละเกาะเป็น "ผู้สมัคร" พร้อมผล holdout (ผ่าน = avg R > 0 และ trade ≥ 10)
+ 2. GA แบบ 7 เกาะ (breakout / pullback / trend / bollinger / macd / roc / nr) เกาะละ 16 ชุด × 12 รุ่น
+    คะแนน = robust fitness: t-stat × ความสม่ำเสมอ (train แบ่ง 3 ช่วง ต้องกำไรหลายช่วง ไม่ใช่รวยช่วงเดียว)
+    ทุกกฎมียีน regime (กรองให้เทรดเฉพาะตอนราคาอยู่เหนือ SMA ยาว) ให้ GA เลือกเปิด/ปิดเอง
+ 3. 3 อันดับแรกของแต่ละเกาะเป็น "ผู้สมัคร" พร้อมผล holdout + stability test
+    (ผ่าน = avg R > 0, trade ≥ 10 และขยับพารามิเตอร์เล็กน้อยแล้วยังกำไร ≥ 50%)
  4. ผู้สมัครทุกตัวถูกจดวันเกิด (born) แล้วเทรดแบบเงา — ผลหลังวันเกิดคือ forward test ของจริง
  5. เปลี่ยนแชมป์ (ตัวที่เทรดจริงใน Alpaca paper) เฉพาะเมื่อผู้ท้าชิงชนะใน forward test
 """
@@ -21,6 +24,8 @@ def run(bars, today, seed=None, pop_n=16, gens=12, log=print):
 
     # ---- GA บนช่วง train แบบ "เกาะ" (island model): แต่ละประเภทกฎวิวัฒนาการแยกกัน เพื่อไม่ให้ทุกตัวหน้าตาเหมือนกัน ----
     gen_log, tested, final = [], 0, []
+    tr_dates = [d for d in dates if d < split]
+    edges = [tr_dates[len(tr_dates) // 3], tr_dates[2 * len(tr_dates) // 3]]  # แบ่ง train เป็น 3 ช่วง สำหรับ robust fitness
     for typ in S.TYPES:
         def rnd():
             g = S.random_genome(rng); g["type"] = typ; return g
@@ -30,8 +35,9 @@ def run(bars, today, seed=None, pop_n=16, gens=12, log=print):
         for gnum in range(gens):
             scored = []
             for g in pop:
-                m = S.metrics(S.backtest(g, inds, end=split)); tested += 1
-                scored.append((S.fitness(m), g, m))
+                trs = S.backtest(g, inds, end=split); m = S.metrics(trs); tested += 1
+                fit, pos = S.robust_fitness(trs, edges); m["consistency"] = pos
+                scored.append((fit, g, m))
             scored.sort(key=lambda x: -x[0])
             best = scored[0]; ho = S.metrics(S.backtest(best[1], inds, start=split))
             gen_log.append({"island": typ, "gen": gnum + 1, "is_t": round(best[2]["tstat"], 2), "is_avgR": round(best[2]["avgR"], 3),
@@ -50,6 +56,7 @@ def run(bars, today, seed=None, pop_n=16, gens=12, log=print):
         for fit, g, mi in scored:
             if S.gid(g) in seen: continue
             seen.add(S.gid(g)); mh = S.metrics(S.backtest(g, inds, start=split))
+            mh["stability"] = S.stability(g, lambda x: S.metrics(S.backtest(x, inds, start=split)), S.mutate, rng); tested += 6
             final.append((fit, g, mi, mh)); k += 1
             if k == 3: break
     P["n_tested_total"] = P.get("n_tested_total", 0) + tested
@@ -60,7 +67,7 @@ def run(bars, today, seed=None, pop_n=16, gens=12, log=print):
     for fit, g, mi, mh in final:
         if mh["n"] >= 5 and S.gid(g) not in known:  # ทุกตัวได้ลงสนาม forward test แบบเงา; holdout ใช้จัดอันดับ
             c = {"id": S.gid(g), "g": g, "born": today, "train": mi, "holdout": mh, "desc": S.describe_th(g),
-                 "passed_holdout": mh["n"] >= 10 and mh["avgR"] > 0}
+                 "passed_holdout": mh["n"] >= 10 and mh["avgR"] > 0 and mh.get("stability", 1) >= 0.5}
             P["candidates"].append(c); added.append(c["id"]); known.add(c["id"])
     # ---- forward test ของทุกผู้สมัคร (สัญญาณหลังวันเกิดเท่านั้น) ----
     for c in P["candidates"]:

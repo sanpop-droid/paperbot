@@ -70,9 +70,11 @@ def run(broker, bars_loader, force_minute=None):
         for sym in syms:
             if sym in pos or sym in done or sym in st["open"] or n_open >= cfg["max_open_positions"]:
                 continue
-            bars = days.get(sym, {}).get(today, [])
+            dd = days.get(sym, {}); bars = dd.get(today, [])
             if len(bars) < 3: continue
-            ok, ref, risk = D.decide(g, D.Day(bars), minute)
+            prev = sorted(d for d in dd if d < today)
+            pc = dd[prev[-1]][-1][4] if prev and dd[prev[-1]] else None   # ราคาปิดเมื่อวาน (ใช้กับตัวกรอง gap)
+            ok, ref, risk = D.decide(g, D.Day(bars, pc), minute)
             if not ok or risk <= 0: continue
             try: px = broker.latest_price(sym)
             except Exception: px = ref
@@ -94,7 +96,7 @@ def run(broker, bars_loader, force_minute=None):
 def today_loader(syms, today):
     from zoneinfo import ZoneInfo
     ny = ZoneInfo("America/New_York")
-    start = dt.datetime.fromisoformat(today + "T09:30").replace(tzinfo=ny).astimezone(dt.timezone.utc)
+    start = (dt.datetime.fromisoformat(today + "T09:30").replace(tzinfo=ny) - dt.timedelta(days=6)).astimezone(dt.timezone.utc)  # รวมวันก่อนหน้าเพื่อหาราคาปิดเมื่อวาน
     return load_5min_alpaca(syms, feed="iex", start=start)
 
 if __name__ == "__main__":
