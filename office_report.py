@@ -66,6 +66,12 @@ def build():
     out["mode"] = ks.get("mode", "paper"); out["mode_config"] = cfg.get("mode", "paper"); out["endpoint"] = "paper"
     out["killswitch"] = {k: ks.get(k) for k in ("active", "reason", "since", "date", "dd_r", "limits", "checked")} if ks else {"active": False}
     out["day_loss_r"] = ks.get("day_loss_r", 0); out["day_loss_date"] = ks.get("date")   # วันตามเวลา NY ของบอท
+    # shadow test ของตัวเต็งอันดับ 2–3 (trade สมมติ ไม่ได้ส่งคำสั่ง)
+    sh = j("scan_shadow.json", {}); shtr = j("shadow_trades.json", {}).get("trades", [])
+    out["scan"]["shadow"] = []
+    for c in sh.get("shadow", []):
+        mm = m([t for t in shtr if t.get("id") == c["id"]])
+        out["scan"]["shadow"].append({"id": c["id"], "n": mm["n"], "avgR": mm["avgR"], "win": mm["win"], "tstat": mm.get("t", 0)})
     # สถานะตัวละครในออฟฟิศ (ส่วนที่คำนวณได้จากข้อมูล · บทบาทวิเคราะห์ให้ scheduled task เติม)
     sc_line = ("สแกน " + last_day + ": " + (", ".join(("L " if p.get("dir", 1) > 0 else "S ") + p["sym"] for p in scanned[last_day]) or "ไม่มีตัวผ่านเกณฑ์")) if last_day else "รอสแกนครั้งแรก"
     out["roles"] = {

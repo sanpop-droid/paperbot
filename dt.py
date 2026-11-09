@@ -7,6 +7,7 @@ GitHub Actions เรียกทุก 15 นาทีระหว่างต�
 import math, datetime as dt, traceback
 import strategy as S, scanstrat as SC
 import safety
+import shadow
 from common import config, load_json, save_json, load_5min_alpaca, path
 from bot import AlpacaBroker
 
@@ -66,6 +67,10 @@ def run(broker, loader, force_minute=None):
         if today in st["scanned"] or minute < g["M"] or minute > g["M"] + 60:
             return   # สแกนวันละครั้ง ณ นาที M (ถ้า GitHub ช้าเกิน 60 นาทีให้ข้ามวันนั้น)
         days = loader(U, today)
+        try:   # shadow test: จำลองตัวเต็งอันดับ 2–3 บนวันที่จบแล้ว ด้วย bars ชุดเดียวกัน (ไม่ส่งคำสั่ง)
+            shadow.update(days, today, cfg["min_price"], no_short=no_short, exclude=swing, log=log)
+        except Exception as e:
+            log(f"shadow: ข้าม ({e})")
         infos = []
         for sym in U:
             dd = days.get(sym, {}); bars = dd.get(today, [])

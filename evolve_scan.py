@@ -8,6 +8,7 @@
 """
 import random, datetime as dt, statistics, re
 import strategy as S, scanstrat as SC
+import shadow
 from common import config, keys, load_json, save_json, load_5min_alpaca
 
 LEV = re.compile(r"\b(\d(\.\d)?X|-\dX|ULTRA\w*|INVERSE|LEVERAGED|BULL|BEAR|VIX|VOLATILITY|DAILY TARGET)\b|SHORT (QQQ|S&P|DOW|RUSSELL|\w+ ETF)")
@@ -157,7 +158,8 @@ def run(days, today, seed=None, log=print, folds=6):
                       "bh_holdout": round(SC.baseline(panel, split), 5), "gens": gen_log, "added": added, "decision": reason})
     P["runs"] = P["runs"][-26:]
     save_json("population_scan.json", P)
-    log(f"การตัดสินใจ (scanner): {reason}")
+    sh = shadow.save_from_population(P, today)   # ตัวเต็งอันดับ 2–3 สำหรับ shadow test (ไม่เปลี่ยนแชมป์)
+    log(f"การตัดสินใจ (scanner): {reason} · shadow: {', '.join(c['id'] for c in sh['shadow']) or '-'}")
     return P
 
 if __name__ == "__main__":
