@@ -1,4 +1,5 @@
 {
+  "mode": "paper",
   "symbols": [
     "AAPL",
     "MSFT",
@@ -21,5 +22,11 @@
     "max_open_positions": 10,
     "promote_min_forward_trades": 20,
     "history_days": 1095
-  }
+  },
+  "live_risk_pct": 0.25,
+  "max_notional_per_trade": 500,
+  "kill_daily_loss_r": 2,
+  "max_dd_r": 10,
+  "killswitch_reset_date": null,
+  "note_live": "mode: paper|live · live ใช้ได้เมื่อมี env LIVE_CONFIRM=yes เท่านั้น (ไม่งั้นบังคับ paper) · เวอร์ชันนี้ยังล็อก paper endpoint: live มีผลแค่ขนาดไม้ (live_risk_pct %, max_notional_per_trade $) · kill switch: ขาดทุนวัน ≥ kill_daily_loss_r R หรือ drawdown ≥ max_dd_r R → หยุดเปิดไม้ใหม่ · ล้าง drawdown ด้วย killswitch_reset_date"
 }
