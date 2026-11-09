@@ -1,7 +1,7 @@
 """shadow.py — Shadow test: เทรดสมมติของตัวเต็งอันดับ 2–3 ของ scanner (ไม่ส่งคำสั่งจริง ไม่เปลี่ยนแชมป์)
 
 - data/scan_shadow.json   รายชื่อตัวเต็ง (evolve_scan.py เขียนทุกครั้งที่ evolve · ถ้ายังไม่มี dt.py จะสร้างจาก population_scan.json)
-- data/shadow_trades.json {"evaluated": {id: วันล่าสุดที่คิดแล้ว}, "trades": [...]}
+- data/shadow_trades.json {"evaluated": {id: วันล่าสุดที่คิดแล้ว}, "champion": id แชมป์ที่จำลองด้วย, "trades": [...]}
 วิธีคิด: ทุกครั้งที่ dt.py ดึงแท่ง 5 นาทีมาสแกน (วันนี้ + ~5 วันก่อน) จะเอา "วันก่อนหน้าที่จบแล้ว" มาจำลองด้วย
 scanstrat.backtest ตัวเดียวกับแชมป์ (เข้าแท่งถัดจากนาที M · stop / target · ปิดก่อนตลาดปิด · slippage เท่ากัน)
 → ผลของวันนี้จะถูกบันทึกในการสแกนของวันทำการถัดไป (ต้องรอให้วันจบก่อนถึงรู้ผล)
@@ -31,8 +31,8 @@ def load(today):
         sh = save_from_population(load_json("population_scan.json", {}), today)
     return sh
 
-def update(days, today, min_price, no_short=(), exclude=(), log=print):
-    """จำลอง trade ของตัวเต็งบนวันที่จบแล้ว (ก่อน today) ที่ยังไม่เคยคิด · คืนจำนวน trade ใหม่"""
+def update(days, today, min_price, no_short=(), exclude=(), log=print, champ=None):
+    """จำลอง trade ของตัวเต็ง (+ แชมป์ ไว้เทียบบนแท่งชุดเดียวกัน) บนวันที่จบแล้ว (ก่อน today) ที่ยังไม่เคยคิด · คืนจำนวน trade ใหม่"""
     sh = load(today)
     if not sh.get("shadow"):
         return 0
@@ -42,8 +42,12 @@ def update(days, today, min_price, no_short=(), exclude=(), log=print):
     if not past:
         return 0
     st = load_json("shadow_trades.json", {"evaluated": {}, "trades": []})
+    cands = list(sh["shadow"])
+    if champ:   # แชมป์ live มี delay/slippage จริง → จำลองแชมป์แบบเดียวกันด้วยเพื่อเทียบยุติธรรม
+        st["champion"] = champ["id"]
+        cands.append({"id": champ["id"], "g": champ["g"]})
     added = 0
-    for c in sh["shadow"]:
+    for c in cands:
         last = st["evaluated"].get(c["id"]) or sh.get("date") or ""   # นับเฉพาะวันหลังจากได้เป็นตัวเต็ง
         todo = [d for d in past if d > last]
         if not todo:
@@ -56,5 +60,5 @@ def update(days, today, min_price, no_short=(), exclude=(), log=print):
     st["trades"] = st["trades"][-2000:]
     save_json("shadow_trades.json", st)
     if added:
-        log(f"shadow: บันทึก trade สมมติ {added} รายการ ({', '.join(c['id'] for c in sh['shadow'])})")
+        log(f"shadow: บันทึก trade สมมติ {added} รายการ ({', '.join(c['id'] for c in cands)})")
     return added

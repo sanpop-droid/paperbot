@@ -45,13 +45,15 @@ class TestKillSwitch(TmpData):
     def test_daily_loss_2R(self):
         tr = [{"exit_d": "2026-11-09", "R": -1.0}, {"exit_d": "2026-11-09", "R": -1.0}]
         s = safety.evaluate(tr, "2026-11-09", {})
-        self.assertTrue(s["active"]); self.assertIn("ขาดทุนวันนี้", s["reason"])
+        self.assertTrue(s["active"]); self.assertIn("ขาดทุนวัน 2026-11-09", s["reason"])
     def test_small_loss_ok(self):
         s = safety.evaluate([{"exit_d": "2026-11-09", "R": -1.5}], "2026-11-09", {})
         self.assertFalse(s["active"])
-    def test_yesterday_loss_not_counted(self):
-        s = safety.evaluate([{"exit_d": "2026-11-08", "R": -3.0}], "2026-11-09", {})
-        self.assertFalse(s["active"])
+    def test_yesterday_loss_latches_until_reset(self):
+        tr = [{"exit_d": "2026-11-08", "R": -3.0}]
+        s = safety.evaluate(tr, "2026-11-09", {})
+        self.assertTrue(s["active"]); self.assertIn("2026-11-08", s["reason"]); self.assertEqual(s["day_loss_r"], 0)
+        self.assertFalse(safety.evaluate(tr, "2026-11-09", {"killswitch_reset_date": "2026-11-08"})["active"])
     def test_drawdown(self):
         tr = [{"exit_d": "2026-10-01", "R": 5.0}] + [{"exit_d": f"2026-10-{d:02d}", "R": -1.0} for d in range(2, 12)]
         s = safety.evaluate(tr, "2026-11-09", {})

@@ -7,9 +7,9 @@
     โหมด live มีผลแค่ "ขนาดไม้" (live_risk_pct / max_notional_per_trade) เพื่อซ้อมบน paper ก่อน
 
 Kill switch (หยุดเปิดไม้ใหม่ · ไม้ที่ถืออยู่ใช้ stop เดิม)
-  - ขาดทุนในวัน ≥ kill_daily_loss_r (ค่าเริ่ม 2R) — รวม trade ที่ปิดวันนี้ของทั้งสองบอท
+  - ขาดทุนในวันใดวันหนึ่ง ≥ kill_daily_loss_r (ค่าเริ่ม 2R) — รวมทั้งสองบอท · ล็อกค้างข้ามวันเหมือน drawdown
   - drawdown ของ R สะสมจากจุดสูงสุด ≥ max_dd_r (ค่าเริ่ม 10R)
-  - ล้าง drawdown: ตั้ง config "killswitch_reset_date": "YYYY-MM-DD" → นับเฉพาะ trade ที่ปิดหลังวันนั้น
+  - ล้าง (ทั้งขาดทุนรายวันและ drawdown): ตั้ง config "killswitch_reset_date": "YYYY-MM-DD" → นับเฉพาะ trade ที่ปิดหลังวันนั้น
   - บันทึกเหตุผลใน data/log.txt และ data/killswitch.json
 """
 import os, math, datetime as dt
@@ -45,8 +45,13 @@ def evaluate(trades, today, cfg):
     for t in sorted((t for t in closed if t["exit_d"] > reset), key=lambda t: (t["exit_d"], t.get("t_out", ""))):
         cum += t["R"]; peak = max(peak, cum)
     dd = peak - cum
+    # ขาดทุนรายวันล็อกค้าง: scanner เปิดทุกไม้พร้อมกันก่อนรู้ผล และวันใหม่รีเซ็ตเป็น 0 → ต้องค้างจนกว่า POP ตั้ง reset_date ≥ วันนั้น
+    by_day = {}
+    for t in closed:
+        if t["exit_d"] > reset: by_day[t["exit_d"]] = by_day.get(t["exit_d"], 0.0) + t["R"]
+    bad = [d for d in sorted(by_day) if -by_day[d] >= day_lim]
     reasons = []
-    if -day_r >= day_lim: reasons.append(f"ขาดทุนวันนี้ {-day_r:.2f}R ≥ {day_lim:g}R")
+    if bad: reasons.append(f"ขาดทุนวัน {bad[-1]} {-by_day[bad[-1]]:.2f}R ≥ {day_lim:g}R (ค้างจนตั้ง killswitch_reset_date ≥ {bad[-1]})")
     if dd >= dd_lim: reasons.append(f"drawdown {dd:.2f}R ≥ {dd_lim:g}R")
     return {"active": bool(reasons), "reason": " · ".join(reasons), "date": today,
             "day_loss_r": round(max(0.0, -day_r), 3), "dd_r": round(dd, 3),
