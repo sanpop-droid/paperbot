@@ -6,6 +6,7 @@ GitHub Actions เรียกทุก 15 นาทีระหว่างต�
 """
 import math, datetime as dt, traceback
 import strategy as S, scanstrat as SC
+import safety
 import shadow
 from common import config, load_json, save_json, load_5min_alpaca, path
 from bot import AlpacaBroker
@@ -80,8 +81,12 @@ def run(broker, loader, force_minute=None):
         picks = SC.rank(g, infos, exclude=set(pos) | swing, no_short=no_short)
         st["scanned"][today] = [{"sym": x.sym, "score": round(s, 4), "dir": di} for s, x, di in picks]
         log(f"สแกน {len(infos)} ตัว ณ นาทีที่ {g['M']} → " + (", ".join(f"{'L' if di > 0 else 'S'} {x.sym} {s*100:+.1f}%" for s, x, di in picks) or "ไม่มีตัวผ่านเกณฑ์"))
+        # kill switch / โหมด: ตรวจก่อนส่งคำสั่งใหม่ (บันทึกผลสแกนไว้แล้วด้านบน)
+        mode = safety.trading_mode(cfg_all)
+        if safety.check(today, cfg_all, mode, log, scan_trades=trades):
+            log("kill switch ทำงาน: ไม่เปิดไม้ใหม่"); return
         cap = acct["equity"] * cfg["capital_share"]
-        risk_pct = cfg["risk_per_trade_pct"] / 100 * (0.5 if champ.get("probation") else 1)
+        risk_pct = safety.risk_pct(cfg, cfg_all, mode) * (0.5 if champ.get("probation") else 1)
         for r, (s, x, di) in enumerate(picks, 1):
             if len(st["open"]) >= cfg["max_open_positions"]:
                 break
@@ -90,6 +95,7 @@ def run(broker, loader, force_minute=None):
             except Exception: px = x.c_at[g["M"]]
             if risk <= 0: continue
             qty = min(math.floor(cap * risk_pct / risk), math.floor(cap * cfg["max_position_pct"] / 100 / px))
+            qty = safety.cap_notional(qty, px, cfg_all, mode)   # live: จำกัด $ ต่อไม้
             if qty < 1:
                 log(f"{x.sym}: ขนาดไม่ถึง 1 หุ้น · ข้าม"); continue
             stop, target = px - di * risk, px + di * g["R"] * risk

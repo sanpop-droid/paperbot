@@ -8,6 +8,7 @@
 """
 import sys, math, datetime as dt, traceback
 import strategy as S
+import safety
 from common import config, keys, base_url, load_json, save_json, load_bars_alpaca, drop_today_partial, path
 
 def log(msg):
@@ -133,7 +134,11 @@ def run(broker, bars_loader, force=False):
         log("ยังไม่มีแชมป์ → รัน evolve.py ก่อน"); save_json("state.json", st); return
     if not clk["is_open"] and not force:
         log("ตลาดปิด: ไม่ส่งคำสั่งใหม่"); save_json("state.json", st); return
-    g = champ["g"]; risk_pct = cfg["risk_per_trade_pct"] / 100 * (0.5 if champ.get("probation") else 1)
+    # kill switch / โหมด: ตรวจก่อนเปิดไม้ใหม่ทุกครั้ง (ไม้ที่ถืออยู่ใช้ stop เดิม)
+    mode = safety.trading_mode(cfg)
+    if safety.check(today, cfg, mode, log, swing_trades=trades):
+        log("kill switch ทำงาน: ไม่เปิดไม้ใหม่"); save_json("state.json", st); return
+    g = champ["g"]; risk_pct = safety.risk_pct(cfg, cfg, mode) * (0.5 if champ.get("probation") else 1)
     cap = acct["equity"] * cfg.get("capital_share", 1.0)          # เงินส่วนของบอท swing
     n_open = len([s for s in pos if s in cfg["symbols"]])
     for sym, ind in inds.items():
@@ -149,6 +154,7 @@ def run(broker, bars_loader, force=False):
         atr = ind.atr[i]; risk = g["k_stop"] * atr
         qty = math.floor(cap * risk_pct / risk)
         qty = min(qty, math.floor(cap * cfg["max_position_pct"] / 100 / px))
+        qty = safety.cap_notional(qty, px, cfg, mode)   # live: จำกัด $ ต่อไม้
         if qty < 1:
             log(f"{sym}: มีสัญญาณแต่ขนาดไม่ถึง 1 หุ้น · ข้าม"); continue
         stop, target = px - risk, px + g["R"] * risk
