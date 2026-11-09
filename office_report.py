@@ -56,6 +56,12 @@ def build():
                  "trades": sc_tr[-30:], "last_evolve": rsc.get("date"), "decision": rsc.get("decision")},
         "log_tail": log[-12:], "errors": errors[-5:],
     }
+    # shadow test ของตัวเต็งอันดับ 2–3 (trade สมมติ ไม่ได้ส่งคำสั่ง)
+    sh = j("scan_shadow.json", {}); shtr = j("shadow_trades.json", {}).get("trades", [])
+    out["scan"]["shadow"] = []
+    for c in sh.get("shadow", []):
+        mm = m([t for t in shtr if t.get("id") == c["id"]])
+        out["scan"]["shadow"].append({"id": c["id"], "n": mm["n"], "avgR": mm["avgR"], "win": mm["win"], "tstat": mm.get("t", 0)})
     # สถานะตัวละครในออฟฟิศ (ส่วนที่คำนวณได้จากข้อมูล · บทบาทวิเคราะห์ให้ scheduled task เติม)
     sc_line = ("สแกน " + last_day + ": " + (", ".join(("L " if p.get("dir", 1) > 0 else "S ") + p["sym"] for p in scanned[last_day]) or "ไม่มีตัวผ่านเกณฑ์")) if last_day else "รอสแกนครั้งแรก"
     out["roles"] = {
