@@ -56,6 +56,16 @@ def build():
                  "trades": sc_tr[-30:], "last_evolve": rsc.get("date"), "decision": rsc.get("decision")},
         "log_tail": log[-12:], "errors": errors[-5:],
     }
+    # โหมด + kill switch (killswitch.json เขียนโดยบอทตอนรัน · mode ในนั้นคือโหมดที่บอทเห็นจริง)
+    try:
+        with open(os.path.join(os.path.dirname(D), "config.json"), encoding="utf-8") as f:
+            cfg = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        cfg = {}
+    ks = j("killswitch.json", {})
+    out["mode"] = ks.get("mode", "paper"); out["mode_config"] = cfg.get("mode", "paper"); out["endpoint"] = "paper"
+    out["killswitch"] = {k: ks.get(k) for k in ("active", "reason", "since", "date", "dd_r", "limits", "checked")} if ks else {"active": False}
+    out["day_loss_r"] = ks.get("day_loss_r", 0); out["day_loss_date"] = ks.get("date")   # วันตามเวลา NY ของบอท
     # สถานะตัวละครในออฟฟิศ (ส่วนที่คำนวณได้จากข้อมูล · บทบาทวิเคราะห์ให้ scheduled task เติม)
     sc_line = ("สแกน " + last_day + ": " + (", ".join(("L " if p.get("dir", 1) > 0 else "S ") + p["sym"] for p in scanned[last_day]) or "ไม่มีตัวผ่านเกณฑ์")) if last_day else "รอสแกนครั้งแรก"
     out["roles"] = {
@@ -63,7 +73,7 @@ def build():
                     "detail": f"แชมป์: {out['scan']['champion']['desc'] if out['scan']['champion'] else '-'}\nWalk-forward t = {out['scan']['wf'].get('t', '-')} ({out['scan']['wf'].get('n', 0)} trade)\nปิดแล้ว {sc_m['n']} trade · avg R {sc_m['avgR']:+.3f}"},
         "swing": {"status": "busy" if sw_st.get("open") else "idle", "line": f"ถือ {len(sw_st.get('open', {}))} ตัว · ปิดแล้ว {sw_m['n']} trade",
                   "detail": f"แชมป์: {out['swing']['champion']['desc'] if out['swing']['champion'] else '-'}\navg R {sw_m['avgR']:+.3f} · P&L ${sw_m['pnl']:+,.2f}"},
-        "risk": {"status": "alert" if errors else "ok", "line": ("มี error " + str(len(errors)) + " รายการ") if errors else "ไม่มี error · paper เท่านั้น",
+        "risk": {"status": "alert" if (errors or out["killswitch"].get("active")) else "ok", "line": ("KILL SWITCH: " + (out["killswitch"].get("reason") or "")) if out["killswitch"].get("active") else (("มี error " + str(len(errors)) + " รายการ") if errors else "ไม่มี error · paper เท่านั้น"),
                  "detail": "\n".join(errors) if errors else "log ล่าสุดไม่มี error · ทุกตำแหน่ง day trade ถูกปิดก่อนตลาดปิด"},
     }
     return out
