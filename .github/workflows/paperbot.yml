@@ -5,22 +5,24 @@ on:
     - cron: "0 3 * * 6"       # เสาร์ 10:00 เวลาไทย: evolve (swing + day)
     - cron: "*/15 13-20 * * 1-5"  # ทุก 15 นาที 20:00–03:45 เวลาไทย: day trade scanner (นอกเวลาตลาดจะจบเร็ว)
     - cron: "*/5 19-20 * * 1-5"   # ทุก 5 นาทีชั่วโมงสุดท้ายก่อนปิด (ครอบทั้ง EST/EDT): กันรอบปิดไม้หลุดแล้วค้างข้ามคืน
+    - cron: "0,20,40 13-14 * * 1-5"  # 20:00–21:40 ไทย 6 จุดเริ่ม dtloop (ตัวแรกที่ GitHub ปลุกได้จะวนทั้งวัน ตัวที่ตามมาเจอตลาดปิดแล้วจบเอง)
   workflow_dispatch:
     inputs:
       job:
-        description: "run = swing รอบประจำวัน, dt = scanner 1 รอบ, evolve = หากฎใหม่ทั้งสองบอท, check = ทดสอบการเชื่อมต่อ"
+        description: "run = swing รอบประจำวัน, dt = scanner 1 รอบ, dtloop = swing 1 รอบ + scanner ทุก 5 นาทีจนตลาดปิด, evolve = หากฎใหม่ทั้งสองบอท, check = ทดสอบการเชื่อมต่อ"
         default: run
         type: choice
-        options: [run, dt, evolve, check]
+        options: [run, dt, dtloop, evolve, check]
 permissions:
   contents: write
+  actions: write   # dtloop สั่ง workflow_dispatch รอบต่อไปเองเมื่อใกล้หมดเวลา job
 concurrency:
   group: paperbot
   cancel-in-progress: false
 jobs:
   bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 355   # dtloop ยาวทั้งวัน · job อื่นจำกัดที่ step Run (90)
     env:
       APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID }}
       APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
@@ -41,12 +43,19 @@ jobs:
           elif [ "${{ github.event.schedule }}" = "0 3 * * 6" ]; then echo "job=evolve" >> $GITHUB_OUTPUT
           elif [ "${{ github.event.schedule }}" = "*/15 13-20 * * 1-5" ]; then echo "job=dt" >> $GITHUB_OUTPUT
           elif [ "${{ github.event.schedule }}" = "*/5 19-20 * * 1-5" ]; then echo "job=dt" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.schedule }}" = "0,20,40 13-14 * * 1-5" ]; then echo "job=dtloop" >> $GITHUB_OUTPUT
           else echo "job=run" >> $GITHUB_OUTPUT; fi
       - name: Run
+        timeout-minutes: ${{ steps.j.outputs.job == 'dtloop' && 348 || 90 }}
+        env:
+          GH_TOKEN: ${{ github.token }}   # ใช้แค่ dtloop.dispatch (สิทธิ์ตาม permissions ด้านบน)
         run: |
+          git config user.name "paperbot"
+          git config user.email "paperbot@users.noreply.github.com"
           case "${{ steps.j.outputs.job }}" in
             run) python bot.py run ;;
             dt) python dt.py ;;
+            dtloop) python -u dtloop.py ;;
             evolve) python evolve.py; python evolve_scan.py ;;
             check) python bot.py check ;;
           esac

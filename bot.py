@@ -34,7 +34,7 @@ class AlpacaBroker:
 
     def clock(self):
         c = self.t.get_clock()
-        return {"is_open": c.is_open, "now_ny": c.timestamp, "today": c.timestamp.date().isoformat()}
+        return {"is_open": c.is_open, "now_ny": c.timestamp, "today": c.timestamp.date().isoformat(), "next_open": c.next_open}
 
     def positions(self):
         return {p.symbol: {"qty": float(p.qty), "avg": float(p.avg_entry_price), "price": float(p.current_price),
