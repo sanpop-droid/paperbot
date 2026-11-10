@@ -84,10 +84,16 @@ class TestShadow(unittest.TestCase):
         got = [t for t in st["trades"] if t["id"] == SC.gid(G2)]
         self.assertEqual(len(got), len(exp))
         self.assertAlmostEqual(sum(t["R"] for t in got), sum(t["R"] for t in exp), places=2)
+        # แชมป์ถูกจำลองบนแท่งชุดเดียวกัน (เทียบยุติธรรมกับตัวเต็ง)
+        ch = self.P["champion"]; self.assertEqual(st["champion"], ch["id"])
+        exp_ch = SC.backtest(ch["g"], panel, start=DATES[1], end=DATES[-2])
+        got_ch = [t for t in st["trades"] if t["id"] == ch["id"]]
+        self.assertEqual(len(got_ch), len(exp_ch))
+        self.assertAlmostEqual(sum(t["R"] for t in got_ch), sum(t["R"] for t in exp_ch), places=2)
         # รันซ้ำวันเดิม → ไม่บันทึกซ้ำ
         n = len(st["trades"]); shadow.update(self.days, TODAY, 5, log=lambda m: None)
         self.assertEqual(len(common.load_json("shadow_trades.json", {})["trades"]), n)
-        print(f"\n  dry run: {len(got)} + {n - len(got)} trade สมมติ · คำสั่งจริง {len(b1.submitted)} (เท่ากับไม่มี shadow)")
+        print(f"\n  dry run: {len(got)} + {n - len(got) - len(got_ch)} + แชมป์ {len(got_ch)} trade สมมติ · คำสั่งจริง {len(b1.submitted)} (เท่ากับไม่มี shadow)")
 
     def test_bootstrap_from_population(self):
         shadow.update(self.days, TODAY, 5, log=lambda m: None)
@@ -96,15 +102,16 @@ class TestShadow(unittest.TestCase):
 
     def test_office_report_shadow(self):
         common.save_json("scan_shadow.json", {"date": "2026-11-01", "shadow": shadow.select(self.P)})
-        shadow.update(self.days, TODAY, 5, log=lambda m: None)
+        shadow.update(self.days, TODAY, 5, log=lambda m: None, champ=self.P["champion"])
         import office_report as O
         old = O.D; O.D = self.tmp
         try:
             sh = O.build()["scan"]["shadow"]
         finally:
             O.D = old
-        self.assertEqual([x["id"] for x in sh], [SC.gid(G2), SC.gid(G3)])
+        self.assertEqual([x["id"] for x in sh], [SC.gid(G2), SC.gid(G3), self.P["champion"]["id"]])
         self.assertEqual(set(sh[0]), {"id", "n", "avgR", "win", "tstat"})
+        self.assertTrue(sh[-1]["champion"] and sh[-1]["simulated"])
 
 if __name__ == "__main__":
     unittest.main()

@@ -54,7 +54,7 @@ def run(broker, loader, force_minute=None):
         minute = force_minute if force_minute is not None else session_minute(clk["now_ny"])
         stale = [s for s in pos if st["open"].get(s, {}).get("entry_day", "") < today]
         for s in stale:
-            broker.close(s); log(f"{s}: ตำแหน่งค้างข้ามวัน → ขายทันที")
+            broker.close(s); log(f"ERROR {s}: ตำแหน่งค้างข้ามวัน → ขายทันที (รอบปิดก่อนตลาดปิดอาจหลุด)")
         if SC.SESSION - minute <= SC.FLAT_BEFORE:
             for s in pos:
                 if s not in stale:
@@ -67,8 +67,8 @@ def run(broker, loader, force_minute=None):
         if today in st["scanned"] or minute < g["M"] or minute > g["M"] + 60:
             return   # สแกนวันละครั้ง ณ นาที M (ถ้า GitHub ช้าเกิน 60 นาทีให้ข้ามวันนั้น)
         days = loader(U, today)
-        try:   # shadow test: จำลองตัวเต็งอันดับ 2–3 บนวันที่จบแล้ว ด้วย bars ชุดเดียวกัน (ไม่ส่งคำสั่ง)
-            shadow.update(days, today, cfg["min_price"], no_short=no_short, exclude=swing, log=log)
+        try:   # shadow test: จำลองตัวเต็งอันดับ 2–3 + แชมป์ บนวันที่จบแล้ว ด้วย bars ชุดเดียวกัน (ไม่ส่งคำสั่ง)
+            shadow.update(days, today, cfg["min_price"], no_short=no_short, exclude=swing, log=log, champ=champ)
         except Exception as e:
             log(f"shadow: ข้าม ({e})")
         infos = []
