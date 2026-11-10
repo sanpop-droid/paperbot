@@ -1,0 +1,13 @@
+{
+ "active": false,
+ "reason": "",
+ "date": "2026-11-10",
+ "day_loss_r": 0.0,
+ "dd_r": 0.0,
+ "limits": {
+  "daily_loss_r": 2,
+  "max_dd_r": 10
+ },
+ "mode": "paper",
+ "checked": "2026-11-10T23:04"
+}
