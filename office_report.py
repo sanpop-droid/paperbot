@@ -26,6 +26,19 @@ def champ(P):
             "holdout": {k: round(c["holdout"].get(k, 0), 3) for k in ("n", "avgR", "tstat", "win")} if c.get("holdout") else None,
             "forward": {k: round(c.get("forward", {}).get(k, 0), 3) for k in ("n", "avgR", "tstat")} if c.get("forward") else None}
 
+def coverage(scan_log, today):
+    """วันทำการ (จ.–ศ.) ตั้งแต่วันแรกที่มีบันทึก ถึงเมื่อวาน: สแกนจริง / พลาดเพราะรันช้า / ไม่มีรันเลย
+    shortcut: ยังไม่หักวันหยุดตลาด US (วันหยุดจะถูกนับเป็น no_run) — อัปเกรดเมื่อมีปฏิทินตลาดใน repo"""
+    if not scan_log: return None
+    d0 = dt.date.fromisoformat(min(scan_log)); end = dt.date.fromisoformat(today)
+    days = [(d0 + dt.timedelta(k)).isoformat() for k in range((end - d0).days + 1)]
+    days = [d for d in days if dt.date.fromisoformat(d).weekday() < 5]
+    sc = sum(1 for d in days if scan_log.get(d, {}).get("status") == "scanned")
+    mi = sum(1 for d in days if scan_log.get(d, {}).get("status") == "missed")
+    nr = sum(1 for d in days if d not in scan_log and d < today)
+    tot = sc + mi + nr
+    return {"since": min(scan_log), "scanned": sc, "missed": mi, "no_run": nr, "pct": round(100 * sc / tot, 1) if tot else None}
+
 def build():
     eq = j("equity.json", []); sw_tr = j("trades.json", []); sw_st = j("state.json", {"open": {}})
     sc_tr = j("dt_trades.json", []); sc_st = j("dt_state.json", {"open": {}, "scanned": {}})
@@ -65,6 +78,10 @@ def build():
     ks = j("killswitch.json", {})
     out["mode"] = ks.get("mode", "paper"); out["mode_config"] = cfg.get("mode", "paper"); out["endpoint"] = "paper"
     out["killswitch"] = {k: ks.get(k) for k in ("active", "reason", "since", "date", "dd_r", "limits", "checked")} if ks else {"active": False}
+    ny_today = dt.datetime.now(dt.timezone(dt.timedelta(hours=-5))).strftime("%Y-%m-%d")
+    out["scan"]["coverage"] = coverage(sc_st.get("scan_log", {}), ny_today)   # postclose-lead/risk: 0 ไม้เพราะตลาด หรือเพราะบอทไม่รัน
+    out["heartbeat"] = {"last_log": log[-1][:16] if log else None, "last_scan_day": last_day,
+                        "last_scan": (sc_st.get("scan_log", {}) or {}).get(last_day) if last_day else None}
     out["day_loss_r"] = ks.get("day_loss_r", 0); out["day_loss_date"] = ks.get("date")   # วันตามเวลา NY ของบอท
     ex = [t for t in sc_tr if "slip_bps" in t]   # ponytail-4: คุณภาพการเข้าไม้จริงเทียบ backtest
     out["scan"]["exec"] = {"n": len(ex),

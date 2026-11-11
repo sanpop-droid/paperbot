@@ -53,7 +53,7 @@ def run(broker, loader, force_minute=None):
     UJ = load_json("universe.json", {}); no_short = set(UJ.get("no_short", []))
     U = [s for s in UJ.get("symbols", []) if s not in swing]
     st = load_json("dt_state.json", {"open": {}, "scanned": {}})
-    st.setdefault("scanned", {}); st.pop("traded", None)
+    st.setdefault("scanned", {}); st.setdefault("scan_log", {}); st.pop("traded", None)
     trades = load_json("dt_trades.json", [])
     acct = broker.account(); clk = broker.clock(); today = clk["today"]
     mine = set(st["open"]) | set(U)
@@ -76,8 +76,13 @@ def run(broker, loader, force_minute=None):
         if not champ or not U:
             log("ยังไม่มีแชมป์หรือ universe → รัน evolve"); return
         g = champ["g"]
-        if today in st["scanned"] or minute < g["M"] or minute > g["M"] + 60:
-            return   # สแกนวันละครั้ง ณ นาที M (ถ้า GitHub ช้าเกิน 60 นาทีให้ข้ามวันนั้น)
+        if today in st["scanned"] or minute < g["M"]:
+            return   # สแกนวันละครั้ง ณ นาที M
+        if minute > g["M"] + 60:   # GitHub ช้าเกิน 60 นาที → ข้ามวันนั้น และบันทึกว่า "พลาด" (ไม่ใช่ "ตลาดไม่มีสัญญาณ")
+            if today not in st["scan_log"]:
+                st["scan_log"][today] = {"status": "missed", "m": minute}
+                log(f"ข้ามสแกน: นาที {minute} เลยหน้าต่าง {g['M']}–{g['M'] + 60} (บอทเริ่มช้า) · ไม่นับเป็นวันไม่มีสัญญาณ")
+            return
         days = loader(U, today)
         try:   # shadow test: จำลองตัวเต็งอันดับ 2–3 + แชมป์ บนวันที่จบแล้ว ด้วย bars ชุดเดียวกัน (ไม่ส่งคำสั่ง)
             shadow.update(days, today, cfg["min_price"], no_short=no_short, exclude=swing, log=log, champ=champ)
@@ -92,6 +97,9 @@ def run(broker, loader, force_minute=None):
                 infos.append(SC.Info(sym, bars, pc))
         picks = SC.rank(g, infos, exclude=set(pos) | swing, no_short=no_short)
         st["scanned"][today] = [{"sym": x.sym, "score": round(s, 4), "dir": di} for s, x, di in picks]
+        gaps = sorted(x.gap for x in infos if x.pc)
+        st["scan_log"][today] = {"status": "scanned", "m": minute, "n": len(infos), "picks": len(picks),
+                                 "gap_med_pct": round(gaps[len(gaps) // 2] * 100, 2) if gaps else None}   # บริบทตลาดวันนั้น
         log(f"สแกน {len(infos)} ตัว ณ นาทีที่ {g['M']} → " + (", ".join(f"{'L' if di > 0 else 'S'} {x.sym} {s*100:+.1f}%" for s, x, di in picks) or "ไม่มีตัวผ่านเกณฑ์"))
         # kill switch / โหมด: ตรวจก่อนส่งคำสั่งใหม่ (บันทึกผลสแกนไว้แล้วด้านบน)
         mode = safety.trading_mode(cfg_all)
@@ -121,6 +129,7 @@ def run(broker, loader, force_minute=None):
                                  "M": g["M"], "m_scan": minute, "c_model": x.c_at[g["M"]], "risk": risk}
             log(f"{x.sym}: {'ซื้อ (long)' if di > 0 else 'short'} {qty} หุ้น ~${px:.2f} ({s*100:+.1f}%) · stop ${stop:.2f} · target ${target:.2f}")
     finally:
+        st["scan_log"] = dict(sorted(st.get("scan_log", {}).items())[-180:])
         save_json("dt_state.json", st); save_json("dt_trades.json", trades)
 
 def today_loader(syms, today):
