@@ -11,6 +11,13 @@ B) scout-3 ความลำเอียงจากการเลือกก
 C) scout-4 Swing volatility targeting: แชมป์ swing บน symbols ใน config (ข้อมูลรายวัน 3 ปี)
    scale = clip(median vol / vol 20 วันของ SPY ณ วันสัญญาณ, 0.5, 1.0) · vol เป้า = median ของทั้งช่วง (ไม่จูน)
    เทียบ total R, max DD (R), Sharpe ต่อไม้ แบบมี/ไม่มี scale · ไม้น้อย = สรุปไม่ได้ (บอกตรงๆ)
+D) scout-req-1 Relative Volume (กฎล็อกเพิ่ม 12 พ.ย. ก่อนรัน): rvol = volume สะสมถึงนาที M ของวันนี้ / ค่าเฉลี่ยของ 14 วันก่อนหน้า (ช่วงเวลาเดียวกัน)
+   แชมป์ scanner เดิม + กรองเฉพาะตัวที่ rvol ≥ 1.5 และ ≥ 2.0 (สองระดับเท่านั้น) · เทียบ holdout ที่ 5/10 bps กับแชมป์ไม่กรอง
+E) scout-req-2 Momentum ครึ่งชั่วโมงสุดท้าย: r30 = ราคา ณ นาที 30 / ปิดเมื่อวาน − 1 · ถ้า |r30| ≥ 2% เข้าทิศเดียวกับ r30 ที่ open ของแท่งนาที 360 ออกที่ close แท่งสุดท้าย
+   หักต้นทุน 10 bps ไป-กลับ · รายงานผลตอบแทนเฉลี่ยต่อไม้ (bps) และ t รายวัน แยก train/holdout
+F) scout-req-3 Swing IBS = (close−low)/(high−low) ของวันสัญญาณ · IBS < 0.2 → long บน symbols ของบอท swing
+   (a) เข้า close วันสัญญาณ ออก close วันถัดไป (แบบงานวิจัย · บอทปัจจุบันทำไม่ได้) (b) เข้า open วันถัดไป ออก close วันนั้น (แบบที่บอททำได้)
+   หักต้นทุน 10 bps ไป-กลับ · รายงาน n, ผลตอบแทนเฉลี่ย (bps), t
 ใช้: Run workflow → job=research
 """
 import math, itertools, datetime as dt, random
@@ -180,7 +187,98 @@ def part_c():
             "note": "ไม้น้อย (< 30) = สรุปไม่ได้" if len(trs) < 30 else ""}
 
 
-def run(days, today, log=print):
+# ---------------------------------------------------------------- D) Relative Volume
+def cum_at(bars):
+    """bars = [(m,o,h,l,c,v)] → {M: volume สะสมของแท่งที่ปิดแล้ว ณ นาที M} ตาม M_GRID ของ scanner"""
+    out = {}; acc = 0.0; j = 0
+    for M in SC.M_GRID:
+        while j < len(bars) and bars[j][0] <= M - 5:
+            acc += bars[j][5]; j += 1
+        out[M] = acc
+    return out
+
+def rvol_map(cumv, M, look=14):
+    """cumv = {sym: {date: {M: volume สะสม}}} → {(sym, date): rvol} ใช้เฉพาะ 14 วันก่อนหน้า (ไม่มี look-ahead)"""
+    out = {}
+    for sym, dd in cumv.items():
+        ds = sorted(dd)
+        for i, d in enumerate(ds):
+            prev = [dd[p].get(M) for p in ds[max(0, i - look):i] if dd[p].get(M)]
+            if len(prev) >= 5 and dd[d].get(M):
+                out[(sym, d)] = dd[d][M] / (sum(prev) / len(prev))
+    return out
+
+
+def backtest_keep(g, panel, keep, start=None, slip=0.0005, no_short=()):
+    """เหมือน scanstrat.backtest แต่เทรดเฉพาะตัวที่ keep(sym, date) เป็นจริง (เลือกตัวด้วย rank เดิมก่อน แล้วค่อยกรอง)"""
+    g = SC.fix(dict(g)); trades = []; M = g["M"]
+    flat_m = next(mm for mm in range(M, SC.SESSION + 1, SC.STEP) if mm >= SC.SESSION - SC.FLAT_BEFORE)
+    for d in sorted(panel):
+        if start and d < start: continue
+        for s, x, di in SC.rank(g, panel[d], no_short=no_short):
+            if not keep(x.sym, d): continue
+            e = x.i_at[M] + 1
+            if e >= len(x.m): continue
+            risk = g["k_stop"] * 3 * x.atr_at[M]
+            if risk <= 0: continue
+            entry, ex, how = SC.simulate(x, e, di, risk, g["R"], flat_m, slip); ex *= (1 - slip * di)
+            trades.append({"sym": x.sym, "sig": d, "dir": di, "how": how, "R": di * (ex - entry) / risk, "ret": di * (ex / entry - 1), "open": False})
+    return trades
+
+
+def part_d(panel, split, champ, no_short, cumv):
+    g = champ["g"]; rv = rvol_map(cumv, g["M"]); out = {"M": g["M"], "covered": len(rv), "rows": []}
+    for thr in (None, 1.5, 2.0):
+        keep = (lambda s, d: True) if thr is None else (lambda s, d, t=thr: rv.get((s, d), 0) >= t)
+        for slip in (0.0005, 0.001):
+            tr = backtest_keep(g, panel, keep, start=split, slip=slip, no_short=no_short); m = S.metrics(tr); dd = daily_t(tr)
+            out["rows"].append({"rvol_min": thr, "slip_bps": round(slip * 1e4), "n": m["n"], "avgR": round(m["avgR"], 4), "t_day": round(dd["t_day"], 2)})
+    base = next(r for r in out["rows"] if r["rvol_min"] is None and r["slip_bps"] == 10)
+    best = max((r for r in out["rows"] if r["rvol_min"] and r["slip_bps"] == 10), key=lambda r: r["avgR"])
+    out["pass"] = best["n"] >= 30 and best["avgR"] > base["avgR"] and best["t_day"] >= 2
+    return out
+
+
+# ---------------------------------------------------------------- E) late-day momentum
+def part_e(panel, split, th=0.02, cost=0.001):
+    tr = []
+    for d in sorted(panel):
+        for x in panel[d]:
+            if not x.pc or 30 not in x.c_at: continue
+            r30 = x.c_at[30] / x.pc - 1
+            if abs(r30) < th: continue
+            i = SC.bisect.bisect_left(x.m, 360)
+            if i >= len(x.m) or x.m[i] < 360: continue
+            di = 1 if r30 > 0 else -1; ret = di * (x.c[-1] / x.o[i] - 1) - cost
+            tr.append({"sig": d, "R": ret * 1e4, "open": False})   # R ในที่นี้ = bps
+    def summ(rows):
+        dd = daily_t(rows); n = len(rows)
+        return {"n": n, "avg_bps": round(sum(r["R"] for r in rows) / n, 2) if n else 0, "days": dd["days"], "t_day": round(dd["t_day"], 2)}
+    a, b = summ([t for t in tr if t["sig"] < split]), summ([t for t in tr if t["sig"] >= split])
+    return {"train": a, "holdout": b, "pass": b["n"] >= 30 and b["avg_bps"] > 0 and b["t_day"] >= 2 and a["avg_bps"] > 0}
+
+
+# ---------------------------------------------------------------- F) swing IBS
+def part_f(bars, th=0.2, cost=0.001):
+    res = {"a_close_close": [], "b_open_close": []}
+    for sym, rows in bars.items():
+        for i in range(1, len(rows) - 1):
+            d, o, h, l, c = rows[i]
+            if h <= l: continue
+            if (c - l) / (h - l) < th:
+                n = rows[i + 1]
+                res["a_close_close"].append(n[4] / c - 1 - cost)
+                res["b_open_close"].append(n[4] / n[1] - 1 - cost)
+    out = {}
+    for k, r in res.items():
+        n = len(r); m = sum(r) / n if n else 0
+        sd = math.sqrt(sum((v - m) ** 2 for v in r) / (n - 1)) if n > 1 else 0
+        out[k] = {"n": n, "avg_bps": round(m * 1e4, 2), "t": round(m / sd * math.sqrt(n), 2) if sd else 0}
+    out["pass_b"] = out["b_open_close"]["n"] >= 30 and out["b_open_close"]["t"] >= 2
+    return out
+
+
+def run(days, today, log=print, cumv=None):
     cfg = config()["scan"]; P = load_json("population_scan.json", {}); U = load_json("universe.json", {})
     no_short = set(U.get("no_short", [])); champ = P.get("champion")
     if not champ:
@@ -195,16 +293,25 @@ def run(days, today, log=print):
         out["vol_targeting"] = part_c(); log(f"[C] {out['vol_targeting']}")
     except (SystemExit, Exception) as e:   # โหลดราคา swing ไม่ได้ ไม่ให้ส่วน A/B หาย
         out["vol_targeting"] = {"error": str(e)[:200]}; log(f"[C] error {e}")
+    if cumv:
+        out["rvol"] = part_d(panel, split, champ, no_short, cumv); log(f"[D] {out['rvol']}")
+    out["late_momentum"] = part_e(panel, split); log(f"[E] {out['late_momentum']}")
+    try:
+        bars, _ = load_bars_alpaca(list(config()["symbols"]), years=3)
+        out["ibs"] = part_f(bars); log(f"[F] {out['ibs']}")
+    except (SystemExit, Exception) as e:
+        out["ibs"] = {"error": str(e)[:200]}; log(f"[F] error {e}")
     save_json("research.json", out)
     return out
 
 
 if __name__ == "__main__":
-    sc = config()["scan"]; U = load_json("universe.json", {}); syms = U.get("symbols", []); days = {}
+    sc = config()["scan"]; U = load_json("universe.json", {}); syms = U.get("symbols", []); days, cumv = {}, {}
     for i in range(0, len(syms), 20):
         part = load_5min_alpaca(syms[i:i + 20], days_back=sc["history_days"], feed="sip")
         for sym, dd in part.items():
+            cumv[sym] = {d: cum_at(b) for d, b in dd.items()}
             days[sym] = {d: SC.compact(b) for d, b in dd.items()}
         del part
         print(f"โหลดแท่ง 5 นาที {min(i + 20, len(syms))}/{len(syms)}", flush=True)
-    run(days, dt.date.today().isoformat())
+    run(days, dt.date.today().isoformat(), cumv=cumv)

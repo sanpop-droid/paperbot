@@ -68,3 +68,32 @@ class TestRun(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestPartsDEF(unittest.TestCase):
+    def test_cum_at_closed_bars_only(self):
+        bars = [(m, 1, 1, 1, 1, 10) for m in range(0, 60, 5)]
+        c = RS.cum_at(bars)
+        self.assertEqual(c[15], 30)   # แท่งนาที 0,5,10 ปิดแล้ว ณ นาที 15
+        self.assertEqual(c[30], 60)
+
+    def test_rvol_no_lookahead(self):
+        D = [f"2026-10-{k:02d}" for k in range(1, 21)]
+        cumv = {"A": {d: {30: 100.0} for d in D}}
+        cumv["A"][D[-1]] = {30: 300.0}
+        rv = RS.rvol_map(cumv, 30)
+        self.assertAlmostEqual(rv[("A", D[-1])], 3.0)
+        self.assertAlmostEqual(rv[("A", D[-2])], 1.0)
+        self.assertNotIn(("A", D[2]), rv)   # ข้อมูลก่อนหน้าน้อยกว่า 5 วัน
+
+    def test_ibs(self):
+        rows = [("d0", 10, 11, 9, 10), ("d1", 10, 11, 9, 9.1), ("d2", 9.2, 10, 9, 9.9)]   # d1 IBS = 0.05
+        out = RS.part_f({"X": rows}, cost=0.0)
+        self.assertEqual(out["a_close_close"]["n"], 1)
+        self.assertAlmostEqual(out["a_close_close"]["avg_bps"], round((9.9 / 9.1 - 1) * 1e4, 2))
+        self.assertAlmostEqual(out["b_open_close"]["avg_bps"], round((9.9 / 9.2 - 1) * 1e4, 2))
+
+    def test_late_momentum_runs(self):
+        days = {s: {d: SC.compact(b) for d, b in dd.items()} for s, dd in synth_days(n_sym=40).items()}
+        out = RS.part_e(SC.build_panel(days, 5.0), DATES[3], th=0.0)
+        self.assertIn("holdout", out); self.assertGreaterEqual(out["train"]["n"] + out["holdout"]["n"], 0)
