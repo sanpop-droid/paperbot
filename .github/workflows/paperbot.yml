@@ -46,7 +46,7 @@ jobs:
           elif [ "${{ github.event.schedule }}" = "0,20,40 13-14 * * 1-5" ]; then echo "job=dtloop" >> $GITHUB_OUTPUT
           else echo "job=run" >> $GITHUB_OUTPUT; fi
       - name: Run
-        timeout-minutes: ${{ steps.j.outputs.job == 'dtloop' && 348 || ((steps.j.outputs.job == 'pitwf' || steps.j.outputs.job == 'research') && 300 || 90) }}
+        timeout-minutes: ${{ steps.j.outputs.job == 'dtloop' && 348 || ((steps.j.outputs.job == 'pitwf' || steps.j.outputs.job == 'research' || steps.j.outputs.job == 'robust') && 300 || 90) }}
         env:
           GH_TOKEN: ${{ github.token }}   # ใช้แค่ dtloop.dispatch (สิทธิ์ตาม permissions ด้านบน)
         run: |
