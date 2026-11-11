@@ -1,0 +1,17 @@
+name: tests
+# code-2 / ponytail-6: รัน unittest ทุก PR (offline · ไม่ใช้ secrets · ไม่ส่งคำสั่ง)
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q -r requirements.txt
+      - run: python -m unittest discover -s tests -v

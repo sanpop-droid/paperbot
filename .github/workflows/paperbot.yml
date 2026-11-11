@@ -12,7 +12,7 @@ on:
         description: "run = swing รอบประจำวัน, dt = scanner 1 รอบ, dtloop = swing 1 รอบ + scanner ทุก 5 นาทีจนตลาดปิด, evolve = หากฎใหม่ทั้งสองบอท, check = ทดสอบการเชื่อมต่อ"
         default: run
         type: choice
-        options: [run, dt, dtloop, evolve, check, robust, research]
+        options: [run, dt, dtloop, evolve, check, robust, research, pitwf]
 permissions:
   contents: write
   actions: write   # dtloop สั่ง workflow_dispatch รอบต่อไปเองเมื่อใกล้หมดเวลา job
@@ -46,7 +46,7 @@ jobs:
           elif [ "${{ github.event.schedule }}" = "0,20,40 13-14 * * 1-5" ]; then echo "job=dtloop" >> $GITHUB_OUTPUT
           else echo "job=run" >> $GITHUB_OUTPUT; fi
       - name: Run
-        timeout-minutes: ${{ steps.j.outputs.job == 'dtloop' && 348 || 90 }}
+        timeout-minutes: ${{ steps.j.outputs.job == 'dtloop' && 348 || (steps.j.outputs.job == 'pitwf' && 300 || 90) }}
         env:
           GH_TOKEN: ${{ github.token }}   # ใช้แค่ dtloop.dispatch (สิทธิ์ตาม permissions ด้านบน)
         run: |
@@ -60,6 +60,7 @@ jobs:
             check) python bot.py check ;;
             robust) python robustness.py ;;   # รายงานเท่านั้น ไม่ส่งคำสั่ง (dt-rnd-robust-1)
             research) python research.py ;;   # วิจัยข้อเสนอ scout-2/3/4 · รายงานเท่านั้น ไม่ส่งคำสั่ง (dt-pop-research-1)
+            pitwf) python pitwf.py ;;   # ponytail-3: WF แบบ universe point-in-time · รายงานเท่านั้น (dt-pop-pitwf-1)
           esac
       - name: Summary (ดูบนมือถือได้ในหน้า Actions)
         if: always()
