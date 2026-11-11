@@ -66,6 +66,11 @@ def build():
     out["mode"] = ks.get("mode", "paper"); out["mode_config"] = cfg.get("mode", "paper"); out["endpoint"] = "paper"
     out["killswitch"] = {k: ks.get(k) for k in ("active", "reason", "since", "date", "dd_r", "limits", "checked")} if ks else {"active": False}
     out["day_loss_r"] = ks.get("day_loss_r", 0); out["day_loss_date"] = ks.get("date")   # วันตามเวลา NY ของบอท
+    ex = [t for t in sc_tr if "slip_bps" in t]   # ponytail-4: คุณภาพการเข้าไม้จริงเทียบ backtest
+    out["scan"]["exec"] = {"n": len(ex),
+                           "late_min_avg": round(sum(t.get("late_min", 0) for t in ex) / len(ex), 1) if ex else None,
+                           "slip_bps_avg": round(sum(t["slip_bps"] for t in ex) / len(ex), 1) if ex else None,
+                           "slip_R_avg": round(sum(t.get("slip_R", 0) for t in ex) / len(ex), 4) if ex else None}
     rb = j("robustness.json", {})
     if rb.get("rules"):   # dt-rnd-robust-1: ความทนของแชมป์ต่อ slippage + t รายวัน
         c = rb["rules"][0]

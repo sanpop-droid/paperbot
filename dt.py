@@ -31,10 +31,22 @@ def reconcile(broker, st, trades, pos):
             trades.append({"sym": sym, "gid": info["gid"], "dir": d, "entry_d": ins[0][4][:10], "exit_d": ex[4][:10], "entry": entry, "exit": ex[1],
                            "qty": ins[0][2], "how": how, "R": d * (ex[1] - entry) / risk if risk > 0 else 0, "pnl": d * (ex[1] - entry) * ins[0][2],
                            "t_in": ins[0][4][11:16], "t_out": ex[4][11:16], "rank": info.get("rank"), "score": info.get("score")})
+            trades[-1].update(exec_quality(info, entry, d))
             log(f"{sym}: ปิดแล้ว ({'long' if d > 0 else 'short'} · {how}) R={trades[-1]['R']:+.2f} P&L ${trades[-1]['pnl']:+,.2f}")
         elif not ins:
             log(f"{sym}: คำสั่งซื้อไม่ได้ fill · ลบออก")
         del st["open"][sym]
+
+def exec_quality(info, entry, d):
+    """ponytail-4: เทียบการเข้าจริงกับ backtest (เข้าที่ราคานาที M พอดี) · บวก = แย่กว่า backtest"""
+    q = {}
+    if info.get("m_scan") is not None and info.get("M") is not None:
+        q["late_min"] = info["m_scan"] - info["M"]
+    cm, rk = info.get("c_model"), info.get("risk")
+    if cm:
+        q["slip_bps"] = round(d * (entry - cm) / cm * 1e4, 1)
+        if rk: q["slip_R"] = round(d * (entry - cm) / rk, 4)
+    return q
 
 def run(broker, loader, force_minute=None):
     cfg_all = config(); cfg = cfg_all["scan"]; swing = set(cfg_all["symbols"])
@@ -105,7 +117,8 @@ def run(broker, loader, force_minute=None):
                 log(f"{x.sym}: ส่งคำสั่งไม่สำเร็จ: {e}"); continue
             now = clk["now_ny"]
             st["open"][x.sym] = {"gid": champ["id"], "dir": di, "qty": qty, "ref": px, "stop": stop, "target": target, "entry_day": today, "rank": r,
-                                 "score": round(s, 4), "submitted": now.isoformat() if hasattr(now, "isoformat") else str(now), "order": oid}
+                                 "score": round(s, 4), "submitted": now.isoformat() if hasattr(now, "isoformat") else str(now), "order": oid,
+                                 "M": g["M"], "m_scan": minute, "c_model": x.c_at[g["M"]], "risk": risk}
             log(f"{x.sym}: {'ซื้อ (long)' if di > 0 else 'short'} {qty} หุ้น ~${px:.2f} ({s*100:+.1f}%) · stop ${stop:.2f} · target ${target:.2f}")
     finally:
         save_json("dt_state.json", st); save_json("dt_trades.json", trades)
