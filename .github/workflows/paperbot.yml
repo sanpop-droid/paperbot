@@ -12,7 +12,7 @@ on:
         description: "run = swing รอบประจำวัน, dt = scanner 1 รอบ, dtloop = swing 1 รอบ + scanner ทุก 5 นาทีจนตลาดปิด, evolve = หากฎใหม่ทั้งสองบอท, check = ทดสอบการเชื่อมต่อ"
         default: run
         type: choice
-        options: [run, dt, dtloop, evolve, check, robust]
+        options: [run, dt, dtloop, evolve, check, robust, research]
 permissions:
   contents: write
   actions: write   # dtloop สั่ง workflow_dispatch รอบต่อไปเองเมื่อใกล้หมดเวลา job
@@ -59,6 +59,7 @@ jobs:
             evolve) python evolve.py; python evolve_scan.py ;;
             check) python bot.py check ;;
             robust) python robustness.py ;;   # รายงานเท่านั้น ไม่ส่งคำสั่ง (dt-rnd-robust-1)
+            research) python research.py ;;   # วิจัยข้อเสนอ scout-2/3/4 · รายงานเท่านั้น ไม่ส่งคำสั่ง (dt-pop-research-1)
           esac
       - name: Summary (ดูบนมือถือได้ในหน้า Actions)
         if: always()
