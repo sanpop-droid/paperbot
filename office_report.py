@@ -66,6 +66,11 @@ def build():
     out["mode"] = ks.get("mode", "paper"); out["mode_config"] = cfg.get("mode", "paper"); out["endpoint"] = "paper"
     out["killswitch"] = {k: ks.get(k) for k in ("active", "reason", "since", "date", "dd_r", "limits", "checked")} if ks else {"active": False}
     out["day_loss_r"] = ks.get("day_loss_r", 0); out["day_loss_date"] = ks.get("date")   # วันตามเวลา NY ของบอท
+    rb = j("robustness.json", {})
+    if rb.get("rules"):   # dt-rnd-robust-1: ความทนของแชมป์ต่อ slippage + t รายวัน
+        c = rb["rules"][0]
+        out["scan"]["robust"] = {"date": rb.get("date"), "verdict": rb.get("verdict"), "breakeven_bps": c.get("breakeven_bps"),
+                                 "rows": [{k: r[k] for k in ("slip_bps", "n", "avgR", "t_report", "t_day")} for r in c["rows"]]}
     # shadow test ของตัวเต็งอันดับ 2–3 (trade สมมติ ไม่ได้ส่งคำสั่ง)
     sh = j("scan_shadow.json", {}); shst = j("shadow_trades.json", {}); shtr = shst.get("trades", [])
     out["scan"]["shadow"] = []
