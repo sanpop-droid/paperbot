@@ -1,0 +1,209 @@
+{
+ "date": "2026-11-12",
+ "split": "2025-12-15",
+ "days_in_panel": 752,
+ "preregistered": "ดู docstring research.py (commit ก่อนรัน)",
+ "reversal": {
+  "grid_n": 108,
+  "eligible": 108,
+  "train_top5": [
+   {
+    "id": "rev-long-M90-K3-th6-k1.2-R2.0",
+    "n": 569,
+    "avgR": 0.0126,
+    "t_day": 0.42
+   },
+   {
+    "id": "rev-long-M90-K3-th4-k1.2-R2.0",
+    "n": 996,
+    "avgR": 0.006,
+    "t_day": 0.27
+   },
+   {
+    "id": "rev-long-M30-K3-th6-k0.6-R2.0",
+    "n": 457,
+    "avgR": 0.0093,
+    "t_day": 0.26
+   },
+   {
+    "id": "rev-long-M90-K3-th6-k0.6-R2.0",
+    "n": 569,
+    "avgR": 0.0095,
+    "t_day": 0.25
+   },
+   {
+    "id": "rev-long-M60-K3-th6-k1.2-R2.0",
+    "n": 519,
+    "avgR": 0.0064,
+    "t_day": 0.23
+   }
+  ],
+  "best": {
+   "id": "rev-long-M90-K3-th6-k1.2-R2.0",
+   "train_t_day": 0.42,
+   "holdout": [
+    {
+     "slip_bps": 5,
+     "n": 380,
+     "avgR": -0.1045,
+     "t_day": -2.24
+    },
+    {
+     "slip_bps": 10,
+     "n": 380,
+     "avgR": -0.1391,
+     "t_day": -3.0
+    },
+    {
+     "slip_bps": 20,
+     "n": 380,
+     "avgR": -0.1903,
+     "t_day": -4.13
+    }
+   ]
+  },
+  "pass": false,
+  "champion_holdout": {
+   "id": "scan-prevclose-short-M30-K3-th4.7-k1.28-R0.8-G-6..+1",
+   "rows": [
+    {
+     "slip_bps": 5,
+     "n": 140,
+     "avgR": 0.068,
+     "t_day": 1.51
+    },
+    {
+     "slip_bps": 10,
+     "n": 140,
+     "avgR": 0.0561,
+     "t_day": 1.25
+    },
+    {
+     "slip_bps": 20,
+     "n": 140,
+     "avgR": 0.0312,
+     "t_day": 0.69
+    }
+   ]
+  }
+ },
+ "selection_bias": {
+  "pbo_reversal_grid": {
+   "pbo": 0.487,
+   "combos": 4000,
+   "n_rules": 108,
+   "days": 752
+  },
+  "pbo_scan_candidates": {
+   "pbo": 0.744,
+   "combos": 4000,
+   "n_rules": 18,
+   "days": 752
+  },
+  "dsr_champion_holdout": {
+   "sr_daily": 0.0994,
+   "sr0": 0.0781,
+   "dsr": 0.623,
+   "n_days": 229,
+   "n_trials": 4716
+  }
+ },
+ "vol_targeting": {
+  "champion": "trend-f30-s47-k2.3-R1.7-H20",
+  "feed": "sip",
+  "vol_target": 0.1199,
+  "base": {
+   "n": 28,
+   "totR": 27.7,
+   "maxDD_R": 1.03,
+   "sharpe_trade": 0.876
+  },
+  "scaled": {
+   "n": 28,
+   "totR": 25.7,
+   "maxDD_R": 1.03,
+   "sharpe_trade": 0.867
+  },
+  "dd_cut_pct": 0.0,
+  "totR_cut_pct": 7.2,
+  "pass": false,
+  "note": "ไม้น้อย (< 30) = สรุปไม่ได้"
+ },
+ "rvol": {
+  "M": 30,
+  "covered": 145358,
+  "rows": [
+   {
+    "rvol_min": null,
+    "slip_bps": 5,
+    "n": 140,
+    "avgR": 0.068,
+    "t_day": 1.51
+   },
+   {
+    "rvol_min": null,
+    "slip_bps": 10,
+    "n": 140,
+    "avgR": 0.0561,
+    "t_day": 1.25
+   },
+   {
+    "rvol_min": 1.5,
+    "slip_bps": 5,
+    "n": 60,
+    "avgR": 0.0519,
+    "t_day": 0.92
+   },
+   {
+    "rvol_min": 1.5,
+    "slip_bps": 10,
+    "n": 60,
+    "avgR": 0.04,
+    "t_day": 0.71
+   },
+   {
+    "rvol_min": 2.0,
+    "slip_bps": 5,
+    "n": 39,
+    "avgR": 0.1155,
+    "t_day": 1.5
+   },
+   {
+    "rvol_min": 2.0,
+    "slip_bps": 10,
+    "n": 39,
+    "avgR": 0.1031,
+    "t_day": 1.35
+   }
+  ],
+  "pass": false
+ },
+ "late_momentum": {
+  "train": {
+   "n": 15147,
+   "avg_bps": -11.79,
+   "days": 522,
+   "t_day": -4.86
+  },
+  "holdout": {
+   "n": 11608,
+   "avg_bps": -8.92,
+   "days": 229,
+   "t_day": -3.7
+  },
+  "pass": false
+ },
+ "ibs": {
+  "a_close_close": {
+   "n": 550,
+   "avg_bps": 16.6,
+   "t": 1.63
+  },
+  "b_open_close": {
+   "n": 550,
+   "avg_bps": -0.91,
+   "t": -0.12
+  },
+  "pass_b": false
+ }
+}
