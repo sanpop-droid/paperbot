@@ -1,0 +1,165 @@
+{
+ "date": "2026-11-12",
+ "split": "2025-12-15",
+ "days_in_panel": 752,
+ "note": "holdout เดิม (ตั้งแต่ split) · t_report = สูตรเดิม (sd ขั้นต่ำ 0.5) · t_plain = sd จริง · t_day = รวมรายวัน",
+ "rules": [
+  {
+   "rows": [
+    {
+     "slip_bps": 5.0,
+     "n": 140,
+     "avgR": 0.068,
+     "t_report": 1.61,
+     "t_plain": 1.9,
+     "days": 77,
+     "t_day": 1.51
+    },
+    {
+     "slip_bps": 10.0,
+     "n": 140,
+     "avgR": 0.0561,
+     "t_report": 1.33,
+     "t_plain": 1.57,
+     "days": 77,
+     "t_day": 1.25
+    },
+    {
+     "slip_bps": 15.0,
+     "n": 140,
+     "avgR": 0.043,
+     "t_report": 1.02,
+     "t_plain": 1.19,
+     "days": 77,
+     "t_day": 0.95
+    },
+    {
+     "slip_bps": 20.0,
+     "n": 140,
+     "avgR": 0.0312,
+     "t_report": 0.74,
+     "t_plain": 0.86,
+     "days": 77,
+     "t_day": 0.69
+    },
+    {
+     "slip_bps": 30.0,
+     "n": 140,
+     "avgR": 0.0065,
+     "t_report": 0.15,
+     "t_plain": 0.18,
+     "days": 77,
+     "t_day": 0.15
+    }
+   ],
+   "breakeven_bps": 31.0,
+   "id": "scan-prevclose-short-M30-K3-th4.7-k1.28-R0.8-G-6..+1",
+   "role": "champion"
+  },
+  {
+   "rows": [
+    {
+     "slip_bps": 5.0,
+     "n": 276,
+     "avgR": 0.0364,
+     "t_report": 1.21,
+     "t_plain": 1.64,
+     "days": 131,
+     "t_day": 1.25
+    },
+    {
+     "slip_bps": 10.0,
+     "n": 276,
+     "avgR": 0.0246,
+     "t_report": 0.82,
+     "t_plain": 1.11,
+     "days": 131,
+     "t_day": 0.85
+    },
+    {
+     "slip_bps": 15.0,
+     "n": 276,
+     "avgR": 0.0128,
+     "t_report": 0.42,
+     "t_plain": 0.57,
+     "days": 131,
+     "t_day": 0.44
+    },
+    {
+     "slip_bps": 20.0,
+     "n": 276,
+     "avgR": 0.0009,
+     "t_report": 0.03,
+     "t_plain": 0.04,
+     "days": 131,
+     "t_day": 0.03
+    },
+    {
+     "slip_bps": 30.0,
+     "n": 276,
+     "avgR": -0.0227,
+     "t_report": -0.75,
+     "t_plain": -1.02,
+     "days": 131,
+     "t_day": -0.8
+    }
+   ],
+   "breakeven_bps": 20.4,
+   "id": "scan-prevclose-both-M30-K4-th4.0-k1.65-R3.1-G-1..+1",
+   "role": "shadow"
+  },
+  {
+   "rows": [
+    {
+     "slip_bps": 5.0,
+     "n": 361,
+     "avgR": 0.0334,
+     "t_report": 1.27,
+     "t_plain": 1.68,
+     "days": 150,
+     "t_day": 1.25
+    },
+    {
+     "slip_bps": 10.0,
+     "n": 361,
+     "avgR": 0.0193,
+     "t_report": 0.73,
+     "t_plain": 0.97,
+     "days": 150,
+     "t_day": 0.72
+    },
+    {
+     "slip_bps": 15.0,
+     "n": 361,
+     "avgR": 0.0052,
+     "t_report": 0.2,
+     "t_plain": 0.26,
+     "days": 150,
+     "t_day": 0.19
+    },
+    {
+     "slip_bps": 20.0,
+     "n": 361,
+     "avgR": -0.0089,
+     "t_report": -0.34,
+     "t_plain": -0.45,
+     "days": 150,
+     "t_day": -0.34
+    },
+    {
+     "slip_bps": 30.0,
+     "n": 361,
+     "avgR": -0.0371,
+     "t_report": -1.41,
+     "t_plain": -1.88,
+     "days": 150,
+     "t_day": -1.4
+    }
+   ],
+   "breakeven_bps": 16.8,
+   "id": "scan-prevclose-both-M45-K4-th4.7-k1.65-R2.2-G-0..+1",
+   "role": "shadow"
+  }
+ ],
+ "verdict": "ยังไม่มีหลักฐานพอ: t รายวัน < 2"
+}
