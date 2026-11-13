@@ -1,7 +1,75 @@
 {
- "open": {},
+ "open": {
+  "CRWV": {
+   "gid": "scan-prevclose-short-M30-K3-th4.7-k1.28-R0.8-G-6..+1",
+   "dir": -1,
+   "qty": 22,
+   "ref": 51.095,
+   "stop": 56.711,
+   "target": 46.422488,
+   "entry_day": "2026-11-13",
+   "rank": 1,
+   "score": -0.0937,
+   "submitted": "2026-11-13T10:15:09.450643-05:00",
+   "order": "3dedb1f6-019d-465d-a435-92aa72e6544d",
+   "M": 30,
+   "m_scan": 45,
+   "c_model": 51.29,
+   "risk": 5.615999999999999
+  },
+  "DELL": {
+   "gid": "scan-prevclose-short-M30-K3-th4.7-k1.28-R0.8-G-6..+1",
+   "dir": -1,
+   "qty": 4,
+   "ref": 339.12,
+   "stop": 367.0048,
+   "target": 315.9198464,
+   "entry_day": "2026-11-13",
+   "rank": 2,
+   "score": -0.0692,
+   "submitted": "2026-11-13T10:15:09.450643-05:00",
+   "order": "5425cc70-f9b4-4bab-906d-5798fc14cb63",
+   "M": 30,
+   "m_scan": 45,
+   "c_model": 345.74,
+   "risk": 27.884799999999995
+  },
+  "CRDO": {
+   "gid": "scan-prevclose-short-M30-K3-th4.7-k1.28-R0.8-G-6..+1",
+   "dir": -1,
+   "qty": 14,
+   "ref": 128.04,
+   "stop": 136.7728,
+   "target": 120.77431039999999,
+   "entry_day": "2026-11-13",
+   "rank": 3,
+   "score": -0.0607,
+   "submitted": "2026-11-13T10:15:09.450643-05:00",
+   "order": "4f14dbc6-0d5b-49df-bdb9-17908cb337fb",
+   "M": 30,
+   "m_scan": 45,
+   "c_model": 131.31,
+   "risk": 8.732800000000006
+  }
+ },
  "scanned": {
-  "2026-11-12": []
+  "2026-11-13": [
+   {
+    "sym": "CRWV",
+    "score": -0.0937,
+    "dir": -1
+   },
+   {
+    "sym": "DELL",
+    "score": -0.0692,
+    "dir": -1
+   },
+   {
+    "sym": "CRDO",
+    "score": -0.0607,
+    "dir": -1
+   }
+  ]
  },
  "scan_log": {
   "2026-11-12": {
@@ -10,6 +78,13 @@
    "n": 199,
    "picks": 0,
    "gap_med_pct": -0.67
+  },
+  "2026-11-13": {
+   "status": "scanned",
+   "m": 45,
+   "n": 200,
+   "picks": 3,
+   "gap_med_pct": 0.26
   }
  }
 }

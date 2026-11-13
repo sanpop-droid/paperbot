@@ -1,5 +1,9 @@
 {
- "evaluated": {},
+ "evaluated": {
+  "scan-prevclose-both-M30-K4-th4.0-k1.65-R3.1-G-1..+1": "2026-11-12",
+  "scan-prevclose-both-M45-K4-th4.7-k1.65-R2.2-G-0..+1": "2026-11-12",
+  "scan-prevclose-short-M30-K3-th4.7-k1.28-R0.8-G-6..+1": "2026-11-12"
+ },
  "trades": [],
  "champion": "scan-prevclose-short-M30-K3-th4.7-k1.28-R0.8-G-6..+1"
 }
