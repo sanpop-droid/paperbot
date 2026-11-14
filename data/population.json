@@ -387,6 +387,56 @@
    }
   },
   {
+   "id": "trend-f27-s47-k2.3-R1.1-H20-rg57",
+   "g": {
+    "type": "trend",
+    "n": 41,
+    "fast": 27,
+    "slow": 47,
+    "rsi_th": 5,
+    "k_stop": 2.31,
+    "R": 1.06,
+    "H": 20,
+    "bb_n": 18,
+    "bb_k": 1.73,
+    "roc_n": 11,
+    "roc_th": 0.12,
+    "nr": 8,
+    "regime": 57
+   },
+   "born": "2026-11-14",
+   "train": {
+    "n": 16,
+    "avgR": 1.1058087883823564,
+    "sd": 0.7145872344314729,
+    "win": 0.9375,
+    "tstat": 6.189916276700019,
+    "sumR": 17.692940614117703,
+    "avgRet": 0.060421285845218504,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 10,
+    "avgR": 0.5635937588266573,
+    "sd": 1.0533460784578086,
+    "win": 0.7,
+    "tstat": 1.6919794827140004,
+    "sumR": 5.6359375882665725,
+    "avgRet": 0.03570359549532415,
+    "stability": 1.0
+   },
+   "desc": "ซื้อเมื่อ SMA27 ตัดขึ้นเหนือ SMA47 · เฉพาะตอนราคาอยู่เหนือ SMA57 · stop 2.3 ATR · target 1.1R · ถือไม่เกิน 20 วัน",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
    "id": "trend-f30-s47-k2.3-R1.7-H18",
    "g": {
     "type": "trend",
@@ -460,6 +510,56 @@
     "avgRet": 0.029716383963645076
    },
    "desc": "ซื้อเมื่อ SMA30 ตัดขึ้นเหนือ SMA47 · stop 2.1 ATR · target 1.7R · ถือไม่เกิน 18 วัน",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "trend-f26-s47-k2.3-R1.4-H20-rg68",
+   "g": {
+    "type": "trend",
+    "n": 33,
+    "fast": 26,
+    "slow": 47,
+    "rsi_th": 5.82,
+    "k_stop": 2.31,
+    "R": 1.43,
+    "H": 20,
+    "bb_n": 23,
+    "bb_k": 1.94,
+    "roc_n": 19,
+    "roc_th": 0.06,
+    "nr": 8,
+    "regime": 68
+   },
+   "born": "2026-11-14",
+   "train": {
+    "n": 15,
+    "avgR": 1.3089411352759852,
+    "sd": 0.8048039004000443,
+    "win": 0.9333333333333333,
+    "tstat": 6.299058957803034,
+    "sumR": 19.634117029139777,
+    "avgRet": 0.0692224114752405,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 10,
+    "avgR": 0.4972938545668616,
+    "sd": 1.2177873859448607,
+    "win": 0.6,
+    "tstat": 1.2913430250516762,
+    "sumR": 4.972938545668616,
+    "avgRet": 0.03334823573843023,
+    "stability": 1.0
+   },
+   "desc": "ซื้อเมื่อ SMA26 ตัดขึ้นเหนือ SMA47 · เฉพาะตอนราคาอยู่เหนือ SMA68 · stop 2.3 ATR · target 1.4R · ถือไม่เกิน 20 วัน",
    "passed_holdout": true,
    "forward": {
     "n": 0,
@@ -652,6 +752,56 @@
     "avgRet": 0.015087743908739832
    },
    "desc": "ซื้อเมื่อราคาอยู่เหนือ SMA40 แต่ RSI(2) ย่อลงต่ำกว่า 30 · stop 2.5 ATR · target 2.7R · ถือไม่เกิน 19 วัน",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "pullback-s49-rsi35-k3.0-R1.2-H20",
+   "g": {
+    "type": "pullback",
+    "n": 21,
+    "fast": 30,
+    "slow": 49,
+    "rsi_th": 35,
+    "k_stop": 2.96,
+    "R": 1.2,
+    "H": 20,
+    "bb_n": 14,
+    "bb_k": 1.72,
+    "roc_n": 17,
+    "roc_th": 0.0,
+    "nr": 9,
+    "regime": 0
+   },
+   "born": "2026-11-14",
+   "train": {
+    "n": 66,
+    "avgR": 0.37691502588484116,
+    "sd": 1.0114336439577791,
+    "win": 0.6666666666666666,
+    "tstat": 3.027457276970538,
+    "sumR": 24.876391708399517,
+    "avgRet": 0.025097281870252584,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 29,
+    "avgR": 0.1763901540055968,
+    "sd": 0.9465092069996062,
+    "win": 0.5862068965517241,
+    "tstat": 1.0035719068038291,
+    "sumR": 5.115314466162307,
+    "avgRet": 0.013526958689633285,
+    "stability": 1.0
+   },
+   "desc": "ซื้อเมื่อราคาอยู่เหนือ SMA49 แต่ RSI(2) ย่อลงต่ำกว่า 35 · stop 3.0 ATR · target 1.2R · ถือไม่เกิน 20 วัน",
    "passed_holdout": true,
    "forward": {
     "n": 0,
@@ -913,6 +1063,206 @@
    }
   },
   {
+   "id": "bollinger-b38-2.1sd-k1.0-R4.0-H12",
+   "g": {
+    "type": "bollinger",
+    "n": 51,
+    "fast": 27,
+    "slow": 119,
+    "rsi_th": 35,
+    "k_stop": 0.98,
+    "R": 4.0,
+    "H": 12,
+    "bb_n": 38,
+    "bb_k": 2.12,
+    "roc_n": 22,
+    "roc_th": 0.24,
+    "nr": 5,
+    "regime": 0
+   },
+   "born": "2026-11-14",
+   "train": {
+    "n": 27,
+    "avgR": 1.5098785221365523,
+    "sd": 2.513854070455204,
+    "win": 0.5925925925925926,
+    "tstat": 3.1209285507061657,
+    "sumR": 40.766720097686914,
+    "avgRet": 0.05594906808790405,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 22,
+    "avgR": 0.4869799401511555,
+    "sd": 2.6216086551969204,
+    "win": 0.36363636363636365,
+    "tstat": 0.8712735905394998,
+    "sumR": 10.71355868332542,
+    "avgRet": 0.018317239350247382,
+    "stability": 1.0
+   },
+   "desc": "ซื้อเมื่อราคาปิดต่ำกว่าเส้นกลาง 38 วันลงไป 2.1 SD (Bollinger · คาดว่าจะเด้งกลับ) · stop 1.0 ATR · target 4.0R · ถือไม่เกิน 12 วัน",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "pullback-s56-rsi35-k2.9-R1.2-H19-rg30",
+   "g": {
+    "type": "pullback",
+    "n": 10,
+    "fast": 30,
+    "slow": 56,
+    "rsi_th": 35,
+    "k_stop": 2.85,
+    "R": 1.2,
+    "H": 19,
+    "bb_n": 10,
+    "bb_k": 1.89,
+    "roc_n": 30,
+    "roc_th": 0.06,
+    "nr": 8,
+    "regime": 30
+   },
+   "born": "2026-11-14",
+   "train": {
+    "n": 59,
+    "avgR": 0.4884318159256767,
+    "sd": 1.0190300998444108,
+    "win": 0.6779661016949152,
+    "tstat": 3.6816537279851493,
+    "sumR": 28.817477139614926,
+    "avgRet": 0.03314555005267091,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 25,
+    "avgR": 0.17000064553894287,
+    "sd": 0.9775656247368131,
+    "win": 0.52,
+    "tstat": 0.8695101445732178,
+    "sumR": 4.250016138473572,
+    "avgRet": 0.011477084492232609,
+    "stability": 1.0
+   },
+   "desc": "ซื้อเมื่อราคาอยู่เหนือ SMA56 แต่ RSI(2) ย่อลงต่ำกว่า 35 · เฉพาะตอนราคาอยู่เหนือ SMA30 · stop 2.9 ATR · target 1.2R · ถือไม่เกิน 19 วัน",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "bollinger-b38-2.1sd-k1.0-R4.0-H14",
+   "g": {
+    "type": "bollinger",
+    "n": 51,
+    "fast": 27,
+    "slow": 119,
+    "rsi_th": 35,
+    "k_stop": 0.98,
+    "R": 4.0,
+    "H": 14,
+    "bb_n": 38,
+    "bb_k": 2.1,
+    "roc_n": 22,
+    "roc_th": 0.21,
+    "nr": 4,
+    "regime": 0
+   },
+   "born": "2026-11-14",
+   "train": {
+    "n": 29,
+    "avgR": 1.3850113511760431,
+    "sd": 2.577030755604472,
+    "win": 0.5172413793103449,
+    "tstat": 2.894227928640128,
+    "sumR": 40.16532918410525,
+    "avgRet": 0.052080680383777535,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 22,
+    "avgR": 0.4335232178994147,
+    "sd": 2.6305529435006747,
+    "win": 0.36363636363636365,
+    "tstat": 0.7729949471303086,
+    "sumR": 9.537510793787124,
+    "avgRet": 0.01609188049054149,
+    "stability": 1.0
+   },
+   "desc": "ซื้อเมื่อราคาปิดต่ำกว่าเส้นกลาง 38 วันลงไป 2.1 SD (Bollinger · คาดว่าจะเด้งกลับ) · stop 1.0 ATR · target 4.0R · ถือไม่เกิน 14 วัน",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
+   "id": "bollinger-b38-2.1sd-k1.0-R3.9-H12",
+   "g": {
+    "type": "bollinger",
+    "n": 51,
+    "fast": 27,
+    "slow": 119,
+    "rsi_th": 35,
+    "k_stop": 0.98,
+    "R": 3.93,
+    "H": 12,
+    "bb_n": 38,
+    "bb_k": 2.08,
+    "roc_n": 22,
+    "roc_th": 0.24,
+    "nr": 5,
+    "regime": 0
+   },
+   "born": "2026-11-14",
+   "train": {
+    "n": 31,
+    "avgR": 1.3401919769671038,
+    "sd": 2.4399269332526408,
+    "win": 0.5806451612903226,
+    "tstat": 3.0582363049539394,
+    "sumR": 41.545951285980216,
+    "avgRet": 0.050223484925788625,
+    "consistency": 1.0
+   },
+   "holdout": {
+    "n": 23,
+    "avgR": 0.4118904917269414,
+    "sd": 2.567732591337109,
+    "win": 0.34782608695652173,
+    "tstat": 0.7693002811278741,
+    "sumR": 9.473481309719652,
+    "avgRet": 0.016571400883914893,
+    "stability": 1.0
+   },
+   "desc": "ซื้อเมื่อราคาปิดต่ำกว่าเส้นกลาง 38 วันลงไป 2.1 SD (Bollinger · คาดว่าจะเด้งกลับ) · stop 1.0 ATR · target 3.9R · ถือไม่เกิน 12 วัน",
+   "passed_holdout": true,
+   "forward": {
+    "n": 0,
+    "avgR": 0.0,
+    "win": 0.0,
+    "tstat": 0.0,
+    "sumR": 0.0,
+    "avgRet": 0.0
+   }
+  },
+  {
    "id": "bollinger-b33-1.9sd-k0.9-R4.0-H12",
    "g": {
     "type": "bollinger",
@@ -1152,348 +1502,6 @@
     "stability": 1.0
    },
    "desc": "ซื้อเมื่อราคาอยู่เหนือ SMA59 แต่ RSI(2) ย่อลงต่ำกว่า 35 · เฉพาะตอนราคาอยู่เหนือ SMA30 · stop 3.0 ATR · target 1.2R · ถือไม่เกิน 20 วัน",
-   "passed_holdout": true,
-   "forward": {
-    "n": 0,
-    "avgR": 0.0,
-    "win": 0.0,
-    "tstat": 0.0,
-    "sumR": 0.0,
-    "avgRet": 0.0
-   }
-  },
-  {
-   "id": "breakout-n10-k2.5-R3.2-H20-rg31",
-   "g": {
-    "type": "breakout",
-    "n": 10,
-    "fast": 16,
-    "slow": 172,
-    "rsi_th": 9.95,
-    "k_stop": 2.53,
-    "R": 3.21,
-    "H": 20,
-    "bb_n": 34,
-    "bb_k": 1.76,
-    "roc_n": 35,
-    "roc_th": 0.05,
-    "nr": 4,
-    "regime": 31
-   },
-   "born": "2026-11-07",
-   "train": {
-    "n": 61,
-    "avgR": 0.5062937681655119,
-    "sd": 1.349933423058485,
-    "win": 0.6065573770491803,
-    "tstat": 2.929241302707512,
-    "sumR": 30.88391985809622,
-    "avgRet": 0.029181567459708357,
-    "consistency": 0.6666666666666666
-   },
-   "holdout": {
-    "n": 25,
-    "avgR": 0.1522479435924717,
-    "sd": 1.2622612366453005,
-    "win": 0.56,
-    "tstat": 0.6030762063053587,
-    "sumR": 3.8061985898117925,
-    "avgRet": 0.012546432652716483,
-    "stability": 1.0
-   },
-   "desc": "ซื้อเมื่อราคาปิดทะลุจุดสูงสุด 10 วัน · เฉพาะตอนราคาอยู่เหนือ SMA31 · stop 2.5 ATR · target 3.2R · ถือไม่เกิน 20 วัน",
-   "passed_holdout": true,
-   "forward": {
-    "n": 0,
-    "avgR": 0.0,
-    "win": 0.0,
-    "tstat": 0.0,
-    "sumR": 0.0,
-    "avgRet": 0.0
-   }
-  },
-  {
-   "id": "trend-f28-s69-k2.3-R1.8-H20",
-   "g": {
-    "type": "trend",
-    "n": 28,
-    "fast": 28,
-    "slow": 69,
-    "rsi_th": 6.74,
-    "k_stop": 2.3,
-    "R": 1.8,
-    "H": 20,
-    "bb_n": 10,
-    "bb_k": 1.21,
-    "roc_n": 12,
-    "roc_th": 0.05,
-    "nr": 8,
-    "regime": 0
-   },
-   "born": "2026-11-07",
-   "train": {
-    "n": 12,
-    "avgR": 1.638616755027389,
-    "sd": 0.6954346655939724,
-    "win": 1.0,
-    "tstat": 8.162283573876769,
-    "sumR": 19.663401060328667,
-    "avgRet": 0.08335411303632596,
-    "consistency": 1.0
-   },
-   "holdout": {
-    "n": 8,
-    "avgR": 0.2948022163725619,
-    "sd": 1.6275811450316486,
-    "win": 0.625,
-    "tstat": 0.5123103003305163,
-    "sumR": 2.358417730980495,
-    "avgRet": 0.021687482104682215,
-    "stability": 1.0
-   },
-   "desc": "ซื้อเมื่อ SMA28 ตัดขึ้นเหนือ SMA69 · stop 2.3 ATR · target 1.8R · ถือไม่เกิน 20 วัน",
-   "passed_holdout": false,
-   "forward": {
-    "n": 0,
-    "avgR": 0.0,
-    "win": 0.0,
-    "tstat": 0.0,
-    "sumR": 0.0,
-    "avgRet": 0.0
-   }
-  },
-  {
-   "id": "bollinger-b33-1.8sd-k0.9-R4.0-H12",
-   "g": {
-    "type": "bollinger",
-    "n": 36,
-    "fast": 30,
-    "slow": 144,
-    "rsi_th": 33.62,
-    "k_stop": 0.92,
-    "R": 4.0,
-    "H": 12,
-    "bb_n": 33,
-    "bb_k": 1.81,
-    "roc_n": 50,
-    "roc_th": 0.24,
-    "nr": 4,
-    "regime": 0
-   },
-   "born": "2026-11-07",
-   "train": {
-    "n": 52,
-    "avgR": 0.9972181654112571,
-    "sd": 2.4720449087011156,
-    "win": 0.5,
-    "tstat": 2.9089449107974406,
-    "sumR": 51.85534460138537,
-    "avgRet": 0.030769078567355748,
-    "consistency": 1.0
-   },
-   "holdout": {
-    "n": 34,
-    "avgR": 0.1853485576409714,
-    "sd": 2.33280821114498,
-    "win": 0.3235294117647059,
-    "tstat": 0.46328648802766853,
-    "sumR": 6.301850959793028,
-    "avgRet": 0.0074418293893298735,
-    "stability": 0.8333333333333334
-   },
-   "desc": "ซื้อเมื่อราคาปิดต่ำกว่าเส้นกลาง 33 วันลงไป 1.8 SD (Bollinger · คาดว่าจะเด้งกลับ) · stop 0.9 ATR · target 4.0R · ถือไม่เกิน 12 วัน",
-   "passed_holdout": true,
-   "forward": {
-    "n": 0,
-    "avgR": 0.0,
-    "win": 0.0,
-    "tstat": 0.0,
-    "sumR": 0.0,
-    "avgRet": 0.0
-   }
-  },
-  {
-   "id": "pullback-s40-rsi34-k2.7-R2.8-H20",
-   "g": {
-    "type": "pullback",
-    "n": 10,
-    "fast": 29,
-    "slow": 40,
-    "rsi_th": 34.47,
-    "k_stop": 2.69,
-    "R": 2.78,
-    "H": 20
-   },
-   "born": "2026-11-07",
-   "train": {
-    "n": 60,
-    "avgR": 0.4912228193389771,
-    "sd": 1.3308502206465824,
-    "win": 0.6333333333333333,
-    "tstat": 2.8590712449258193,
-    "sumR": 29.473369160338628,
-    "avgRet": 0.03174342967106706
-   },
-   "holdout": {
-    "n": 25,
-    "avgR": 0.10695548771180999,
-    "sd": 1.1848007539722007,
-    "win": 0.48,
-    "tstat": 0.45136487022492017,
-    "sumR": 2.6738871927952497,
-    "avgRet": 0.008315080562893446
-   },
-   "desc": "ซื้อเมื่อราคาอยู่เหนือ SMA40 แต่ RSI(2) ย่อลงต่ำกว่า 34 · stop 2.7 ATR · target 2.8R · ถือไม่เกิน 20 วัน",
-   "passed_holdout": true,
-   "forward": {
-    "n": 0,
-    "avgR": 0.0,
-    "win": 0.0,
-    "tstat": 0.0,
-    "sumR": 0.0,
-    "avgRet": 0.0
-   }
-  },
-  {
-   "id": "breakout-n10-k1.9-R3.5-H20-rg39",
-   "g": {
-    "type": "breakout",
-    "n": 10,
-    "fast": 12,
-    "slow": 182,
-    "rsi_th": 13.58,
-    "k_stop": 1.9,
-    "R": 3.45,
-    "H": 20,
-    "bb_n": 29,
-    "bb_k": 1.67,
-    "roc_n": 35,
-    "roc_th": 0.0,
-    "nr": 4,
-    "regime": 39
-   },
-   "born": "2026-11-07",
-   "train": {
-    "n": 63,
-    "avgR": 0.7310519139497229,
-    "sd": 1.714990886946859,
-    "win": 0.5873015873015873,
-    "tstat": 3.383425954931078,
-    "sumR": 46.056270578832546,
-    "avgRet": 0.029659019557255625,
-    "consistency": 0.6666666666666666
-   },
-   "holdout": {
-    "n": 26,
-    "avgR": 0.11263122013165529,
-    "sd": 1.489752653878743,
-    "win": 0.5,
-    "tstat": 0.385506136066142,
-    "sumR": 2.9284117234230376,
-    "avgRet": 0.006534926152683503,
-    "stability": 0.6666666666666666
-   },
-   "desc": "ซื้อเมื่อราคาปิดทะลุจุดสูงสุด 10 วัน · เฉพาะตอนราคาอยู่เหนือ SMA39 · stop 1.9 ATR · target 3.5R · ถือไม่เกิน 20 วัน",
-   "passed_holdout": true,
-   "forward": {
-    "n": 0,
-    "avgR": 0.0,
-    "win": 0.0,
-    "tstat": 0.0,
-    "sumR": 0.0,
-    "avgRet": 0.0
-   }
-  },
-  {
-   "id": "pullback-s40-rsi34-k2.9-R2.3-H20",
-   "g": {
-    "type": "pullback",
-    "n": 16,
-    "fast": 23,
-    "slow": 40,
-    "rsi_th": 34.47,
-    "k_stop": 2.9,
-    "R": 2.26,
-    "H": 20,
-    "bb_n": 20,
-    "bb_k": 1.65,
-    "roc_n": 9,
-    "roc_th": 0.05,
-    "nr": 7,
-    "regime": 0
-   },
-   "born": "2026-11-07",
-   "train": {
-    "n": 62,
-    "avgR": 0.5101788792393829,
-    "sd": 1.2123157398192244,
-    "win": 0.6774193548387096,
-    "tstat": 3.3136190353219726,
-    "sumR": 31.63109051284174,
-    "avgRet": 0.03641387452185671,
-    "consistency": 1.0
-   },
-   "holdout": {
-    "n": 25,
-    "avgR": 0.0806100754233961,
-    "sd": 1.0787062894429484,
-    "win": 0.48,
-    "tstat": 0.3736423724062261,
-    "sumR": 2.0152518855849024,
-    "avgRet": 0.00720424846229645,
-    "stability": 1.0
-   },
-   "desc": "ซื้อเมื่อราคาอยู่เหนือ SMA40 แต่ RSI(2) ย่อลงต่ำกว่า 34 · stop 2.9 ATR · target 2.3R · ถือไม่เกิน 20 วัน",
-   "passed_holdout": true,
-   "forward": {
-    "n": 0,
-    "avgR": 0.0,
-    "win": 0.0,
-    "tstat": 0.0,
-    "sumR": 0.0,
-    "avgRet": 0.0
-   }
-  },
-  {
-   "id": "nr-nr7-k0.6-R3.6-H16-rg116",
-   "g": {
-    "type": "nr",
-    "n": 11,
-    "fast": 30,
-    "slow": 46,
-    "rsi_th": 29.72,
-    "k_stop": 0.58,
-    "R": 3.6,
-    "H": 16,
-    "bb_n": 34,
-    "bb_k": 1.22,
-    "roc_n": 30,
-    "roc_th": 0.16,
-    "nr": 7,
-    "regime": 116
-   },
-   "born": "2026-11-07",
-   "train": {
-    "n": 48,
-    "avgR": 0.7140760686327376,
-    "sd": 2.4424086998740626,
-    "win": 0.375,
-    "tstat": 2.02556768063382,
-    "sumR": 34.27565129437141,
-    "avgRet": 0.006635034449744069,
-    "consistency": 1.0
-   },
-   "holdout": {
-    "n": 34,
-    "avgR": 0.1425799808255044,
-    "sd": 2.2307891171027676,
-    "win": 0.2647058823529412,
-    "tstat": 0.37268292327032265,
-    "sumR": 4.84771934806715,
-    "avgRet": 0.001484325331464162,
-    "stability": 0.6666666666666666
-   },
-   "desc": "ซื้อเมื่อราคาปิดทะลุจุดสูงสุดของเมื่อวาน ซึ่งเป็นแท่งที่แคบที่สุดใน 7 วัน (NR7) · เฉพาะตอนราคาอยู่เหนือ SMA116 · stop 0.6 ATR · target 3.6R · ถือไม่เกิน 16 วัน",
    "passed_holdout": true,
    "forward": {
     "n": 0,
@@ -5351,7 +5359,794 @@
     "nr-nr7-k0.6-R3.6-H15-rg116"
    ],
    "decision": "คงแชมป์เดิม"
+  },
+  {
+   "date": "2026-11-14",
+   "split": "2025-12-22",
+   "tested": 1470,
+   "tested_total": 8502,
+   "luck_t": 4.25,
+   "bh_holdout": 0.1745,
+   "gens": [
+    {
+     "island": "breakout",
+     "gen": 1,
+     "is_t": 3.39,
+     "is_avgR": 0.363,
+     "ho_t": 0.08,
+     "ho_avgR": 0.014,
+     "id": "breakout-n21-k2.9-R1.1-H16-rg37"
+    },
+    {
+     "island": "breakout",
+     "gen": 2,
+     "is_t": 3.39,
+     "is_avgR": 0.363,
+     "ho_t": 0.08,
+     "ho_avgR": 0.014,
+     "id": "breakout-n21-k2.9-R1.1-H16-rg37"
+    },
+    {
+     "island": "breakout",
+     "gen": 3,
+     "is_t": 3.39,
+     "is_avgR": 0.363,
+     "ho_t": 0.08,
+     "ho_avgR": 0.014,
+     "id": "breakout-n21-k2.9-R1.1-H16-rg37"
+    },
+    {
+     "island": "breakout",
+     "gen": 4,
+     "is_t": 3.42,
+     "is_avgR": 0.401,
+     "ho_t": -0.53,
+     "ho_avgR": -0.101,
+     "id": "breakout-n21-k3.0-R1.1-H20-rg31"
+    },
+    {
+     "island": "breakout",
+     "gen": 5,
+     "is_t": 3.49,
+     "is_avgR": 0.373,
+     "ho_t": -0.21,
+     "ho_avgR": -0.038,
+     "id": "breakout-n21-k3.0-R1.1-H16-rg37"
+    },
+    {
+     "island": "breakout",
+     "gen": 6,
+     "is_t": 3.49,
+     "is_avgR": 0.373,
+     "ho_t": -0.21,
+     "ho_avgR": -0.038,
+     "id": "breakout-n21-k3.0-R1.1-H16-rg37"
+    },
+    {
+     "island": "breakout",
+     "gen": 7,
+     "is_t": 3.58,
+     "is_avgR": 0.395,
+     "ho_t": -0.09,
+     "ho_avgR": -0.017,
+     "id": "breakout-n21-k3.0-R1.1-H18"
+    },
+    {
+     "island": "breakout",
+     "gen": 8,
+     "is_t": 3.58,
+     "is_avgR": 0.395,
+     "ho_t": -0.09,
+     "ho_avgR": -0.017,
+     "id": "breakout-n21-k3.0-R1.1-H18"
+    },
+    {
+     "island": "breakout",
+     "gen": 9,
+     "is_t": 3.84,
+     "is_avgR": 0.387,
+     "ho_t": -0.03,
+     "ho_avgR": -0.005,
+     "id": "breakout-n21-k3.0-R1.0-H18"
+    },
+    {
+     "island": "breakout",
+     "gen": 10,
+     "is_t": 4.09,
+     "is_avgR": 0.434,
+     "ho_t": -0.1,
+     "ho_avgR": -0.018,
+     "id": "breakout-n21-k3.0-R1.0-H20"
+    },
+    {
+     "island": "breakout",
+     "gen": 11,
+     "is_t": 4.09,
+     "is_avgR": 0.434,
+     "ho_t": -0.1,
+     "ho_avgR": -0.018,
+     "id": "breakout-n21-k3.0-R1.0-H20"
+    },
+    {
+     "island": "breakout",
+     "gen": 12,
+     "is_t": 4.09,
+     "is_avgR": 0.434,
+     "ho_t": -0.1,
+     "ho_avgR": -0.018,
+     "id": "breakout-n21-k3.0-R1.0-H20"
+    },
+    {
+     "island": "pullback",
+     "gen": 1,
+     "is_t": 4.32,
+     "is_avgR": 0.542,
+     "ho_t": 0.61,
+     "ho_avgR": 0.119,
+     "id": "pullback-s56-rsi35-k3.0-R1.2-H20-rg30"
+    },
+    {
+     "island": "pullback",
+     "gen": 2,
+     "is_t": 4.32,
+     "is_avgR": 0.542,
+     "ho_t": 0.61,
+     "ho_avgR": 0.119,
+     "id": "pullback-s56-rsi35-k3.0-R1.2-H20-rg30"
+    },
+    {
+     "island": "pullback",
+     "gen": 3,
+     "is_t": 4.32,
+     "is_avgR": 0.542,
+     "ho_t": 0.61,
+     "ho_avgR": 0.119,
+     "id": "pullback-s56-rsi35-k3.0-R1.2-H20-rg30"
+    },
+    {
+     "island": "pullback",
+     "gen": 4,
+     "is_t": 4.32,
+     "is_avgR": 0.542,
+     "ho_t": 0.61,
+     "ho_avgR": 0.119,
+     "id": "pullback-s56-rsi35-k3.0-R1.2-H20-rg30"
+    },
+    {
+     "island": "pullback",
+     "gen": 5,
+     "is_t": 4.32,
+     "is_avgR": 0.542,
+     "ho_t": 0.61,
+     "ho_avgR": 0.119,
+     "id": "pullback-s56-rsi35-k3.0-R1.2-H20-rg30"
+    },
+    {
+     "island": "pullback",
+     "gen": 6,
+     "is_t": 4.32,
+     "is_avgR": 0.542,
+     "ho_t": 0.61,
+     "ho_avgR": 0.119,
+     "id": "pullback-s56-rsi35-k3.0-R1.2-H20-rg30"
+    },
+    {
+     "island": "pullback",
+     "gen": 7,
+     "is_t": 4.32,
+     "is_avgR": 0.542,
+     "ho_t": 0.61,
+     "ho_avgR": 0.119,
+     "id": "pullback-s56-rsi35-k3.0-R1.2-H20-rg30"
+    },
+    {
+     "island": "pullback",
+     "gen": 8,
+     "is_t": 4.32,
+     "is_avgR": 0.542,
+     "ho_t": 0.61,
+     "ho_avgR": 0.119,
+     "id": "pullback-s56-rsi35-k3.0-R1.2-H20-rg30"
+    },
+    {
+     "island": "pullback",
+     "gen": 9,
+     "is_t": 4.32,
+     "is_avgR": 0.542,
+     "ho_t": 0.61,
+     "ho_avgR": 0.119,
+     "id": "pullback-s56-rsi35-k3.0-R1.2-H20-rg30"
+    },
+    {
+     "island": "pullback",
+     "gen": 10,
+     "is_t": 4.32,
+     "is_avgR": 0.542,
+     "ho_t": 0.61,
+     "ho_avgR": 0.119,
+     "id": "pullback-s56-rsi35-k3.0-R1.2-H20-rg30"
+    },
+    {
+     "island": "pullback",
+     "gen": 11,
+     "is_t": 4.32,
+     "is_avgR": 0.542,
+     "ho_t": 0.61,
+     "ho_avgR": 0.119,
+     "id": "pullback-s56-rsi35-k3.0-R1.2-H20-rg30"
+    },
+    {
+     "island": "pullback",
+     "gen": 12,
+     "is_t": 4.32,
+     "is_avgR": 0.542,
+     "ho_t": 0.61,
+     "ho_avgR": 0.119,
+     "id": "pullback-s56-rsi35-k3.0-R1.2-H20-rg30"
+    },
+    {
+     "island": "trend",
+     "gen": 1,
+     "is_t": 7.5,
+     "is_avgR": 1.393,
+     "ho_t": 1.95,
+     "ho_avgR": 0.71,
+     "id": "trend-f27-s47-k2.3-R1.4-H20-rg57"
+    },
+    {
+     "island": "trend",
+     "gen": 2,
+     "is_t": 7.5,
+     "is_avgR": 1.393,
+     "ho_t": 1.95,
+     "ho_avgR": 0.71,
+     "id": "trend-f27-s47-k2.3-R1.4-H20-rg57"
+    },
+    {
+     "island": "trend",
+     "gen": 3,
+     "is_t": 7.5,
+     "is_avgR": 1.393,
+     "ho_t": 1.95,
+     "ho_avgR": 0.71,
+     "id": "trend-f27-s47-k2.3-R1.4-H20-rg57"
+    },
+    {
+     "island": "trend",
+     "gen": 4,
+     "is_t": 7.5,
+     "is_avgR": 1.393,
+     "ho_t": 1.95,
+     "ho_avgR": 0.71,
+     "id": "trend-f27-s47-k2.3-R1.4-H20-rg57"
+    },
+    {
+     "island": "trend",
+     "gen": 5,
+     "is_t": 7.5,
+     "is_avgR": 1.393,
+     "ho_t": 1.95,
+     "ho_avgR": 0.71,
+     "id": "trend-f27-s47-k2.3-R1.4-H20-rg57"
+    },
+    {
+     "island": "trend",
+     "gen": 6,
+     "is_t": 7.5,
+     "is_avgR": 1.393,
+     "ho_t": 1.95,
+     "ho_avgR": 0.71,
+     "id": "trend-f27-s47-k2.3-R1.4-H20-rg57"
+    },
+    {
+     "island": "trend",
+     "gen": 7,
+     "is_t": 7.5,
+     "is_avgR": 1.393,
+     "ho_t": 1.95,
+     "ho_avgR": 0.71,
+     "id": "trend-f27-s47-k2.3-R1.4-H20-rg57"
+    },
+    {
+     "island": "trend",
+     "gen": 8,
+     "is_t": 7.53,
+     "is_avgR": 1.388,
+     "ho_t": 1.94,
+     "ho_avgR": 0.703,
+     "id": "trend-f27-s47-k2.3-R1.4-H20-rg57"
+    },
+    {
+     "island": "trend",
+     "gen": 9,
+     "is_t": 7.53,
+     "is_avgR": 1.388,
+     "ho_t": 1.94,
+     "ho_avgR": 0.703,
+     "id": "trend-f27-s47-k2.3-R1.4-H20-rg57"
+    },
+    {
+     "island": "trend",
+     "gen": 10,
+     "is_t": 7.53,
+     "is_avgR": 1.388,
+     "ho_t": 1.94,
+     "ho_avgR": 0.703,
+     "id": "trend-f27-s47-k2.3-R1.4-H20-rg57"
+    },
+    {
+     "island": "trend",
+     "gen": 11,
+     "is_t": 7.53,
+     "is_avgR": 1.388,
+     "ho_t": 1.94,
+     "ho_avgR": 0.703,
+     "id": "trend-f27-s47-k2.3-R1.4-H20-rg57"
+    },
+    {
+     "island": "trend",
+     "gen": 12,
+     "is_t": 7.53,
+     "is_avgR": 1.388,
+     "ho_t": 1.94,
+     "ho_avgR": 0.703,
+     "id": "trend-f27-s47-k2.3-R1.4-H20-rg57"
+    },
+    {
+     "island": "bollinger",
+     "gen": 1,
+     "is_t": 3.66,
+     "is_avgR": 1.305,
+     "ho_t": 0.89,
+     "ho_avgR": 0.476,
+     "id": "bollinger-b38-2.2sd-k1.4-R3.9-H12"
+    },
+    {
+     "island": "bollinger",
+     "gen": 2,
+     "is_t": 3.66,
+     "is_avgR": 1.305,
+     "ho_t": 0.89,
+     "ho_avgR": 0.476,
+     "id": "bollinger-b38-2.2sd-k1.4-R3.9-H12"
+    },
+    {
+     "island": "bollinger",
+     "gen": 3,
+     "is_t": 3.66,
+     "is_avgR": 1.305,
+     "ho_t": 0.89,
+     "ho_avgR": 0.476,
+     "id": "bollinger-b38-2.2sd-k1.4-R3.9-H12"
+    },
+    {
+     "island": "bollinger",
+     "gen": 4,
+     "is_t": 3.66,
+     "is_avgR": 1.305,
+     "ho_t": 0.89,
+     "ho_avgR": 0.476,
+     "id": "bollinger-b38-2.2sd-k1.4-R3.9-H12"
+    },
+    {
+     "island": "bollinger",
+     "gen": 5,
+     "is_t": 3.66,
+     "is_avgR": 1.305,
+     "ho_t": 0.89,
+     "ho_avgR": 0.476,
+     "id": "bollinger-b38-2.2sd-k1.4-R3.9-H12"
+    },
+    {
+     "island": "bollinger",
+     "gen": 6,
+     "is_t": 2.93,
+     "is_avgR": 1.411,
+     "ho_t": 0.78,
+     "ho_avgR": 0.41,
+     "id": "bollinger-b37-2.1sd-k1.0-R4.0-H17"
+    },
+    {
+     "island": "bollinger",
+     "gen": 7,
+     "is_t": 2.93,
+     "is_avgR": 1.411,
+     "ho_t": 0.78,
+     "ho_avgR": 0.41,
+     "id": "bollinger-b37-2.1sd-k1.0-R4.0-H17"
+    },
+    {
+     "island": "bollinger",
+     "gen": 8,
+     "is_t": 2.93,
+     "is_avgR": 1.411,
+     "ho_t": 0.78,
+     "ho_avgR": 0.41,
+     "id": "bollinger-b37-2.1sd-k1.0-R4.0-H17"
+    },
+    {
+     "island": "bollinger",
+     "gen": 9,
+     "is_t": 3.07,
+     "is_avgR": 1.351,
+     "ho_t": 0.78,
+     "ho_avgR": 0.421,
+     "id": "bollinger-b38-2.1sd-k1.0-R4.0-H12"
+    },
+    {
+     "island": "bollinger",
+     "gen": 10,
+     "is_t": 3.07,
+     "is_avgR": 1.351,
+     "ho_t": 0.78,
+     "ho_avgR": 0.421,
+     "id": "bollinger-b38-2.1sd-k1.0-R4.0-H12"
+    },
+    {
+     "island": "bollinger",
+     "gen": 11,
+     "is_t": 3.12,
+     "is_avgR": 1.51,
+     "ho_t": 0.87,
+     "ho_avgR": 0.487,
+     "id": "bollinger-b38-2.1sd-k1.0-R4.0-H12"
+    },
+    {
+     "island": "bollinger",
+     "gen": 12,
+     "is_t": 3.12,
+     "is_avgR": 1.51,
+     "ho_t": 0.87,
+     "ho_avgR": 0.487,
+     "id": "bollinger-b38-2.1sd-k1.0-R4.0-H12"
+    },
+    {
+     "island": "macd",
+     "gen": 1,
+     "is_t": 1.5,
+     "is_avgR": 0.24,
+     "ho_t": 0.8,
+     "ho_avgR": 0.179,
+     "id": "macd-f7-s188-k2.7-R1.6-H16"
+    },
+    {
+     "island": "macd",
+     "gen": 2,
+     "is_t": 1.77,
+     "is_avgR": 0.276,
+     "ho_t": -1.02,
+     "ho_avgR": -0.198,
+     "id": "macd-f18-s54-k1.5-R0.8-H6-rg196"
+    },
+    {
+     "island": "macd",
+     "gen": 3,
+     "is_t": 4.54,
+     "is_avgR": 0.354,
+     "ho_t": 0.07,
+     "ho_avgR": 0.01,
+     "id": "macd-f7-s54-k2.0-R0.5-H16-rg196"
+    },
+    {
+     "island": "macd",
+     "gen": 4,
+     "is_t": 4.54,
+     "is_avgR": 0.354,
+     "ho_t": 0.07,
+     "ho_avgR": 0.01,
+     "id": "macd-f7-s54-k2.0-R0.5-H16-rg196"
+    },
+    {
+     "island": "macd",
+     "gen": 5,
+     "is_t": 4.54,
+     "is_avgR": 0.354,
+     "ho_t": 0.07,
+     "ho_avgR": 0.01,
+     "id": "macd-f7-s54-k2.0-R0.5-H16-rg196"
+    },
+    {
+     "island": "macd",
+     "gen": 6,
+     "is_t": 5.41,
+     "is_avgR": 0.403,
+     "ho_t": -0.24,
+     "ho_avgR": -0.035,
+     "id": "macd-f7-s48-k2.3-R0.5-H16-rg200"
+    },
+    {
+     "island": "macd",
+     "gen": 7,
+     "is_t": 5.49,
+     "is_avgR": 0.401,
+     "ho_t": -0.24,
+     "ho_avgR": -0.034,
+     "id": "macd-f7-s48-k1.9-R0.5-H16-rg200"
+    },
+    {
+     "island": "macd",
+     "gen": 8,
+     "is_t": 5.49,
+     "is_avgR": 0.401,
+     "ho_t": -0.24,
+     "ho_avgR": -0.034,
+     "id": "macd-f7-s48-k1.9-R0.5-H16-rg200"
+    },
+    {
+     "island": "macd",
+     "gen": 9,
+     "is_t": 5.49,
+     "is_avgR": 0.401,
+     "ho_t": -0.24,
+     "ho_avgR": -0.034,
+     "id": "macd-f7-s48-k1.9-R0.5-H16-rg200"
+    },
+    {
+     "island": "macd",
+     "gen": 10,
+     "is_t": 5.87,
+     "is_avgR": 0.503,
+     "ho_t": -0.53,
+     "ho_avgR": -0.088,
+     "id": "macd-f7-s40-k1.9-R0.7-H16-rg200"
+    },
+    {
+     "island": "macd",
+     "gen": 11,
+     "is_t": 5.87,
+     "is_avgR": 0.503,
+     "ho_t": -0.53,
+     "ho_avgR": -0.088,
+     "id": "macd-f7-s40-k1.9-R0.7-H16-rg200"
+    },
+    {
+     "island": "macd",
+     "gen": 12,
+     "is_t": 6.18,
+     "is_avgR": 0.488,
+     "ho_t": -0.51,
+     "ho_avgR": -0.084,
+     "id": "macd-f7-s48-k1.9-R0.7-H14-rg200"
+    },
+    {
+     "island": "roc",
+     "gen": 1,
+     "is_t": 2.53,
+     "is_avgR": 0.451,
+     "ho_t": -0.47,
+     "ho_avgR": -0.098,
+     "id": "roc-r55-10pct-k2.9-R3.2-H18-rg94"
+    },
+    {
+     "island": "roc",
+     "gen": 2,
+     "is_t": 2.62,
+     "is_avgR": 0.493,
+     "ho_t": -0.75,
+     "ho_avgR": -0.152,
+     "id": "roc-r55-10pct-k2.7-R3.2-H18-rg95"
+    },
+    {
+     "island": "roc",
+     "gen": 3,
+     "is_t": 3.5,
+     "is_avgR": 0.682,
+     "ho_t": -0.67,
+     "ho_avgR": -0.137,
+     "id": "roc-r55-18pct-k3.0-R3.2-H20-rg95"
+    },
+    {
+     "island": "roc",
+     "gen": 4,
+     "is_t": 3.5,
+     "is_avgR": 0.682,
+     "ho_t": -0.67,
+     "ho_avgR": -0.137,
+     "id": "roc-r55-18pct-k3.0-R3.2-H20-rg95"
+    },
+    {
+     "island": "roc",
+     "gen": 5,
+     "is_t": 3.5,
+     "is_avgR": 0.682,
+     "ho_t": -0.67,
+     "ho_avgR": -0.137,
+     "id": "roc-r55-18pct-k3.0-R3.2-H20-rg95"
+    },
+    {
+     "island": "roc",
+     "gen": 6,
+     "is_t": 3.92,
+     "is_avgR": 0.797,
+     "ho_t": -0.67,
+     "ho_avgR": -0.137,
+     "id": "roc-r55-18pct-k3.0-R2.0-H20-rg95"
+    },
+    {
+     "island": "roc",
+     "gen": 7,
+     "is_t": 3.92,
+     "is_avgR": 0.797,
+     "ho_t": -0.67,
+     "ho_avgR": -0.137,
+     "id": "roc-r55-18pct-k3.0-R2.0-H20-rg95"
+    },
+    {
+     "island": "roc",
+     "gen": 8,
+     "is_t": 3.92,
+     "is_avgR": 0.797,
+     "ho_t": -0.67,
+     "ho_avgR": -0.137,
+     "id": "roc-r55-18pct-k3.0-R2.0-H20-rg95"
+    },
+    {
+     "island": "roc",
+     "gen": 9,
+     "is_t": 5.12,
+     "is_avgR": 0.999,
+     "ho_t": -0.54,
+     "ho_avgR": -0.136,
+     "id": "roc-r55-18pct-k2.5-R2.0-H20-rg52"
+    },
+    {
+     "island": "roc",
+     "gen": 10,
+     "is_t": 5.12,
+     "is_avgR": 0.999,
+     "ho_t": -0.54,
+     "ho_avgR": -0.136,
+     "id": "roc-r55-18pct-k2.5-R2.0-H20-rg52"
+    },
+    {
+     "island": "roc",
+     "gen": 11,
+     "is_t": 5.12,
+     "is_avgR": 0.999,
+     "ho_t": -0.54,
+     "ho_avgR": -0.136,
+     "id": "roc-r55-18pct-k2.5-R2.0-H20-rg52"
+    },
+    {
+     "island": "roc",
+     "gen": 12,
+     "is_t": 5.12,
+     "is_avgR": 0.999,
+     "ho_t": -0.54,
+     "ho_avgR": -0.136,
+     "id": "roc-r55-18pct-k2.5-R2.0-H20-rg52"
+    },
+    {
+     "island": "nr",
+     "gen": 1,
+     "is_t": 1.95,
+     "is_avgR": 0.678,
+     "ho_t": 0.45,
+     "ho_avgR": 0.178,
+     "id": "nr-nr7-k0.6-R3.6-H16-rg116"
+    },
+    {
+     "island": "nr",
+     "gen": 2,
+     "is_t": 1.95,
+     "is_avgR": 0.678,
+     "ho_t": 0.45,
+     "ho_avgR": 0.178,
+     "id": "nr-nr7-k0.6-R3.6-H16-rg116"
+    },
+    {
+     "island": "nr",
+     "gen": 3,
+     "is_t": 1.95,
+     "is_avgR": 0.678,
+     "ho_t": 0.45,
+     "ho_avgR": 0.178,
+     "id": "nr-nr7-k0.6-R3.6-H16-rg116"
+    },
+    {
+     "island": "nr",
+     "gen": 4,
+     "is_t": 1.95,
+     "is_avgR": 0.678,
+     "ho_t": 0.45,
+     "ho_avgR": 0.178,
+     "id": "nr-nr7-k0.6-R3.6-H16-rg116"
+    },
+    {
+     "island": "nr",
+     "gen": 5,
+     "is_t": 1.95,
+     "is_avgR": 0.678,
+     "ho_t": 0.45,
+     "ho_avgR": 0.178,
+     "id": "nr-nr7-k0.6-R3.6-H16-rg116"
+    },
+    {
+     "island": "nr",
+     "gen": 6,
+     "is_t": 1.95,
+     "is_avgR": 0.678,
+     "ho_t": 0.45,
+     "ho_avgR": 0.178,
+     "id": "nr-nr7-k0.6-R3.6-H16-rg116"
+    },
+    {
+     "island": "nr",
+     "gen": 7,
+     "is_t": 1.96,
+     "is_avgR": 0.68,
+     "ho_t": 0.45,
+     "ho_avgR": 0.178,
+     "id": "nr-nr7-k0.6-R3.6-H16-rg111"
+    },
+    {
+     "island": "nr",
+     "gen": 8,
+     "is_t": 1.96,
+     "is_avgR": 0.68,
+     "ho_t": 0.45,
+     "ho_avgR": 0.178,
+     "id": "nr-nr7-k0.6-R3.6-H16-rg111"
+    },
+    {
+     "island": "nr",
+     "gen": 9,
+     "is_t": 1.99,
+     "is_avgR": 0.692,
+     "ho_t": 0.09,
+     "ho_avgR": 0.033,
+     "id": "nr-nr7-k0.6-R3.6-H16-rg116"
+    },
+    {
+     "island": "nr",
+     "gen": 10,
+     "is_t": 1.99,
+     "is_avgR": 0.692,
+     "ho_t": 0.09,
+     "ho_avgR": 0.033,
+     "id": "nr-nr7-k0.6-R3.6-H16-rg116"
+    },
+    {
+     "island": "nr",
+     "gen": 11,
+     "is_t": 1.99,
+     "is_avgR": 0.692,
+     "ho_t": 0.09,
+     "ho_avgR": 0.033,
+     "id": "nr-nr7-k0.6-R3.6-H16-rg116"
+    },
+    {
+     "island": "nr",
+     "gen": 12,
+     "is_t": 1.99,
+     "is_avgR": 0.692,
+     "ho_t": 0.09,
+     "ho_avgR": 0.033,
+     "id": "nr-nr7-k0.6-R3.6-H16-rg116"
+    }
+   ],
+   "added": [
+    "breakout-n21-k3.0-R1.0-H20",
+    "breakout-n21-k3.0-R1.0-H18",
+    "breakout-n21-k3.0-R1.0-H18-rg31",
+    "pullback-s56-rsi35-k2.9-R1.2-H19-rg30",
+    "pullback-s49-rsi35-k3.0-R1.2-H20",
+    "trend-f26-s47-k2.3-R1.4-H20-rg68",
+    "trend-f27-s47-k2.3-R1.1-H20-rg57",
+    "bollinger-b38-2.1sd-k1.0-R4.0-H12",
+    "bollinger-b38-2.1sd-k1.0-R3.9-H12",
+    "bollinger-b38-2.1sd-k1.0-R4.0-H14",
+    "macd-f7-s48-k1.9-R0.7-H14-rg200",
+    "macd-f7-s40-k1.9-R0.7-H16-rg200",
+    "macd-f7-s48-k1.9-R0.5-H15-rg200",
+    "roc-r55-18pct-k2.5-R2.0-H20-rg52",
+    "roc-r55-18pct-k3.0-R2.0-H20-rg141",
+    "roc-r55-18pct-k3.0-R2.0-H20-rg95",
+    "nr-nr7-k0.6-R3.6-H16-rg111",
+    "nr-nr7-k0.6-R3.6-H20-rg111"
+   ],
+   "decision": "คงแชมป์เดิม"
   }
  ],
- "n_tested_total": 7032
+ "n_tested_total": 8502
 }
