@@ -1,24 +1,6 @@
 {
  "open": {},
- "scanned": {
-  "2026-11-13": [
-   {
-    "sym": "CRWV",
-    "score": -0.0937,
-    "dir": -1
-   },
-   {
-    "sym": "DELL",
-    "score": -0.0692,
-    "dir": -1
-   },
-   {
-    "sym": "CRDO",
-    "score": -0.0607,
-    "dir": -1
-   }
-  ]
- },
+ "scanned": {},
  "scan_log": {
   "2026-11-12": {
    "status": "scanned",
