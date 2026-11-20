@@ -1,13 +1,13 @@
 {
  "active": false,
  "reason": "",
- "date": "2026-11-13",
+ "date": "2026-11-20",
  "day_loss_r": 0.0,
- "dd_r": 0.0,
+ "dd_r": 0.91,
  "limits": {
   "daily_loss_r": 2,
   "max_dd_r": 10
  },
  "mode": "paper",
- "checked": "2026-11-13T22:15"
+ "checked": "2026-11-21T03:53"
 }
